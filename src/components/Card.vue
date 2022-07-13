@@ -1,9 +1,5 @@
 <template>
-    <div @click="getClickedCardId" :class="{active: card.active}" class="card">
-        <div>{{ card.name }}</div>
-        <div class="card_value">{{ card.computedValue }}</div>
-        <div class="card_role">{{ card.role }}</div>
-    </div>
+    <img @click.stop="getClickedCardId" :class="{active: card.active}"  :src="`${card.src}`" class="card" />
 </template>
 
 <script>
@@ -24,40 +20,28 @@ export default {
 
 <style lang="scss">
 .card {
-    width: 100px;
-    height: 150px;
-    background-color: rgb(184, 171, 136);
-    border: 2px solid;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: column;
+    width: 155px;
+    border-radius: 15px;
     transition: 300ms;
+    bottom: 0px;
     position: relative;
     cursor: pointer;
+    transform: translateY(0px);
+    // margin-left: -50px;
 
     &:hover {
-        transform: translateY(-16px);
-    }
-
-    & .card_value {
-        position: absolute;
-        top: 0px;
-        left: 10px;
-        transform: translateX(-50%);
-        font-size: 22px;
-    }
-
-    & .card_role {
-        position: absolute;
-        top: 0px;
-        right: 0;
-        font-size: 14px;
+        transform: translateY(-20px);
     }
 }
 
 .active {
-    bottom: 300px;
+    bottom: 450px;
+    right: 0;
+    transform: scale(2);
+    z-index: 1;
+    cursor: default;
+    &:hover {
+        transform: translateY(0px) scale(2);
+    }
 }
 </style>

@@ -30,8 +30,10 @@ export default {
 <style lang="scss">
 .hand {
     position: absolute;
+    max-width: 600px;
+    margin-left: auto;
     display: flex;
-    gap: 4px;
+    border: 1px solid;
     bottom: 0px;
     left: 50%;
     transform: translateX(-50%);

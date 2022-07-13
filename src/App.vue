@@ -9,7 +9,6 @@
 
 
 <script>
-import { createConditionalExpression } from "@vue/compiler-core";
 import GameField from "./components/GameField.vue";
 import Hand from "./components/Hand.vue";
 export default {
@@ -19,7 +18,8 @@ export default {
             hand: [
                 {
                     id: 1,
-                    name: "Фермер",
+                    name: "гребанная пехтура",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
                     defaultValue: 1,
                     computedValue: 1,
                     fixed: false,
@@ -28,7 +28,8 @@ export default {
                 },
                 {
                     id: 2,
-                    name: "Фермер",
+                    name: "гребанная пехтура",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
                     defaultValue: 1,
                     computedValue: 1,
                     fixed: false,
@@ -37,22 +38,34 @@ export default {
                 },
                 {
                     id: 3,
-                    name: "Сабрина",
-                    defaultValue: 4,
-                    computedValue: 4,
+                    name: "каэвенский осадной мастер",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (1).webp",
+                    defaultValue: 1,
+                    computedValue: 1,
                     fixed: false,
                     role: "front",
                     active: false,
                 },
                 {
                     id: 4,
-                    name: "Вильгефорц",
-                    defaultValue: 7,
-                    computedValue: 7,
+                    name: "каэвенский осадной мастер",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (2).webp",
+                    defaultValue: 1,
+                    computedValue: 1,
                     fixed: false,
                     role: "front",
                     active: false,
-                }
+                },
+                {
+                    id: 5,
+                    name: "каэвенский осадной мастер",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (3).webp",
+                    defaultValue: 1,
+                    computedValue: 1,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
             ]
         };
     },
@@ -82,5 +95,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
 }
 </style>
