@@ -66,6 +66,76 @@ export default {
                     role: "front",
                     active: false,
                 },
+                {
+                    id: 6,
+                    name: "реданский пехотинец",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - реданский пехотинец (1).webp",
+                    defaultValue: 1,
+                    computedValue: 1,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
+                {
+                    id: 7,
+                    name: "реданский пехотинец",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - реданский пехотинец (2).webp",
+                    defaultValue: 1,
+                    computedValue: 1,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
+                {
+                    id: 8,
+                    name: "талер",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - талер.webp",
+                    defaultValue: 1,
+                    computedValue: 1,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
+                {
+                    id: 9,
+                    name: "ярпен зигрин",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/2 - ярпен зигрин.webp",
+                    defaultValue: 2,
+                    computedValue: 2,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
+                {
+                    id: 10,
+                    name: "боец синих полосок",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp",
+                    defaultValue: 4,
+                    computedValue: 4,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
+                {
+                    id: 11,
+                    name: "боец синих полосок",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp",
+                    defaultValue: 4,
+                    computedValue: 4,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
+                {
+                    id: 12,
+                    name: "боец синих полосок",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp",
+                    defaultValue: 4,
+                    computedValue: 4,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                },
             ]
         };
     },
@@ -89,6 +159,7 @@ export default {
 body {
     background-color: wheat;
     font-family: sans-serif;
+    overflow-x: hidden;
 }
 
 .wrapper {
