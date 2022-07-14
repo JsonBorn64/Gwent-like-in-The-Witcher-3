@@ -51,6 +51,14 @@ export default {
             this.$refs.card.style.pointerEvents = 'auto';
         } else {
             this.$refs.card.style.pointerEvents = 'none';
+            this.$refs.card.style.width = '100px';
+            this.$refs.compVal.style.top = '3.7px';
+            this.$refs.compVal.style.left = '4.08px';
+            this.$refs.compVal.style.width = '21px';
+            this.$refs.compVal.style.height = '21px';
+            this.$refs.compVal.style.fontSize = '16px';
+            this.$refs.compVal.style.fontWeight = '600';
+            this.$refs.compVal.style.lineHeight = '1px';
         }
     },
 }

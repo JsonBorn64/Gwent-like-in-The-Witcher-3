@@ -78,7 +78,7 @@ export default {
 
 .field_row {
     width: 790px;
-    height: 190px;
+    height: 130px;
     border: 1px solid;
     overflow: hidden;
 }

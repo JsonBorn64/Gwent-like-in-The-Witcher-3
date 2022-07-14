@@ -17,32 +17,7 @@ export default {
     components: { GameField, CardsGroup },
     data() {
         return {
-            frontRow: [{
-                    id: 1,
-                    name: "гребанная пехтура",
-                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
-                    defaultValue: 1,
-                    computedValue: 1,
-                    fixed: false,
-                    role: "front",
-                    active: false,
-                    relative: true,
-                    spy: false,
-                    plusOnePoint: false,
-                },
-                {
-                    id: 2,
-                    name: "гребанная пехтура",
-                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
-                    defaultValue: 1,
-                    computedValue: 1,
-                    fixed: false,
-                    role: "front",
-                    active: false,
-                    relative: true,
-                    spy: false,
-                    plusOnePoint: false,
-                },],
+            frontRow: [],
             hand: [
                 {
                     id: 1,
