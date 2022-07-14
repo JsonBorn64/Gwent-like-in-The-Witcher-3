@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <TransitionGroup name="cards">
-            <Card v-for="card in cards" :key="card.id" :card="card" :cardsCount="cardsCount"
+            <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cardsCount"
                 @cardClicked="getClickedCardId" />
         </TransitionGroup>
     </div>
@@ -15,6 +15,10 @@ export default {
         cards: {
             type: Array,
             required: true,
+        },
+        isHand: {
+            type: Boolean,
+            required: false,
         },
     },
     data() {

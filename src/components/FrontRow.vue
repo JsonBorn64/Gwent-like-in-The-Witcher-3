@@ -1,9 +1,9 @@
 <template>
     <div class="row_wrapper">
         <div class="field_total-count">{{ rowTotalCount }}</div>
-        <div class="field_extra-cage"></div>
+        <!-- <div class="field_extra-cage"></div> -->
         <div class="field_row">
-            <CardsGroup :cards="cards" />
+            <CardsGroup :cards="cards" :isHand="isHand" />
         </div>
     </div>
 </template>
@@ -11,54 +11,16 @@
 <script>
 import CardsGroup from './CardsGroup.vue';
 export default {
+    components: { CardsGroup },
     props: {
-        card: {
-            type: Object,
-            // required: true,
+        cards: {
+            type: Array,
+            required: true,
         },
-    },
-    data() {
-        return {
-            cards: [{
-                id: 1,
-                name: "гребанная пехтура",
-                src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
-                defaultValue: 1,
-                computedValue: 1,
-                fixed: false,
-                role: "front",
-                active: false,
-                relative: true,
-                spy: false,
-                plusOnePoint: false,
-            },
-            {
-                id: 2,
-                name: "гребанная пехтура",
-                src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
-                defaultValue: 1,
-                computedValue: 1,
-                fixed: false,
-                role: "front",
-                active: false,
-                relative: true,
-                spy: false,
-                plusOnePoint: false,
-            },
-            {
-                id: 12,
-                name: "боец синих полосок",
-                src: "src/assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp",
-                defaultValue: 4,
-                computedValue: 4,
-                fixed: false,
-                role: "front",
-                active: false,
-                relative: true,
-                spy: false,
-                plusOnePoint: false,
-            },],
-        };
+        isHand: {
+            type: Boolean,
+            required: false,
+        },
     },
     computed: {
         rowTotalCount() {
@@ -82,14 +44,12 @@ export default {
             });
         },
     },
-    components: { CardsGroup }
 }
 </script>
 
 <style lang="scss" scoped>
 .row_wrapper {
     display: flex;
-    pointer-events: none;
 
     &>div {
         background-color: rgb(226, 200, 152);

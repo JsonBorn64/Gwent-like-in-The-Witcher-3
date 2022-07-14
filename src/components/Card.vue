@@ -17,6 +17,10 @@ export default {
             type: Number,
             required: true,
         },
+        isHand: {
+            type: Boolean,
+            required: true,
+        },
     },
     methods: {
         getClickedCardId() {
@@ -43,6 +47,11 @@ export default {
     updated() {
         this.calcLeftMargin();
         this.compValColor();
+        if (this.isHand) {
+            this.$refs.card.style.pointerEvents = 'auto';
+        } else {
+            this.$refs.card.style.pointerEvents = 'none';
+        }
     },
 }
 </script>

@@ -1,9 +1,9 @@
 <template>
     <div @click="unactiveAllCards" class="main_wrapper">
 
-        <GameField />
+        <GameField :frontRow="frontRow" :isHand="false" />
         <div class="hand">
-            <CardsGroup :cards="hand" @cardClicked="activeCard" />
+            <CardsGroup :cards="hand" :isHand="true" @cardClicked="activeCard" />
         </div>
 
     </div>
@@ -17,6 +17,32 @@ export default {
     components: { GameField, CardsGroup },
     data() {
         return {
+            frontRow: [{
+                    id: 1,
+                    name: "гребанная пехтура",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
+                    defaultValue: 1,
+                    computedValue: 1,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                    relative: true,
+                    spy: false,
+                    plusOnePoint: false,
+                },
+                {
+                    id: 2,
+                    name: "гребанная пехтура",
+                    src: "src/assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
+                    defaultValue: 1,
+                    computedValue: 1,
+                    fixed: false,
+                    role: "front",
+                    active: false,
+                    relative: true,
+                    spy: false,
+                    plusOnePoint: false,
+                },],
             hand: [
                 {
                     id: 1,
@@ -188,8 +214,13 @@ export default {
             this.hand.forEach(item => {
                 item.active = false;
             });
+            this.addCard()
         },
-    }
+        addCard() {
+            this.card = this.hand[1];
+            this.card = {};
+        }
+    },
 }
 </script>
 

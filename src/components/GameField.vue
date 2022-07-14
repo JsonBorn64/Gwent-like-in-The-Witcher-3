@@ -1,6 +1,6 @@
 <template>
     <div class="player_field">
-        <FrontRow/>
+        <FrontRow :cards="frontRow" :isHand="isHand" />
         <div class="total_field_count">{{fieldTotalCount}}</div>
     </div>
 </template>
@@ -10,6 +10,16 @@
 import FrontRow from './FrontRow.vue';
 export default {
     components: { FrontRow },
+    props: {
+        frontRow: {
+            type: Array,
+            required: true,
+        },
+        isHand: {
+            type: Boolean,
+            required: true,
+        },
+    },
     computed: {
         fieldTotalCount() {
             return 0;
