@@ -1,7 +1,7 @@
 <template>
-    <div class="hand">
+    <div class="wrapper">
         <TransitionGroup name="cards">
-            <Card v-for="card in hand" :key="card.id" :card="card" :cardsCount="cardsCount"
+            <Card v-for="card in cards" :key="card.id" :card="card" :cardsCount="cardsCount"
                 @cardClicked="getClickedCardId" />
         </TransitionGroup>
     </div>
@@ -12,7 +12,7 @@ import Card from "./Card.vue";
 export default {
     components: { Card },
     props: {
-        hand: {
+        cards: {
             type: Array,
             required: true,
         },
@@ -26,25 +26,25 @@ export default {
         getClickedCardId(clickedCardId) {
             this.$emit("cardClicked", clickedCardId);
         },
+        updateCardsCount() {
+            this.cardsCount = this.cards.length;
+        },
     },
     mounted() {
-        this.cardsCount = this.hand.length;
+        this.updateCardsCount();
+    },
+    updated() {
+        this.updateCardsCount();
     },
 }
 </script>
 
-<style lang="scss">
-.hand {
-    position: absolute;
-    width: 970px;
-    margin-left: auto;
+<style lang="scss" scoped>
+.wrapper {
     display: flex;
-    gap: 2px;
     justify-content: center;
-    border: 1px solid;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
+    flex-direction: row;
+    gap: 2px;
 }
 
 .cards-move,
@@ -56,7 +56,7 @@ export default {
 .cards-enter-from,
 .cards-leave-to {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateX(30px);
 }
 
 .cards-leave-active {

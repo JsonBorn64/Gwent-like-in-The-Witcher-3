@@ -1,6 +1,9 @@
 <template>
-    <img @click.stop="getClickedCardId" :class="{ active: card.active }" :src="`${card.src}`" :alt="`${card.name}`"
-        class="card" ref="card" />
+    <div class="card_wrapper" :class="{ active: card.active }" ref="card">
+        <img @click.stop="getClickedCardId" :src="`${card.src}`" :alt="`${card.name}`"
+            class="card" />
+        <div class="computed_value" ref="compVal" >{{card.computedValue}}</div>
+    </div>
 </template>
 
 <script>
@@ -27,15 +30,26 @@ export default {
                 this.$refs.card.style.marginLeft = '0px';
             }
         },
+        compValColor() {
+            if (this.card.computedValue > this.card.defaultValue) {
+                this.$refs.compVal.style.color = 'green';
+            } else if (this.card.computedValue < this.card.defaultValue) {
+                this.$refs.compVal.style.color = 'red';
+            } else {
+                this.$refs.compVal.style.color = 'black';
+            }
+        },
     },
     updated() {
         this.calcLeftMargin();
+        this.compValColor();
     },
 }
 </script>
 
-<style lang="scss">
-.card {
+<style lang="scss" scoped>
+
+.card_wrapper {
     width: 155px;
     // height: 292.5px;
     border-radius: 15px;
@@ -43,17 +57,12 @@ export default {
     bottom: 0px;
     position: relative;
     cursor: pointer;
-    // margin-left: 0px;
-    box-shadow: 0 0 20px -8px;
+    // box-shadow: 0 0 20px -8px;
     transform: translateY(0px);
 
     &:hover {
-        transform: translateY(-20px);
+        transform: translateY(-30px);
     }
-}
-
-.card:first-child {
-    margin-left: 0px !important;
 }
 
 .active {
@@ -66,4 +75,28 @@ export default {
         transform: translateY(0px) scale(2);
     }
 }
+
+.card_wrapper:first-child {
+    margin-left: 0px !important;
+}
+
+.card {
+    width: 100%;
+}
+
+.computed_value {
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(194,200,203,1) 100%);
+    position: absolute;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    color: rgb(24, 24, 24);
+    font-size: 24px;
+    top: 5.5px;
+    left: 6px;
+    width: 33px;
+    height: 33px;
+}
+
 </style>

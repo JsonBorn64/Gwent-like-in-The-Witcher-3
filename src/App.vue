@@ -1,8 +1,10 @@
 <template>
-    <div @click="unactiveAllCards" class="wrapper">
+    <div @click="unactiveAllCards" class="main_wrapper">
 
         <GameField />
-        <Hand :hand="hand" @cardClicked="activeCard" />
+        <div class="hand">
+            <CardsGroup :cards="hand" @cardClicked="activeCard" />
+        </div>
 
     </div>
 </template>
@@ -10,9 +12,9 @@
 
 <script>
 import GameField from "./components/GameField.vue";
-import Hand from "./components/Hand.vue";
+import CardsGroup from "./components/CardsGroup.vue";
 export default {
-    components: { GameField, Hand },
+    components: { GameField, CardsGroup },
     data() {
         return {
             hand: [
@@ -25,6 +27,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: true,
+                    spy: false,
+                    plusOnePoint: false,
                 },
                 {
                     id: 2,
@@ -35,6 +40,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: true,
+                    spy: false,
+                    plusOnePoint: false,
                 },
                 {
                     id: 3,
@@ -43,8 +51,11 @@ export default {
                     defaultValue: 1,
                     computedValue: 1,
                     fixed: false,
-                    role: "front",
+                    role: "back",
                     active: false,
+                    relative: false,
+                    spy: false,
+                    plusOnePoint: true,
                 },
                 {
                     id: 4,
@@ -53,8 +64,11 @@ export default {
                     defaultValue: 1,
                     computedValue: 1,
                     fixed: false,
-                    role: "front",
+                    role: "back",
                     active: false,
+                    relative: false,
+                    spy: false,
+                    plusOnePoint: true,
                 },
                 {
                     id: 5,
@@ -63,8 +77,11 @@ export default {
                     defaultValue: 1,
                     computedValue: 1,
                     fixed: false,
-                    role: "front",
+                    role: "back",
                     active: false,
+                    relative: false,
+                    spy: false,
+                    plusOnePoint: true,
                 },
                 {
                     id: 6,
@@ -75,6 +92,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: false,
+                    spy: false,
+                    plusOnePoint: false,
                 },
                 {
                     id: 7,
@@ -85,6 +105,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: false,
+                    spy: false,
+                    plusOnePoint: false,
                 },
                 {
                     id: 8,
@@ -93,8 +116,11 @@ export default {
                     defaultValue: 1,
                     computedValue: 1,
                     fixed: false,
-                    role: "front",
+                    role: "back",
                     active: false,
+                    relative: false,
+                    spy: true,
+                    plusOnePoint: false,
                 },
                 {
                     id: 9,
@@ -105,6 +131,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: false,
+                    spy: false,
+                    plusOnePoint: false,
                 },
                 {
                     id: 10,
@@ -115,6 +144,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: true,
+                    spy: false,
+                    plusOnePoint: false,
                 },
                 {
                     id: 11,
@@ -125,6 +157,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: true,
+                    spy: false,
+                    plusOnePoint: false,
                 },
                 {
                     id: 12,
@@ -135,6 +170,9 @@ export default {
                     fixed: false,
                     role: "front",
                     active: false,
+                    relative: true,
+                    spy: false,
+                    plusOnePoint: false,
                 },
             ]
         };
@@ -144,6 +182,7 @@ export default {
             this.unactiveAllCards() 
             this.hand.find(item => item.id === cardClickedId)
             .active = true;
+            // this.hand = this.hand.filter(item => item.id !== cardClickedId);
         },
         unactiveAllCards() {
             this.hand.forEach(item => {
@@ -155,17 +194,19 @@ export default {
 </script>
 
 
-<style lang="scss">
-body {
+<style lang="scss" scoped>
+.main_wrapper {
     background-color: wheat;
-    font-family: sans-serif;
-    overflow-x: hidden;
-}
-
-.wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: sans-serif;
     min-height: 100vh;
+}
+
+.hand {
+    width: 970px;
+    margin-top: auto;
+    margin-bottom: 40px;
 }
 </style>
