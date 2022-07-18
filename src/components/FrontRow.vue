@@ -34,11 +34,19 @@ export default {
     },
     methods: {
         updateCardComputedValue() {
-            let relativeCards = this.cards.filter(card => card.relative);
-            relativeCards.forEach(card => {
-                for (let i = 0; i < relativeCards.length; i++) {
-                    if (relativeCards[i].name === card.name && relativeCards[i].id !== card.id) {
+            // Handshakes bonus
+            this.cards.forEach(card => {
+                for (let i = 0; i < this.cards.length; i++) {
+                    if (this.cards[i].name === card.name && this.cards[i].id !== card.id && this.cards[i].handshake) {
                         this.cards[i].computedValue *= 2;
+                    }
+                }
+            });
+            // PlusOnePoint bonus
+            this.cards.forEach(card => {
+                for (let i = 0; i < this.cards.length; i++) {
+                    if (this.cards[i].id !== card.id && card.plusOnePoint) {
+                        this.cards[i].computedValue += 1;
                     }
                 }
             });
@@ -52,7 +60,7 @@ export default {
     display: flex;
 
     &>div {
-        background-color: rgb(226, 200, 152);
+        background-color: #290D02;
     }
 }
 
@@ -62,7 +70,6 @@ export default {
     justify-content: center;
     align-items: center;
     margin: auto 10px auto 0;
-    border: 1px solid;
     border-radius: 50%;
     width: 38px;
     height: 38px;
@@ -77,9 +84,8 @@ export default {
 }
 
 .field_row {
-    width: 790px;
-    height: 130px;
-    border: 1px solid;
+    width: 810px;
+    height: 125px;
     overflow: hidden;
 }
 </style>

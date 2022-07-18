@@ -26,9 +26,9 @@ export default {
         getClickedCardId() {
             this.$emit("cardClicked", this.card.id);
         },
-        calcLeftMargin() {
-            let marginLeft = (((this.cardsCount * 155) - 970) / (this.cardsCount - 1)) + 2;
-            if (this.cardsCount > 6) {
+        calcLeftMargin(wrapperWidth, cardWidth) {
+            let marginLeft = (((this.cardsCount * cardWidth) - wrapperWidth) / (this.cardsCount - 1)) + 2;
+            if (this.cardsCount > 1) {
                 this.$refs.card.style.marginLeft = `-${marginLeft}px`;
             } else {
                 this.$refs.card.style.marginLeft = '0px';
@@ -36,7 +36,7 @@ export default {
         },
         compValColor() {
             if (this.card.computedValue > this.card.defaultValue) {
-                this.$refs.compVal.style.color = 'green';
+                this.$refs.compVal.style.color = '#00BB00';
             } else if (this.card.computedValue < this.card.defaultValue) {
                 this.$refs.compVal.style.color = 'red';
             } else {
@@ -45,21 +45,14 @@ export default {
         },
     },
     updated() {
-        this.calcLeftMargin();
-        this.compValColor();
         if (this.isHand) {
             this.$refs.card.style.pointerEvents = 'auto';
+            this.calcLeftMargin(950, 90);
         } else {
             this.$refs.card.style.pointerEvents = 'none';
-            this.$refs.card.style.width = '100px';
-            this.$refs.compVal.style.top = '3.7px';
-            this.$refs.compVal.style.left = '4.08px';
-            this.$refs.compVal.style.width = '21px';
-            this.$refs.compVal.style.height = '21px';
-            this.$refs.compVal.style.fontSize = '16px';
-            this.$refs.compVal.style.fontWeight = '600';
-            this.$refs.compVal.style.lineHeight = '1px';
+            this.calcLeftMargin(810, 90);
         }
+        this.compValColor();
     },
 }
 </script>
@@ -67,14 +60,15 @@ export default {
 <style lang="scss" scoped>
 
 .card_wrapper {
-    width: 155px;
-    // height: 292.5px;
-    border-radius: 15px;
+    width: 90px;
+    height: 125px;
+    overflow: hidden;
+    border-radius: 2px;
     transition: 300ms;
     bottom: 0px;
     position: relative;
     cursor: pointer;
-    // box-shadow: 0 0 20px -8px;
+    box-shadow: 0 0 20px -8px;
     transform: translateY(0px);
 
     &:hover {
@@ -83,13 +77,15 @@ export default {
 }
 
 .active {
-    bottom: 450px;
-    transform: scale(2);
+    bottom: 400px;
+    height: 169px;
+    transform: scale(2.4);
+    border-radius: 7px;
     z-index: 1;
     cursor: default;
 
     &:hover {
-        transform: translateY(0px) scale(2);
+        transform: translateY(0px) scale(2.4);
     }
 }
 
@@ -109,11 +105,12 @@ export default {
     justify-content: center;
     align-items: center;
     color: rgb(24, 24, 24);
-    font-size: 24px;
-    top: 5.5px;
-    left: 6px;
-    width: 33px;
-    height: 33px;
+    font-size: 15px;
+    font-weight: 600;
+    top: 3.35px;
+    left: 3.5px;
+    width: 19px;
+    height: 19px;
 }
 
 </style>

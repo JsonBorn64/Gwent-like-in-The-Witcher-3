@@ -34,7 +34,8 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border: 2px solid;
+    border: 1px solid;
+    color: white;
     margin-top: 20px;
     padding: 10px;
     position: relative;
