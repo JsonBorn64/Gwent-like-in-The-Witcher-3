@@ -26,9 +26,9 @@ export default {
         getClickedCardId() {
             this.$emit("cardClicked", this.card.id);
         },
-        calcLeftMargin(wrapperWidth, cardWidth) {
+        calcLeftMargin(wrapperWidth, cardWidth, startIndex) {
             let marginLeft = (((this.cardsCount * cardWidth) - wrapperWidth) / (this.cardsCount - 1)) + 2;
-            if (this.cardsCount > 1) {
+            if (this.cardsCount > startIndex) {
                 this.$refs.card.style.marginLeft = `-${marginLeft}px`;
             } else {
                 this.$refs.card.style.marginLeft = '0px';
@@ -47,10 +47,10 @@ export default {
     updated() {
         if (this.isHand) {
             this.$refs.card.style.pointerEvents = 'auto';
-            this.calcLeftMargin(950, 90);
+            this.calcLeftMargin(950, 90, 10);
         } else {
             this.$refs.card.style.pointerEvents = 'none';
-            this.calcLeftMargin(810, 90);
+            this.calcLeftMargin(810, 90, 8);
         }
         this.compValColor();
     },

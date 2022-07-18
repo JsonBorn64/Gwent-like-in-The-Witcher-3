@@ -1,6 +1,6 @@
 <template>
     <div class="player_field">
-        <FrontRow :cards="frontRow" :isHand="isHand" />
+        <FrontRow @click="frontRowClick" :cards="frontRow" :isHand="isHand" />
         <div class="total_field_count">{{fieldTotalCount}}</div>
     </div>
 </template>
@@ -23,6 +23,11 @@ export default {
     computed: {
         fieldTotalCount() {
             return 0;
+        },
+    },
+    methods: {
+        frontRowClick() {
+            this.$emit("frontRowClick");
         },
     },
 }

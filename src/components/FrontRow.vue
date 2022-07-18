@@ -34,6 +34,10 @@ export default {
     },
     methods: {
         updateCardComputedValue() {
+            // reset computedValue
+            this.cards.forEach(card => {
+                card.computedValue = card.defaultValue;
+            });
             // Handshakes bonus
             this.cards.forEach(card => {
                 for (let i = 0; i < this.cards.length; i++) {
