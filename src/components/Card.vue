@@ -1,8 +1,7 @@
 <template>
     <div class="card_wrapper" :class="{ active: card.active }" ref="card">
-        <img @click.stop="getClickedCardId" :src="`${card.src}`" :alt="`${card.name}`"
-            class="card" />
-        <div class="computed_value" ref="compVal" >{{card.computedValue}}</div>
+        <img @click.stop="getClickedCardId" :src="`${card.src}`" :alt="`${card.name}`" class="card" />
+        <div class="computed_value" ref="compVal">{{ card.computedValue }}</div>
     </div>
 </template>
 
@@ -43,22 +42,27 @@ export default {
                 this.$refs.compVal.style.color = 'black';
             }
         },
+        actionsDependsIsHand() {
+            if (this.isHand) {
+                this.$refs.card.style.pointerEvents = 'auto';
+                this.calcLeftMargin(950, 90, 10);
+            } else {
+                this.$refs.card.style.pointerEvents = 'none';
+                this.calcLeftMargin(810, 90, 8);
+                this.compValColor();
+            }
+        },
     },
     updated() {
-        if (this.isHand) {
-            this.$refs.card.style.pointerEvents = 'auto';
-            this.calcLeftMargin(950, 90, 10);
-        } else {
-            this.$refs.card.style.pointerEvents = 'none';
-            this.calcLeftMargin(810, 90, 8);
-        }
-        this.compValColor();
+        this.actionsDependsIsHand()
+    },
+    mounted() {
+        this.actionsDependsIsHand()
     },
 }
 </script>
 
 <style lang="scss" scoped>
-
 .card_wrapper {
     width: 90px;
     height: 125px;
@@ -68,7 +72,7 @@ export default {
     bottom: 0px;
     position: relative;
     cursor: pointer;
-    box-shadow: 0 0 20px -8px;
+    box-shadow: 0 0 20px -8px black;
     transform: translateY(0px);
 
     &:hover {
@@ -98,7 +102,7 @@ export default {
 }
 
 .computed_value {
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(194,200,203,1) 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(194, 200, 203, 1) 100%);
     position: absolute;
     display: flex;
     border-radius: 50%;
@@ -112,5 +116,4 @@ export default {
     width: 19px;
     height: 19px;
 }
-
 </style>

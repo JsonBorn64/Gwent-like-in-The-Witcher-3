@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <TransitionGroup name="cards">
-            <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cardsCount"
+            <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cards.length"
                 @cardClicked="getClickedCardId" />
         </TransitionGroup>
     </div>
@@ -21,25 +21,11 @@ export default {
             required: false,
         },
     },
-    data() {
-        return {
-            cardsCount: 0,
-        };
-    },
     methods: {
         getClickedCardId(clickedCardId) {
             this.$emit("cardClicked", clickedCardId);
         },
-        updateCardsCount() {
-            this.cardsCount = this.cards.length;
-        },
-    },
-    mounted() {
-        this.updateCardsCount();
-    },
-    updated() {
-        this.updateCardsCount();
-    },
+    }
 }
 </script>
 

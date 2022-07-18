@@ -192,11 +192,15 @@ export default {
         },
         frontRowClick() {
             let activeCard = this.hand.find(item => item.active === true);
-            if (activeCard.role === "front") {
+            if (activeCard && activeCard.role === "front") {
                 this.hand.find(item => item.id === activeCard.id).active = false;
                 this.hand = this.hand.filter(item => activeCard.id !== item.id);
                 this.frontRow.push(activeCard);
             }
+            setTimeout(() => {
+                this.frontRow.sort((a, b) => a.id - b.id);
+                // this.frontRow.sort((a, b) => a.computedValue - b.computedValue);
+            }, 300);
         },
     },
 }
