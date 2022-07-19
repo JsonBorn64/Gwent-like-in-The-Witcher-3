@@ -1,7 +1,9 @@
 <template>
     <div class="player_field">
-        <FrontRow @click="frontRowClick" :cards="frontRow" :isHand="isHand" />
-        <div class="total_field_count">{{fieldTotalCount}}</div>
+        <FrontRow @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow" :rowType="'front'" :isHand="isHand" />
+        <FrontRow @click="midRowClick" @rowTotalCount="fieldTotalCount" :cards="midRow" :rowType="'mid'" :isHand="isHand" />
+        <FrontRow @click="backRowClick" @rowTotalCount="fieldTotalCount" :cards="backRow" :rowType="'back'" :isHand="isHand" />
+        <div class="total_field_count">{{ total }}</div>
     </div>
 </template>
 
@@ -15,19 +17,42 @@ export default {
             type: Array,
             required: true,
         },
+        midRow: {
+            type: Array,
+            required: true,
+        },
+        backRow: {
+            type: Array,
+            required: true,
+        },
         isHand: {
             type: Boolean,
             required: true,
         },
     },
-    computed: {
-        fieldTotalCount() {
-            return 0;
-        },
+    data() {
+        return {
+            fieldsTotals: {
+                front: 0,
+                mid: 0,
+                back: 0,
+            },
+            total: 0
+        };
     },
     methods: {
         frontRowClick() {
             this.$emit("frontRowClick");
+        },
+        midRowClick() {
+            this.$emit("midRowClick");
+        },
+        backRowClick() {
+            this.$emit("backRowClick");
+        },
+        fieldTotalCount(total, rowType) {
+            this.fieldsTotals[rowType] = total;
+            this.total = this.fieldsTotals.front + this.fieldsTotals.mid + this.fieldsTotals.back;
         },
     },
 }
@@ -46,7 +71,7 @@ export default {
     position: relative;
 }
 
-.total_field_count{
+.total_field_count {
     font-size: 26px;
     display: flex;
     justify-content: center;

@@ -21,6 +21,10 @@ export default {
             type: Boolean,
             required: false,
         },
+        rowType: {
+            type: String,
+            required: true,
+        },
     },
     computed: {
         rowTotalCount() {
@@ -29,6 +33,7 @@ export default {
             this.cards.forEach(card => {
                 totalResult += card.computedValue;
             });
+            this.$emit("rowTotalCount", totalResult, this.rowType);
             return totalResult;
         },
     },

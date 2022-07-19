@@ -1,7 +1,8 @@
 <template>
     <div @click="unactiveAllCards" class="main_wrapper">
 
-        <GameField @frontRowClick="frontRowClick" :frontRow="frontRow" :isHand="false" />
+        <GameField @frontRowClick="frontRowClick" @midRowClick="midRowClick" @backRowClick="backRowClick"
+            :frontRow="frontRow" :midRow="midRow" :backRow="backRow" :isHand="false" />
         <div class="hand">
             <CardsGroup :cards="hand" :isHand="true" @cardClicked="activateCard" />
         </div>
@@ -18,6 +19,8 @@ export default {
     data() {
         return {
             frontRow: [],
+            midRow: [],
+            backRow: [],
             hand: [
                 {
                     id: 1,
@@ -199,7 +202,28 @@ export default {
             }
             setTimeout(() => {
                 this.frontRow.sort((a, b) => a.id - b.id);
-                // this.frontRow.sort((a, b) => a.computedValue - b.computedValue);
+            }, 300);
+        },
+        midRowClick() {
+            let activeCard = this.hand.find(item => item.active === true);
+            if (activeCard && activeCard.role === "mid") {
+                this.hand.find(item => item.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(item => activeCard.id !== item.id);
+                this.midRow.push(activeCard);
+            }
+            setTimeout(() => {
+                this.midRow.sort((a, b) => a.id - b.id);
+            }, 300);
+        },
+        backRowClick() {
+            let activeCard = this.hand.find(item => item.active === true);
+            if (activeCard && activeCard.role === "back") {
+                this.hand.find(item => item.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(item => activeCard.id !== item.id);
+                this.backRow.push(activeCard);
+            }
+            setTimeout(() => {
+                this.backRow.sort((a, b) => a.id - b.id);
             }, 300);
         },
     },
