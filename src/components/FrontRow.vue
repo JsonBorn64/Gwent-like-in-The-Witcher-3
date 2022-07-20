@@ -4,7 +4,7 @@
         <div class="field_extra-cage">
             <Card :card="frontRowExtraCage" :isHand="isHand" :cardsCount="cards.length" />
         </div>
-        <div class="field_row">
+        <div class="field_row" ref="fieldRow">
             <CardsGroup :cards="cards" :isHand="isHand" />
         </div>
     </div>
@@ -45,6 +45,9 @@ export default {
         },
     },
     methods: {
+        getFieldRowWidth() {
+            this.fieldRowWidth = this.refs.fieldRow.style.clientWidth;
+        },
         updateCardComputedValue() {
             // reset computedValue
             this.cards.forEach(card => {
@@ -53,7 +56,7 @@ export default {
             // Handshakes bonus
             this.cards.forEach(card => {
                 for (let i = 0; i < this.cards.length; i++) {
-                    if (this.cards[i].name === card.name && this.cards[i].id !== card.id && this.cards[i].handshake) {
+                    if (this.cards[i].id !== card.id && this.cards[i].name === card.name && this.cards[i].handshake) {
                         this.cards[i].computedValue += this.cards[i].defaultValue;
                     }
                 }
@@ -104,13 +107,15 @@ export default {
     display: flex;
     justify-content: center;
     width: 130px;
+    box-sizing: border-box;
+    padding: 0 20px;
     height: 125px;
     margin-right: 10px;
     text-align: center;
 }
 
 .field_row {
-    width: 810px;
+    width: 500px;
     height: 125px;
     overflow: hidden;
 }

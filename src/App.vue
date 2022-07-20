@@ -78,7 +78,7 @@ export default {
             .then(res => res.json())
             .then(data => {
                 let cards = data.sort((a, b) => 0.5 - Math.random());
-                this.hand = cards.slice(0, 12).sort((a, b) => a.id - b.id);
+                this.hand = cards.slice(0, 20).sort((a, b) => a.id - b.id);
             });
     },
 }
@@ -96,7 +96,7 @@ export default {
 }
 
 .hand {
-    width: 950px;
+    width: 700px;
     height: 125px;
     margin-top: auto;
     margin-bottom: 40px;

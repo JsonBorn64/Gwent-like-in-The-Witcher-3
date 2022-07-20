@@ -1,8 +1,8 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" ref="wrapper">
         <TransitionGroup name="cards">
             <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cards.length"
-                @cardClicked="getClickedCardId" />
+                :wrapperWidth="this.$refs.wrapper.clientWidth" @cardClicked="getClickedCardId" />
         </TransitionGroup>
     </div>
 </template>
@@ -25,7 +25,7 @@ export default {
         getClickedCardId(clickedCardId) {
             this.$emit("cardClicked", clickedCardId);
         },
-    }
+    },
 }
 </script>
 

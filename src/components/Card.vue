@@ -20,12 +20,18 @@ export default {
             type: Boolean,
             required: true,
         },
+        wrapperWidth: {
+            type: Number,
+            required: false,
+        },
     },
     methods: {
         getClickedCardId() {
             this.$emit("cardClicked", this.card.id);
         },
-        calcLeftMargin(wrapperWidth, cardWidth, startIndex) {
+        calcLeftMargin(wrapperWidth) {
+            const cardWidth = this.$refs.card.clientWidth;
+            const startIndex = Math.floor(wrapperWidth / cardWidth);
             let marginLeft = (((this.cardsCount * cardWidth) - wrapperWidth) / (this.cardsCount - 1)) + 2;
             if (this.cardsCount > startIndex) {
                 this.$refs.card.style.marginLeft = `-${marginLeft}px`;
@@ -45,10 +51,10 @@ export default {
         actionsDependsIsHand() {
             if (this.isHand) {
                 this.$refs.card.style.pointerEvents = 'auto';
-                this.calcLeftMargin(950, 90, 10);
+                this.calcLeftMargin(this.wrapperWidth);
             } else {
                 this.$refs.card.style.pointerEvents = 'none';
-                this.calcLeftMargin(810, 90, 8);
+                this.calcLeftMargin(this.wrapperWidth);
                 this.compValColor();
             }
         },
@@ -58,7 +64,7 @@ export default {
     },
     mounted() {
         this.actionsDependsIsHand()
-        if (!this.card.defaultValue) {
+        if (!this.card.defaultValue || this.card.hero) {
             this.$refs.compVal.style.display = 'none';
         }
         if (Object.keys(this.card).length == 0) {
@@ -71,7 +77,8 @@ export default {
 
 <style lang="scss" scoped>
 .card_wrapper {
-    width: 90px;
+    min-width: 90px;
+    max-width: 90px;
     height: 125px;
     overflow: hidden;
     border-radius: 8px;
