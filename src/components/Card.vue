@@ -58,6 +58,13 @@ export default {
     },
     mounted() {
         this.actionsDependsIsHand()
+        if (!this.card.defaultValue) {
+            this.$refs.compVal.style.display = 'none';
+        }
+        if (Object.keys(this.card).length == 0) {
+            this.$refs.card.style.display = 'none';
+        }
+
     },
 }
 </script>
@@ -67,7 +74,7 @@ export default {
     width: 90px;
     height: 125px;
     overflow: hidden;
-    border-radius: 2px;
+    border-radius: 8px;
     transition: 300ms;
     bottom: 0px;
     position: relative;

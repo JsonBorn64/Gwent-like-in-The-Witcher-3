@@ -1,7 +1,9 @@
 <template>
     <div class="row_wrapper">
         <div class="field_total-count">{{ rowTotalCount }}</div>
-        <!-- <div class="field_extra-cage"></div> -->
+        <div class="field_extra-cage">
+            <Card :card="frontRowExtraCage" :isHand="isHand" :cardsCount="cards.length" />
+        </div>
         <div class="field_row">
             <CardsGroup :cards="cards" :isHand="isHand" />
         </div>
@@ -10,12 +12,17 @@
 
 <script>
 import CardsGroup from './CardsGroup.vue';
+import Card from './Card.vue';
 export default {
-    components: { CardsGroup },
+    components: { CardsGroup, Card },
     props: {
         cards: {
             type: Array,
             required: true,
+        },
+        frontRowExtraCage: {
+            type: Object,
+            default: {},
         },
         isHand: {
             type: Boolean,
@@ -47,15 +54,23 @@ export default {
             this.cards.forEach(card => {
                 for (let i = 0; i < this.cards.length; i++) {
                     if (this.cards[i].name === card.name && this.cards[i].id !== card.id && this.cards[i].handshake) {
-                        this.cards[i].computedValue *= 2;
+                        this.cards[i].computedValue += this.cards[i].defaultValue;
                     }
                 }
             });
             // PlusOnePoint bonus
             this.cards.forEach(card => {
                 for (let i = 0; i < this.cards.length; i++) {
-                    if (this.cards[i].id !== card.id && card.plusOnePoint) {
+                    if (this.cards[i].id !== card.id && card.plusOnePoint && !this.cards[i].hero) {
                         this.cards[i].computedValue += 1;
+                    }
+                }
+            });
+            // Troubadour bonus
+            this.cards.forEach(card => {
+                for (let i = 0; i < this.cards.length; i++) {
+                    if (this.cards[i].id !== card.id && card.troubadour && !this.cards[i].hero) {
+                        this.cards[i].computedValue *= 2;
                     }
                 }
             });
@@ -86,10 +101,12 @@ export default {
 }
 
 .field_extra-cage {
-    width: 100px;
-    height: 190px;
-    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    width: 130px;
+    height: 125px;
     margin-right: 10px;
+    text-align: center;
 }
 
 .field_row {

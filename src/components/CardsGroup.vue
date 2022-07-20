@@ -40,16 +40,20 @@ export default {
 .cards-move,
 .cards-enter-active,
 .cards-leave-active {
-  transition: all 300ms ease;
+    transition: all 300ms ease;
 }
 
-.cards-enter-from,
+.cards-enter-from {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
 .cards-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
+    opacity: 0;
+    transform: translateY(-100px);
 }
 
 .cards-leave-active {
-  position: absolute;
+    position: absolute;
 }
 </style>

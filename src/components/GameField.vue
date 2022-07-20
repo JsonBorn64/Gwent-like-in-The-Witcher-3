@@ -1,6 +1,6 @@
 <template>
     <div class="player_field">
-        <FrontRow @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow" :rowType="'front'" :isHand="isHand" />
+        <FrontRow @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow" :frontRowExtraCage="frontRowExtraCage" :rowType="'front'" :isHand="isHand" />
         <FrontRow @click="midRowClick" @rowTotalCount="fieldTotalCount" :cards="midRow" :rowType="'mid'" :isHand="isHand" />
         <FrontRow @click="backRowClick" @rowTotalCount="fieldTotalCount" :cards="backRow" :rowType="'back'" :isHand="isHand" />
         <div class="total_field_count">{{ total }}</div>
@@ -16,6 +16,10 @@ export default {
         frontRow: {
             type: Array,
             required: true,
+        },
+        frontRowExtraCage: {
+            type: Object,
+            default: {},
         },
         midRow: {
             type: Array,
