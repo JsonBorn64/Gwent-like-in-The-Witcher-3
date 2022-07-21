@@ -2,7 +2,9 @@
     <div @click="unactiveAllCards" class="main_wrapper">
 
         <GameField @frontRowClick="frontRowClick" @midRowClick="midRowClick" @backRowClick="backRowClick"
-            :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage" :midRow="midRow" :backRow="backRow" :isHand="false" />
+            :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage" :midRow="midRow"
+            :midRowExtraCage="midRowExtraCage" :backRow="backRow" :backRowExtraCage="backRowExtraCage" @extraCageClick="extraCageClick" 
+            :isHand="false" />
         <div class="hand">
             <CardsGroup :cards="hand" :isHand="true" @cardClicked="activateCard" />
         </div>
@@ -19,17 +21,11 @@ export default {
     data() {
         return {
             frontRow: [],
-            frontRowExtraCage: {
-                "id": -5,
-                "name": "командирский рог",
-                "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-                "role": "special",
-                "troubadour": true
-            },
+            frontRowExtraCage: {},
             midRow: [],
-            // midRowExtraCage: {},
+            midRowExtraCage: {},
             backRow: [],
-            // backRowExtraCage: {},
+            backRowExtraCage: {},
             hand: [],
         };
     },
@@ -72,13 +68,23 @@ export default {
             }
             this.backRow.sort((a, b) => a.id - b.id);
         },
+        extraCageClick(rowType) {
+            let activeCard = this.hand.find(item => item.active === true);
+            if (activeCard && activeCard.role === "extra" && !this.frontRowExtraCage.id) {
+                this.hand.find(item => item.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(item => activeCard.id !== item.id);
+                if (rowType == 'front') this.frontRowExtraCage = activeCard;
+                if (rowType == 'mid') this.midRowExtraCage.push(activeCard);
+                if (rowType == 'back') this.backRowExtraCage.push(activeCard);
+            }
+        },
     },
     mounted() {
         fetch("src/assets/колоды json/королевства_севера.json")
             .then(res => res.json())
             .then(data => {
                 let cards = data.sort((a, b) => 0.5 - Math.random());
-                this.hand = cards.slice(0, 20).sort((a, b) => a.id - b.id);
+                this.hand = cards.slice(0, 10).sort((a, b) => a.id - b.id);
             });
     },
 }
@@ -96,7 +102,8 @@ export default {
 }
 
 .hand {
-    width: 700px;
+    max-width: 920px;
+    width: calc(100% - 20px);
     height: 125px;
     margin-top: auto;
     margin-bottom: 40px;

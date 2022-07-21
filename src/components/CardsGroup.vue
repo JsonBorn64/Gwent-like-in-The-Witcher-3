@@ -2,7 +2,7 @@
     <div class="wrapper" ref="wrapper">
         <TransitionGroup name="cards">
             <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cards.length"
-                :wrapperWidth="this.$refs.wrapper.clientWidth" @cardClicked="getClickedCardId" />
+                :wrapperWidth="wrapperWidth" @cardClicked="getClickedCardId" />
         </TransitionGroup>
     </div>
 </template>
@@ -21,10 +21,22 @@ export default {
             required: false,
         },
     },
+    data() {
+        return {
+            wrapperWidth: 900,
+        };
+    },
     methods: {
         getClickedCardId(clickedCardId) {
             this.$emit("cardClicked", clickedCardId);
         },
+        getFieldRowWidth() {
+            this.wrapperWidth = this.$refs.wrapper.clientWidth;
+            window.addEventListener("resize", this.getFieldRowWidth);
+        },
+    },
+    mounted() {
+        this.getFieldRowWidth();
     },
 }
 </script>

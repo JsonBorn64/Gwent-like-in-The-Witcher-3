@@ -3,21 +3,21 @@
     "id": -5,
     "name": "командирский рог",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "special",
+    "role": "extra",
     "troubadour": true
   },
   {
     "id": -4,
     "name": "командирский рог",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "special",
+    "role": "extra",
     "troubadour": true
   },
   {
     "id": -3,
     "name": "командирский рог",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "special",
+    "role": "extra",
     "troubadour": true
   },
   {

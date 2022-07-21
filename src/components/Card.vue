@@ -41,7 +41,7 @@ export default {
         },
         compValColor() {
             if (this.card.computedValue > this.card.defaultValue) {
-                this.$refs.compVal.style.color = '#00BB00';
+                this.$refs.compVal.style.color = '#007700';
             } else if (this.card.computedValue < this.card.defaultValue) {
                 this.$refs.compVal.style.color = 'red';
             } else {
@@ -61,6 +61,11 @@ export default {
     },
     updated() {
         this.actionsDependsIsHand()
+        if (Object.keys(this.card).length == 0) {
+            this.$refs.card.style.display = 'none';
+        } else {
+            this.$refs.card.style.display = 'block';
+        }
     },
     mounted() {
         this.actionsDependsIsHand()
@@ -69,8 +74,9 @@ export default {
         }
         if (Object.keys(this.card).length == 0) {
             this.$refs.card.style.display = 'none';
+        } else {
+            this.$refs.card.style.display = 'block';
         }
-
     },
 }
 </script>

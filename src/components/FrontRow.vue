@@ -1,8 +1,8 @@
 <template>
     <div class="row_wrapper">
         <div class="field_total-count">{{ rowTotalCount }}</div>
-        <div class="field_extra-cage">
-            <Card :card="frontRowExtraCage" :isHand="isHand" :cardsCount="cards.length" />
+        <div class="field_extra-cage" @click="extraCageClick" >
+            <Card :card="extraCage" :isHand="isHand" :cardsCount="cards.length" />
         </div>
         <div class="field_row" ref="fieldRow">
             <CardsGroup :cards="cards" :isHand="isHand" />
@@ -20,7 +20,7 @@ export default {
             type: Array,
             required: true,
         },
-        frontRowExtraCage: {
+        extraCage: {
             type: Object,
             default: {},
         },
@@ -36,6 +36,7 @@ export default {
     computed: {
         rowTotalCount() {
             this.updateCardComputedValue();
+            this.extraCageInflunce();
             let totalResult = 0;
             this.cards.forEach(card => {
                 totalResult += card.computedValue;
@@ -74,9 +75,20 @@ export default {
                 for (let i = 0; i < this.cards.length; i++) {
                     if (this.cards[i].id !== card.id && card.troubadour && !this.cards[i].hero) {
                         this.cards[i].computedValue *= 2;
+                        this.cards[i].doubled = true;
                     }
                 }
             });
+        },
+        extraCageInflunce() {
+            if (this.extraCage.troubadour) {
+                this.cards.forEach(card => {
+                    if (!card.doubled) card.computedValue *= 2;
+                });
+            }
+        },
+        extraCageClick() {
+            this.$emit("extraCageClick", this.rowType);
         },
     },
 }
@@ -85,6 +97,7 @@ export default {
 <style lang="scss" scoped>
 .row_wrapper {
     display: flex;
+    width: 100%;
 
     &>div {
         background-color: #290D02;
@@ -98,7 +111,7 @@ export default {
     align-items: center;
     margin: auto 10px auto 0;
     border-radius: 50%;
-    width: 38px;
+    min-width: 38px;
     height: 38px;
     line-height: 0;
 }
@@ -106,16 +119,15 @@ export default {
 .field_extra-cage {
     display: flex;
     justify-content: center;
-    width: 130px;
+    min-width: 90px;
     box-sizing: border-box;
-    padding: 0 20px;
     height: 125px;
     margin-right: 10px;
     text-align: center;
 }
 
 .field_row {
-    width: 500px;
+    width: 100%;
     height: 125px;
     overflow: hidden;
 }

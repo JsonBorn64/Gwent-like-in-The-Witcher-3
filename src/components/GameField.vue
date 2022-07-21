@@ -1,8 +1,11 @@
 <template>
     <div class="player_field">
-        <FrontRow @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow" :frontRowExtraCage="frontRowExtraCage" :rowType="'front'" :isHand="isHand" />
-        <FrontRow @click="midRowClick" @rowTotalCount="fieldTotalCount" :cards="midRow" :rowType="'mid'" :isHand="isHand" />
-        <FrontRow @click="backRowClick" @rowTotalCount="fieldTotalCount" :cards="backRow" :rowType="'back'" :isHand="isHand" />
+        <FrontRow @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow"
+            :extraCage="frontRowExtraCage" @extraCageClick="extraCageClick" :rowType="'front'" :isHand="isHand" />
+        <FrontRow @click="midRowClick" @rowTotalCount="fieldTotalCount" :cards="midRow" :extraCage="midRowExtraCage"
+            @extraCageClick="extraCageClick" :rowType="'mid'" :isHand="isHand" />
+        <FrontRow @click="backRowClick" @rowTotalCount="fieldTotalCount" :cards="backRow" :extraCage="backRowExtraCage"
+            @extraCageClick="extraCageClick" :rowType="'back'" :isHand="isHand" />
         <div class="total_field_count">{{ total }}</div>
     </div>
 </template>
@@ -25,9 +28,17 @@ export default {
             type: Array,
             required: true,
         },
+        midRowExtraCage: {
+            type: Object,
+            default: {},
+        },
         backRow: {
             type: Array,
             required: true,
+        },
+        backRowExtraCage: {
+            type: Object,
+            default: {},
         },
         isHand: {
             type: Boolean,
@@ -58,6 +69,9 @@ export default {
             this.fieldsTotals[rowType] = total;
             this.total = this.fieldsTotals.front + this.fieldsTotals.mid + this.fieldsTotals.back;
         },
+        extraCageClick(rowType) {
+            this.$emit("extraCageClick", rowType);
+        },
     },
 }
 </script>
@@ -68,11 +82,13 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border: 1px solid;
     color: white;
     margin-top: 20px;
     padding: 10px;
     position: relative;
+    width: 100%;
+    max-width: 1000px;
+    box-sizing: border-box;
 }
 
 .total_field_count {
