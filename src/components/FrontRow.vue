@@ -1,12 +1,12 @@
 <template>
     <div class="row_wrapper">
-        <div class="field_total-count">{{ rowTotalCount }}</div>
-        <div class="field_extra-cage" @click="extraCageClick" >
+        <div class="field_extra-cage" @click="extraCageClick">
             <Card :card="extraCage" :isHand="isHand" :cardsCount="cards.length" />
         </div>
         <div class="field_row" ref="fieldRow">
             <CardsGroup :cards="cards" :isHand="isHand" />
         </div>
+        <div class="field_total-count">{{ rowTotalCount }}</div>
     </div>
 </template>
 
@@ -83,12 +83,12 @@ export default {
         extraCageInflunce() {
             if (this.extraCage.troubadour) {
                 this.cards.forEach(card => {
-                    if (!card.doubled) card.computedValue *= 2;
+                    if (!card.doubled && !card.hero) card.computedValue *= 2;
                 });
             }
         },
         extraCageClick() {
-            this.$emit("extraCageClick", this.rowType);
+            this.$emit("extraCageClick", this.rowType + "RowExtraCage");
         },
     },
 }
@@ -98,37 +98,45 @@ export default {
 .row_wrapper {
     display: flex;
     width: 100%;
+    position: relative;
 
     &>div {
-        background-color: #290D02;
+        // background-color: #290D02;
+        box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
     }
 }
 
 .field_total-count {
-    font-size: 20px;
+    font-size: 26px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: auto 10px auto 0;
-    border-radius: 50%;
-    min-width: 38px;
-    height: 38px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -10px;
     line-height: 0;
+    font-weight: 600;
+    background: none !important;
+    color: black;
+    text-shadow: 0 0 4px white;
 }
 
 .field_extra-cage {
     display: flex;
     justify-content: center;
-    min-width: 90px;
+    min-width: 125px;
     box-sizing: border-box;
-    height: 125px;
-    margin-right: 10px;
+    height: 120px;
+    margin-right: 5px;
     text-align: center;
+    // background: url("src/assets/текстуры/extra_cage.bmp") center/cover no-repeat;
 }
 
 .field_row {
     width: 100%;
-    height: 125px;
+    height: 120px;
     overflow: hidden;
+    // background: url("src/assets/текстуры/row.bmp") center/cover no-repeat;
 }
 </style>

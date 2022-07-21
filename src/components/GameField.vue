@@ -83,23 +83,25 @@ export default {
     flex-direction: column;
     gap: 10px;
     color: white;
-    margin-top: 20px;
+    margin-top: auto;
     padding: 10px;
     position: relative;
     width: 100%;
-    max-width: 1000px;
+    max-width: 960px;
     box-sizing: border-box;
 }
 
 .total_field_count {
-    font-size: 26px;
+    font-size: 30px;
+    font-weight: 900;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid;
     border-radius: 50%;
     width: 50px;
     height: 50px;
+    color: black;
+    text-shadow: 0 0 4px white;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

@@ -85,7 +85,7 @@ export default {
 .card_wrapper {
     min-width: 90px;
     max-width: 90px;
-    height: 125px;
+    height: 120px;
     overflow: hidden;
     border-radius: 8px;
     transition: 300ms;
@@ -94,15 +94,18 @@ export default {
     cursor: pointer;
     box-shadow: 0 0 20px -8px black;
     transform: translateY(0px);
+    z-index: 0;
 
     &:hover {
-        transform: translateY(-30px);
+        transform: translateY(-20px);
+        z-index: 1;
     }
 }
 
 .active {
     bottom: 400px;
     height: 169px;
+    right: -200px;
     transform: scale(2.4);
     border-radius: 7px;
     z-index: 1;

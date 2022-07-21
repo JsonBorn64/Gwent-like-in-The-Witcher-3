@@ -45,7 +45,6 @@ export default {
 .wrapper {
     display: flex;
     justify-content: center;
-    flex-direction: row;
     gap: 2px;
 }
 
@@ -57,12 +56,12 @@ export default {
 
 .cards-enter-from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
 }
 
 .cards-leave-to {
     opacity: 0;
-    transform: translateY(-100px);
+    transform: translateY(-40px);
 }
 
 .cards-leave-active {

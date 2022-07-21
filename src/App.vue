@@ -68,14 +68,12 @@ export default {
             }
             this.backRow.sort((a, b) => a.id - b.id);
         },
-        extraCageClick(rowType) {
+        extraCageClick(cageType) {
             let activeCard = this.hand.find(item => item.active === true);
-            if (activeCard && activeCard.role === "extra" && !this.frontRowExtraCage.id) {
+            if (activeCard && activeCard.role === "extra" && !this[cageType].id) {
                 this.hand.find(item => item.id === activeCard.id).active = false;
                 this.hand = this.hand.filter(item => activeCard.id !== item.id);
-                if (rowType == 'front') this.frontRowExtraCage = activeCard;
-                if (rowType == 'mid') this.midRowExtraCage.push(activeCard);
-                if (rowType == 'back') this.backRowExtraCage.push(activeCard);
+                this[cageType] = activeCard
             }
         },
     },
@@ -84,7 +82,7 @@ export default {
             .then(res => res.json())
             .then(data => {
                 let cards = data.sort((a, b) => 0.5 - Math.random());
-                this.hand = cards.slice(0, 10).sort((a, b) => a.id - b.id);
+                this.hand = cards.slice(0, 12).sort((a, b) => a.id - b.id);
             });
     },
 }
@@ -99,14 +97,14 @@ export default {
     align-items: center;
     font-family: sans-serif;
     min-height: 100vh;
+    background: url("src/assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
 }
 
 .hand {
-    max-width: 920px;
+    max-width: 940px;
     width: calc(100% - 20px);
-    height: 125px;
-    margin-top: auto;
+    height: 120px;
     margin-bottom: 40px;
-    background-color: #290D02;
+    box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
 }
 </style>
