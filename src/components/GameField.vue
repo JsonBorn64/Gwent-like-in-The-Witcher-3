@@ -1,10 +1,10 @@
 <template>
     <div class="player_field">
-        <FrontRow @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow"
+        <Row @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow"
             :extraCage="frontRowExtraCage" @extraCageClick="extraCageClick" :rowType="'front'" :isHand="isHand" />
-        <FrontRow @click="midRowClick" @rowTotalCount="fieldTotalCount" :cards="midRow" :extraCage="midRowExtraCage"
+        <Row @click="midRowClick" @rowTotalCount="fieldTotalCount" :cards="midRow" :extraCage="midRowExtraCage"
             @extraCageClick="extraCageClick" :rowType="'mid'" :isHand="isHand" />
-        <FrontRow @click="backRowClick" @rowTotalCount="fieldTotalCount" :cards="backRow" :extraCage="backRowExtraCage"
+        <Row @click="backRowClick" @rowTotalCount="fieldTotalCount" :cards="backRow" :extraCage="backRowExtraCage"
             @extraCageClick="extraCageClick" :rowType="'back'" :isHand="isHand" />
         <div class="total_field_count">{{ total }}</div>
     </div>
@@ -12,9 +12,9 @@
 
 
 <script>
-import FrontRow from './FrontRow.vue';
+import Row from './Row.vue';
 export default {
-    components: { FrontRow },
+    components: { Row },
     props: {
         frontRow: {
             type: Array,

@@ -109,25 +109,26 @@ export default {
     width: 100%;
     position: relative;
 
-    &>div {
+    &>div:not(:last-child) {
         box-shadow: 0 -16px 30px 0px rgba(0, 0, 0, 0.6) inset;
-        // border-top: 1px solid rgba(0, 0, 0, 0.4);
         box-sizing: border-box;
     }
 }
 
 .field_total-count {
-    font-size: 26px;
+    font-size: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
+    background-color: #A07F33;
+    border-radius: 50%;
+    height: 34px;
+    width: 34px;
     top: 50%;
     transform: translateY(-50%);
-    left: -10px;
-    line-height: 0;
+    left: -16px;
     font-weight: 400;
-    background: none !important;
     color: black;
     text-shadow: 0 0 3px white;
 }
