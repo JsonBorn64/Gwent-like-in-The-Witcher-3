@@ -31,7 +31,11 @@ export default {
             this.$emit("cardClicked", clickedCardId);
         },
         getFieldRowWidth() {
-            this.wrapperWidth = this.$refs.wrapper.clientWidth;
+            try {
+                this.wrapperWidth = this.$refs.wrapper.clientWidth;
+            } catch (e) {
+                console.log(e);
+            }
             window.addEventListener("resize", this.getFieldRowWidth);
         },
     },

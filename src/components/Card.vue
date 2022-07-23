@@ -82,6 +82,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .card_wrapper {
     min-width: 90px;
     max-width: 90px;
@@ -133,7 +134,6 @@ export default {
     align-items: center;
     color: rgb(24, 24, 24);
     font-size: 15px;
-    font-weight: 600;
     top: 3.35px;
     left: 3.5px;
     width: 19px;

@@ -89,13 +89,14 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
 .main_wrapper {
     background-color: #3D200C;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: sans-serif;
+    font-family: 'Oswald', sans-serif;
     min-height: 100vh;
     background: url("src/assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
 }

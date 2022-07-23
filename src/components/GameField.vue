@@ -93,7 +93,7 @@ export default {
 
 .total_field_count {
     font-size: 30px;
-    font-weight: 900;
+    font-weight: 600;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,7 +101,7 @@ export default {
     width: 50px;
     height: 50px;
     color: black;
-    text-shadow: 0 0 4px white;
+    text-shadow: 0 0 3px white;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

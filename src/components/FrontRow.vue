@@ -3,7 +3,7 @@
         <div class="field_extra-cage" @click="extraCageClick">
             <Card :card="extraCage" :isHand="isHand" :cardsCount="cards.length" />
         </div>
-        <div class="field_row" ref="fieldRow">
+        <div class="field_row" ref="row">
             <CardsGroup :cards="cards" :isHand="isHand" />
         </div>
         <div class="field_total-count">{{ rowTotalCount }}</div>
@@ -90,6 +90,15 @@ export default {
         extraCageClick() {
             this.$emit("extraCageClick", this.rowType + "RowExtraCage");
         },
+        backgroundImg(rowType) {
+            const row = this.$refs.row
+            if (rowType == 'front') row.style.background = 'url("src/assets/текстуры/sword.svg") center no-repeat'
+            if (rowType == 'mid') row.style.background = 'url("src/assets/текстуры/bow.svg") center no-repeat'
+            if (rowType == 'back') row.style.background = 'url("src/assets/текстуры/balista.svg") center no-repeat'
+        },
+    },
+    mounted() {
+        this.backgroundImg(this.rowType)
     },
 }
 </script>
@@ -101,8 +110,9 @@ export default {
     position: relative;
 
     &>div {
-        // background-color: #290D02;
-        box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
+        box-shadow: 0 -16px 30px 0px rgba(0, 0, 0, 0.6) inset;
+        // border-top: 1px solid rgba(0, 0, 0, 0.4);
+        box-sizing: border-box;
     }
 }
 
@@ -116,27 +126,26 @@ export default {
     transform: translateY(-50%);
     left: -10px;
     line-height: 0;
-    font-weight: 600;
+    font-weight: 400;
     background: none !important;
     color: black;
-    text-shadow: 0 0 4px white;
+    text-shadow: 0 0 3px white;
 }
 
 .field_extra-cage {
     display: flex;
     justify-content: center;
     min-width: 125px;
-    box-sizing: border-box;
-    height: 120px;
     margin-right: 5px;
     text-align: center;
-    // background: url("src/assets/текстуры/extra_cage.bmp") center/cover no-repeat;
+    background: url("src/assets/текстуры/dudka.svg") center no-repeat;
+    background-size: 110px;
 }
 
 .field_row {
     width: 100%;
     height: 120px;
     overflow: hidden;
-    // background: url("src/assets/текстуры/row.bmp") center/cover no-repeat;
+    background-size: 110px !important;
 }
 </style>
