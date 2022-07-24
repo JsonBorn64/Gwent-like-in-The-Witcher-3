@@ -24,22 +24,19 @@
     "id": -2,
     "name": "казнь",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
-    "role": "special",
-    "execution": true
+    "role": "execution"
   },
   {
     "id": -1,
     "name": "казнь",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
-    "role": "special",
-    "execution": true
+    "role": "execution"
   },
   {
     "id": 0,
     "name": "казнь",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
-    "role": "special",
-    "execution": true
+    "role": "execution"
   },
   {
     "id": 1,

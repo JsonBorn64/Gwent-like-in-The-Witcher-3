@@ -3,8 +3,8 @@
 
         <GameField @frontRowClick="rowClick('front')" @midRowClick="rowClick('mid')" @backRowClick="rowClick('back')"
             :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage" :midRow="midRow"
-            :midRowExtraCage="midRowExtraCage" :backRow="backRow" :backRowExtraCage="backRowExtraCage" @extraCageClick="extraCageClick" 
-            :isHand="false" />
+            :midRowExtraCage="midRowExtraCage" :backRow="backRow" :backRowExtraCage="backRowExtraCage"
+            @extraCageClick="extraCageClick" :isHand="false" />
         <div class="hand">
             <CardsGroup :cards="hand" :isHand="true" @cardClicked="activateCard" />
         </div>
@@ -32,29 +32,41 @@ export default {
     methods: {
         activateCard(cardClickedId) {
             this.unactiveAllCards()
-            this.hand.find(item => item.id === cardClickedId).active = true;
+            this.hand.find(card => card.id === cardClickedId).active = true;
             this.activeCard = cardClickedId;
         },
         unactiveAllCards() {
-            this.hand.forEach(item => {
-                item.active = false;
+            this.hand.forEach(card => {
+                card.active = false;
             });
             this.activeCard = null;
         },
         rowClick(rowType) {
-            const activeCard = this.hand.find(item => item.active === true);
+            const activeCard = this.hand.find(card => card.active === true);
             if (activeCard && activeCard.role === rowType) {
-                this.hand.find(item => item.id === activeCard.id).active = false;
-                this.hand = this.hand.filter(item => activeCard.id !== item.id);
+                this.hand.find(card => card.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(card => activeCard.id !== card.id);
                 this[`${rowType}Row`].push(activeCard);
                 this[`${rowType}Row`].sort((a, b) => a.id - b.id);
             }
+            if (activeCard && activeCard.role == 'execution') {
+                const allCards = this.frontRow.concat(this.midRow, this.backRow);
+                const maxValue = Math.max(...allCards.map(card => {
+                    if (!card.hero) {return card.computedValue} else {return -Infinity}
+                }));
+                console.log(maxValue);
+                const rowTypes = ['front', 'mid', 'back'].forEach(type => {
+                    this[`${type}Row`] = this[`${type}Row`].filter(card => card.computedValue !== maxValue);                
+                });
+                this.hand.find(card => card.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(card => activeCard.id !== card.id);
+            }
         },
         extraCageClick(cageType) {
-            let activeCard = this.hand.find(item => item.active === true);
+            let activeCard = this.hand.find(card => card.active === true);
             if (activeCard && activeCard.role === "extra" && !this[cageType].id) {
-                this.hand.find(item => item.id === activeCard.id).active = false;
-                this.hand = this.hand.filter(item => activeCard.id !== item.id);
+                this.hand.find(card => card.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(card => activeCard.id !== card.id);
                 this[cageType] = activeCard
             }
         },
@@ -63,7 +75,7 @@ export default {
         fetch("src/assets/колоды json/королевства_севера.json")
             .then(res => res.json())
             .then(data => {
-                let cards = data.sort((a, b) => 0.5 - Math.random());
+                let cards = data.sort(() => 0.5 - Math.random());
                 this.hand = cards.slice(0, 12).sort((a, b) => a.id - b.id);
             });
     },
@@ -73,6 +85,7 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
+
 .main_wrapper {
     background-color: #3D200C;
     display: flex;
