@@ -131,6 +131,7 @@ export default {
     font-weight: 400;
     color: black;
     text-shadow: 0 0 3px white;
+    box-shadow: 0 0 10px black;
 }
 
 .field_extra-cage {

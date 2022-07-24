@@ -56,15 +56,9 @@ export default {
         };
     },
     methods: {
-        frontRowClick() {
-            this.$emit("frontRowClick");
-        },
-        midRowClick() {
-            this.$emit("midRowClick");
-        },
-        backRowClick() {
-            this.$emit("backRowClick");
-        },
+        frontRowClick() {this.$emit("frontRowClick")},
+        midRowClick() {this.$emit("midRowClick")},
+        backRowClick() {this.$emit("backRowClick")},
         fieldTotalCount(total, rowType) {
             this.fieldsTotals[rowType] = total;
             this.total = this.fieldsTotals.front + this.fieldsTotals.mid + this.fieldsTotals.back;

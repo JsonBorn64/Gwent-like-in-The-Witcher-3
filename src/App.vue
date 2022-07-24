@@ -1,7 +1,7 @@
 <template>
     <div @click="unactiveAllCards" class="main_wrapper">
 
-        <GameField @frontRowClick="frontRowClick" @midRowClick="midRowClick" @backRowClick="backRowClick"
+        <GameField @frontRowClick="rowClick('front')" @midRowClick="rowClick('mid')" @backRowClick="rowClick('back')"
             :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage" :midRow="midRow"
             :midRowExtraCage="midRowExtraCage" :backRow="backRow" :backRowExtraCage="backRowExtraCage" @extraCageClick="extraCageClick" 
             :isHand="false" />
@@ -41,32 +41,14 @@ export default {
             });
             this.activeCard = null;
         },
-        frontRowClick() {
-            let activeCard = this.hand.find(item => item.active === true);
-            if (activeCard && activeCard.role === "front") {
+        rowClick(rowType) {
+            const activeCard = this.hand.find(item => item.active === true);
+            if (activeCard && activeCard.role === rowType) {
                 this.hand.find(item => item.id === activeCard.id).active = false;
                 this.hand = this.hand.filter(item => activeCard.id !== item.id);
-                this.frontRow.push(activeCard);
+                this[`${rowType}Row`].push(activeCard);
+                this[`${rowType}Row`].sort((a, b) => a.id - b.id);
             }
-            this.frontRow.sort((a, b) => a.id - b.id);
-        },
-        midRowClick() {
-            let activeCard = this.hand.find(item => item.active === true);
-            if (activeCard && activeCard.role === "mid") {
-                this.hand.find(item => item.id === activeCard.id).active = false;
-                this.hand = this.hand.filter(item => activeCard.id !== item.id);
-                this.midRow.push(activeCard);
-            }
-            this.midRow.sort((a, b) => a.id - b.id);
-        },
-        backRowClick() {
-            let activeCard = this.hand.find(item => item.active === true);
-            if (activeCard && activeCard.role === "back") {
-                this.hand.find(item => item.id === activeCard.id).active = false;
-                this.hand = this.hand.filter(item => activeCard.id !== item.id);
-                this.backRow.push(activeCard);
-            }
-            this.backRow.sort((a, b) => a.id - b.id);
         },
         extraCageClick(cageType) {
             let activeCard = this.hand.find(item => item.active === true);
