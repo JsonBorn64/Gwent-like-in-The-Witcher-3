@@ -1,10 +1,10 @@
 <template>
     <div class="row_wrapper">
         <div class="field_extra-cage" @click="extraCageClick">
-            <Card :card="extraCage" :isHand="isHand" :cardsCount="cards.length" />
+            <Card :card="extraCage" :isHand="isHand" :isCage="true" :cardsCount="cards.length" />
         </div>
         <div class="field_row" ref="row">
-            <CardsGroup :cards="cards" :isHand="isHand" />
+            <CardsGroup @cardClicked="getClickedCardId" :cards="cards" :scarecrowActive="scarecrowActive" :isHand="isHand" />
         </div>
         <div class="field_total-count">{{ rowTotalCount }}</div>
     </div>
@@ -32,6 +32,10 @@ export default {
             type: String,
             required: true,
         },
+        scarecrowActive: {
+            type: Boolean,
+            default: false,
+        },
     },
     computed: {
         rowTotalCount() {
@@ -46,9 +50,6 @@ export default {
         },
     },
     methods: {
-        getFieldRowWidth() {
-            this.fieldRowWidth = this.refs.fieldRow.style.clientWidth;
-        },
         updateCardComputedValue() {
             // reset computedValue
             this.cards.forEach(card => {
@@ -95,6 +96,9 @@ export default {
             if (rowType == 'front') row.style.background = 'url("src/assets/текстуры/sword.svg") center no-repeat'
             if (rowType == 'mid') row.style.background = 'url("src/assets/текстуры/bow.svg") center no-repeat'
             if (rowType == 'back') row.style.background = 'url("src/assets/текстуры/balista.svg") center no-repeat'
+        },
+        getClickedCardId(cardId) {
+            this.$emit("cardClicked", cardId, this.rowType);
         },
     },
     mounted() {
@@ -147,7 +151,6 @@ export default {
 .field_row {
     width: 100%;
     height: 120px;
-    overflow: hidden;
     background-size: 110px !important;
 }
 </style>

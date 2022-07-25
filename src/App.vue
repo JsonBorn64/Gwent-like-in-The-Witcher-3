@@ -2,9 +2,9 @@
     <div @click="unactiveAllCards" class="main_wrapper">
 
         <GameField @frontRowClick="rowClick('front')" @midRowClick="rowClick('mid')" @backRowClick="rowClick('back')"
-            :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage" :midRow="midRow"
-            :midRowExtraCage="midRowExtraCage" :backRow="backRow" :backRowExtraCage="backRowExtraCage"
-            @extraCageClick="extraCageClick" :isHand="false" />
+            @cardRowClicked="cardRowClicked" :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage"
+            :midRow="midRow" :midRowExtraCage="midRowExtraCage" :backRow="backRow" :backRowExtraCage="backRowExtraCage"
+            :scarecrowActive="scarecrowActive" @extraCageClick="extraCageClick" :isHand="false" />
         <div class="hand">
             <CardsGroup :cards="hand" :isHand="true" @cardClicked="activateCard" />
         </div>
@@ -27,19 +27,33 @@ export default {
             backRow: [],
             backRowExtraCage: {},
             hand: [],
+            scarecrowActive: false,
         };
     },
     methods: {
         activateCard(cardClickedId) {
             this.unactiveAllCards()
             this.hand.find(card => card.id === cardClickedId).active = true;
-            this.activeCard = cardClickedId;
+            if (cardClickedId == -15 || cardClickedId == -16 || cardClickedId == -17) {
+                this.scarecrowActive = true;
+            }
+        },
+        cardRowClicked(cardId, rowType) {
+            const activeCard = this.hand.find(card => card.active === true);
+            const getBackCard = this[`${rowType}Row`].find(card => card.id === cardId);
+            this.hand.find(card => card.id === activeCard.id).active = false;
+            this.hand = this.hand.filter(card => activeCard.id !== card.id);
+            this.hand.push(getBackCard)
+            this[`${rowType}Row`] = this[`${rowType}Row`].filter(card => cardId !== card.id);
+            this[`${rowType}Row`].unshift(activeCard)
+            this.scarecrowActive = false;
         },
         unactiveAllCards() {
             this.hand.forEach(card => {
                 card.active = false;
             });
             this.activeCard = null;
+            this.scarecrowActive = false;
         },
         rowClick(rowType) {
             const activeCard = this.hand.find(card => card.active === true);
@@ -52,19 +66,36 @@ export default {
             if (activeCard && activeCard.role == 'execution') {
                 const allCards = this.frontRow.concat(this.midRow, this.backRow);
                 const maxValue = Math.max(...allCards.map(card => {
-                    if (!card.hero) {return card.computedValue} else {return -Infinity}
+                    if (!card.hero) { return card.computedValue } else { return -Infinity }
                 }));
-                console.log(maxValue);
-                const rowTypes = ['front', 'mid', 'back'].forEach(type => {
-                    this[`${type}Row`] = this[`${type}Row`].filter(card => card.computedValue !== maxValue);                
+                const rowTypes = ['front', 'mid', 'back']
+                rowTypes.forEach(type => {
+                    this[`${type}Row`] = this[`${type}Row`].filter(card => {
+                        if (!card.hero) { return card.computedValue !== maxValue} else { return true }
+                    });
                 });
                 this.hand.find(card => card.id === activeCard.id).active = false;
                 this.hand = this.hand.filter(card => activeCard.id !== card.id);
             }
         },
         extraCageClick(cageType) {
-            let activeCard = this.hand.find(card => card.active === true);
-            if (activeCard && activeCard.role === "extra" && !this[cageType].id) {
+            const activeCard = this.hand.find(card => card.active === true);
+            if (activeCard && activeCard.troubadour && !this[cageType].id) {
+                this.hand.find(card => card.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(card => activeCard.id !== card.id);
+                this[cageType] = activeCard
+            }
+            if (activeCard && activeCard.frost && cageType == 'frontRowExtraCage' && !this[cageType].id) {
+                this.hand.find(card => card.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(card => activeCard.id !== card.id);
+                this[cageType] = activeCard
+            }
+            if (activeCard && activeCard.haze && cageType == 'midRowExtraCage' && !this[cageType].id) {
+                this.hand.find(card => card.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(card => activeCard.id !== card.id);
+                this[cageType] = activeCard
+            }
+            if (activeCard && activeCard.rain && cageType == 'backRowExtraCage' && !this[cageType].id) {
                 this.hand.find(card => card.id === activeCard.id).active = false;
                 this.hand = this.hand.filter(card => activeCard.id !== card.id);
                 this[cageType] = activeCard

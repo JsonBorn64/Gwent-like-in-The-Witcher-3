@@ -2,7 +2,7 @@
     <div class="wrapper" ref="wrapper">
         <TransitionGroup name="cards">
             <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cards.length"
-                :wrapperWidth="wrapperWidth" @cardClicked="getClickedCardId" />
+                :wrapperWidth="wrapperWidth" :scarecrowActive="scarecrowActive" @cardClicked="getClickedCardId" />
         </TransitionGroup>
     </div>
 </template>
@@ -19,6 +19,10 @@ export default {
         isHand: {
             type: Boolean,
             required: false,
+        },
+        scarecrowActive: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {

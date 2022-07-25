@@ -1,11 +1,11 @@
 <template>
     <div class="player_field">
-        <Row @click="frontRowClick" @rowTotalCount="fieldTotalCount" :cards="frontRow"
-            :extraCage="frontRowExtraCage" @extraCageClick="extraCageClick" :rowType="'front'" :isHand="isHand" />
-        <Row @click="midRowClick" @rowTotalCount="fieldTotalCount" :cards="midRow" :extraCage="midRowExtraCage"
-            @extraCageClick="extraCageClick" :rowType="'mid'" :isHand="isHand" />
-        <Row @click="backRowClick" @rowTotalCount="fieldTotalCount" :cards="backRow" :extraCage="backRowExtraCage"
-            @extraCageClick="extraCageClick" :rowType="'back'" :isHand="isHand" />
+        <Row @click="frontRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="frontRow"
+            :extraCage="frontRowExtraCage" @extraCageClick="extraCageClick" :rowType="'front'" :scarecrowActive="scarecrowActive" :isHand="isHand" />
+        <Row @click="midRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="midRow" :extraCage="midRowExtraCage"
+            @extraCageClick="extraCageClick" :rowType="'mid'" :scarecrowActive="scarecrowActive" :isHand="isHand" />
+        <Row @click="backRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="backRow" :extraCage="backRowExtraCage"
+            @extraCageClick="extraCageClick" :rowType="'back'" :scarecrowActive="scarecrowActive" :isHand="isHand" />
         <div class="total_field_count">{{ total }}</div>
     </div>
 </template>
@@ -44,6 +44,10 @@ export default {
             type: Boolean,
             required: true,
         },
+        scarecrowActive: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -66,6 +70,9 @@ export default {
         extraCageClick(rowType) {
             this.$emit("extraCageClick", rowType);
         },
+        cardRowClicked(cardId, rowType) {
+            this.$emit("cardRowClicked", cardId, rowType);
+        }
     },
 }
 </script>

@@ -20,9 +20,17 @@ export default {
             type: Boolean,
             required: true,
         },
+        isCage: {
+            type: Boolean,
+            required: false,
+        },
         wrapperWidth: {
             type: Number,
             required: false,
+        },
+        scarecrowActive: {
+            type: Boolean,
+            default: false,
         },
     },
     methods: {
@@ -49,12 +57,16 @@ export default {
             }
         },
         actionsDependsIsHand() {
+            this.calcLeftMargin(this.wrapperWidth);
             if (this.isHand) {
                 this.$refs.card.style.pointerEvents = 'auto';
-                this.calcLeftMargin(this.wrapperWidth);
-            } else {
+            } else if (this.isCage) {
                 this.$refs.card.style.pointerEvents = 'none';
-                this.calcLeftMargin(this.wrapperWidth);
+            } else if (!this.isHand && !this.scarecrowActive) {
+                this.$refs.card.style.pointerEvents = 'none';
+                this.compValColor();
+            } else if (!this.isHand && this.scarecrowActive && !this.card.hero) {
+                this.$refs.card.style.pointerEvents = 'auto';
                 this.compValColor();
             }
         },
@@ -93,7 +105,7 @@ export default {
     bottom: 0px;
     position: relative;
     cursor: pointer;
-    box-shadow: 0 0 20px -8px black;
+    // box-shadow: 0 0 20px -8px black;
     transform: translateY(0px);
     z-index: 0;
 
