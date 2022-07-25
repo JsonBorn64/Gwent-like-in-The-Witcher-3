@@ -2,7 +2,7 @@
     <div @click="unactiveAllCards" class="main_wrapper">
 
         <GameField @frontRowClick="rowClick('front')" @midRowClick="rowClick('mid')" @backRowClick="rowClick('back')"
-            @cardRowClicked="cardRowClicked" :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage"
+            @cardRowClicked="cardInRowClicked" :frontRow="frontRow" :frontRowExtraCage="frontRowExtraCage"
             :midRow="midRow" :midRowExtraCage="midRowExtraCage" :backRow="backRow" :backRowExtraCage="backRowExtraCage"
             :scarecrowActive="scarecrowActive" @extraCageClick="extraCageClick" :isHand="false" />
         <div class="hand">
@@ -38,11 +38,12 @@ export default {
                 this.scarecrowActive = true;
             }
         },
-        cardRowClicked(cardId, rowType) {
+        cardInRowClicked(cardId, rowType) {
             const activeCard = this.hand.find(card => card.active === true);
             const getBackCard = this[`${rowType}Row`].find(card => card.id === cardId);
             this.hand.find(card => card.id === activeCard.id).active = false;
             this.hand = this.hand.filter(card => activeCard.id !== card.id);
+            getBackCard.computedValue = getBackCard.defaultValue;
             this.hand.push(getBackCard)
             this[`${rowType}Row`] = this[`${rowType}Row`].filter(card => cardId !== card.id);
             this[`${rowType}Row`].unshift(activeCard)
@@ -77,6 +78,14 @@ export default {
                 this.hand.find(card => card.id === activeCard.id).active = false;
                 this.hand = this.hand.filter(card => activeCard.id !== card.id);
             }
+            if (activeCard && activeCard.role == 'clear') {
+                const extraCages = ['frontRowExtraCage', 'midRowExtraCage', 'backRowExtraCage'];
+                extraCages.forEach(cage => {
+                    if (!this[cage].troubadour) this[cage] = {}
+                });
+                this.hand.find(card => card.id === activeCard.id).active = false;
+                this.hand = this.hand.filter(card => activeCard.id !== card.id);
+            }
         },
         extraCageClick(cageType) {
             const activeCard = this.hand.find(card => card.active === true);
@@ -107,7 +116,7 @@ export default {
             .then(res => res.json())
             .then(data => {
                 let cards = data.sort(() => 0.5 - Math.random());
-                this.hand = cards.slice(0, 12).sort((a, b) => a.id - b.id);
+                this.hand = cards.slice(0, 18).sort((a, b) => a.id - b.id);
             });
     },
 }

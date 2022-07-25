@@ -40,7 +40,7 @@ export default {
     computed: {
         rowTotalCount() {
             this.updateCardComputedValue();
-            this.extraCageInflunce();
+            this.extraCageRoyalHornInflunce();
             let totalResult = 0;
             this.cards.forEach(card => {
                 totalResult += card.computedValue;
@@ -55,11 +55,17 @@ export default {
             this.cards.forEach(card => {
                 card.computedValue = card.defaultValue;
             });
+            // Weather influence
+            this.extraCageWeatherInflunce()
             // Handshakes bonus
             this.cards.forEach(card => {
                 for (let i = 0; i < this.cards.length; i++) {
                     if (this.cards[i].id !== card.id && this.cards[i].name === card.name && this.cards[i].handshake) {
-                        this.cards[i].computedValue += this.cards[i].defaultValue;
+                        if (this.extraCage.role == 'weather') {
+                            this.cards[i].computedValue += 1;
+                        } else {
+                            this.cards[i].computedValue += this.cards[i].defaultValue;
+                        }
                     }
                 }
             });
@@ -81,10 +87,17 @@ export default {
                 }
             });
         },
-        extraCageInflunce() {
+        extraCageRoyalHornInflunce() {
             if (this.extraCage.troubadour) {
                 this.cards.forEach(card => {
                     if (!card.doubled && !card.hero) card.computedValue *= 2;
+                });
+            }
+        },
+        extraCageWeatherInflunce() {
+            if (this.extraCage.frost || this.extraCage.haze || this.extraCage.rain) {
+                this.cards.forEach(card => {
+                    if (!card.hero) card.computedValue = 1;
                 });
             }
         },

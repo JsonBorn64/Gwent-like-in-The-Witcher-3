@@ -48,63 +48,63 @@
     "id": -14,
     "name": "мороз",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
-    "role": "extra",
+    "role": "weather",
     "frost": true
   },
   {
     "id": -13,
     "name": "мороз",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
-    "role": "extra",
+    "role": "weather",
     "frost": true
   },
   {
     "id": -12,
     "name": "мороз",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
-    "role": "extra",
+    "role": "weather",
     "frost": true
   },
   {
     "id": -11,
     "name": "мгла",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
-    "role": "extra",
+    "role": "weather",
     "haze": true
   },
   {
     "id": -10,
     "name": "мгла",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
-    "role": "extra",
+    "role": "weather",
     "haze": true
   },
   {
     "id": -9,
     "name": "мгла",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
-    "role": "extra",
+    "role": "weather",
     "haze": true
   },
   {
     "id": -8,
     "name": "ливень",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
-    "role": "extra",
+    "role": "weather",
     "rain": true
   },
   {
     "id": -7,
     "name": "ливень",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
-    "role": "extra",
+    "role": "weather",
     "rain": true
   },
   {
     "id": -6,
     "name": "ливень",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
-    "role": "extra",
+    "role": "weather",
     "rain": true
   },
   {
