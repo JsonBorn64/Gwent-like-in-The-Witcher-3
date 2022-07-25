@@ -117,6 +117,13 @@ export default {
     mounted() {
         this.backgroundImg(this.rowType)
     },
+    updated() {
+        if (this.scarecrowActive) {
+            this.$refs.row.style.overflow = 'visible';
+        } else {
+            this.$refs.row.style.overflow = 'hidden';
+        }
+    }
 }
 </script>
 
@@ -165,5 +172,6 @@ export default {
     width: 100%;
     height: 120px;
     background-size: 110px !important;
+    overflow: hidden;
 }
 </style>

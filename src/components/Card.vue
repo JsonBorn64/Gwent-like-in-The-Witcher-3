@@ -105,7 +105,7 @@ export default {
     bottom: 0px;
     position: relative;
     cursor: pointer;
-    // box-shadow: 0 0 20px -8px black;
+    box-shadow: 0 0 20px -8px black;
     transform: translateY(0px);
     z-index: 0;
 
