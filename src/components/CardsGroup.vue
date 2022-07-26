@@ -1,48 +1,57 @@
 <template>
     <div class="wrapper" ref="wrapper">
         <TransitionGroup name="cards">
-            <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cards.length"
-                :wrapperWidth="wrapperWidth" :activeCard="activeCard" @cardClicked="getClickedCard" />
+            <single-card
+                v-for="card in cards"
+                :key="card.id"
+                :card="card"
+                :is-hand="isHand"
+                :cards-count="cards.length"
+                :wrapper-width="wrapperWidth"
+                :active-card="activeCard"
+                @cardClicked="getClickedCard"
+            />
         </TransitionGroup>
     </div>
 </template>
 
 <script>
-import Card from "./Card.vue";
+import SingleCard from './SingleCard.vue';
+
 export default {
-    components: { Card },
-    props: {
-        cards: {
-            type: Array,
-            required: true,
-        },
-        isHand: {
-            type: Boolean,
-            required: false,
-        },
-        activeCard: {
-            type: Object,
-            default: null,
-        },
+  components: { SingleCard },
+  props: {
+    cards: {
+      type: Array,
+      required: true
     },
-    data() {
-        return {
-            wrapperWidth: 810,
-        };
+    isHand: {
+      type: Boolean,
+      required: false
     },
-    methods: {
-        getClickedCard(clickedCard) {
-            this.$emit("cardClicked", clickedCard);
-        },
-        getFieldRowWidth() {
-            this.wrapperWidth = this.$refs.wrapper.clientWidth;
-        },
+    activeCard: {
+      type: Object,
+      default: null
+    }
+  },
+  data() {
+    return {
+      wrapperWidth: 810
+    };
+  },
+  mounted() {
+    this.getFieldRowWidth();
+    window.addEventListener('resize', this.getFieldRowWidth);
+  },
+  methods: {
+    getClickedCard(clickedCard) {
+      this.$emit('cardClicked', clickedCard);
     },
-    mounted() {
-        this.getFieldRowWidth();
-        window.addEventListener("resize", this.getFieldRowWidth);
-    },
-}
+    getFieldRowWidth() {
+      this.wrapperWidth = this.$refs.wrapper.clientWidth;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
