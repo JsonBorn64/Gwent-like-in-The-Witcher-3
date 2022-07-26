@@ -2,7 +2,7 @@
     <div class="wrapper" ref="wrapper">
         <TransitionGroup name="cards">
             <Card v-for="card in cards" :key="card.id" :card="card" :isHand="isHand" :cardsCount="cards.length"
-                :wrapperWidth="wrapperWidth" :scarecrowActive="scarecrowActive" @cardClicked="getClickedCardId" />
+                :wrapperWidth="wrapperWidth" :activeCard="activeCard" @cardClicked="getClickedCard" />
         </TransitionGroup>
     </div>
 </template>
@@ -20,31 +20,27 @@ export default {
             type: Boolean,
             required: false,
         },
-        scarecrowActive: {
-            type: Boolean,
-            default: false,
+        activeCard: {
+            type: Object,
+            default: null,
         },
     },
     data() {
         return {
-            wrapperWidth: 900,
+            wrapperWidth: 810,
         };
     },
     methods: {
-        getClickedCardId(clickedCardId) {
-            this.$emit("cardClicked", clickedCardId);
+        getClickedCard(clickedCard) {
+            this.$emit("cardClicked", clickedCard);
         },
         getFieldRowWidth() {
-            try {
-                this.wrapperWidth = this.$refs.wrapper.clientWidth;
-            } catch (e) {
-                console.log(e);
-            }
-            window.addEventListener("resize", this.getFieldRowWidth);
+            this.wrapperWidth = this.$refs.wrapper.clientWidth;
         },
     },
     mounted() {
         this.getFieldRowWidth();
+        window.addEventListener("resize", this.getFieldRowWidth);
     },
 }
 </script>

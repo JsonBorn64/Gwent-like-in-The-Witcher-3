@@ -1,11 +1,14 @@
 <template>
     <div class="player_field">
         <Row @click="frontRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="frontRow"
-            :extraCage="frontRowExtraCage" @extraCageClick="extraCageClick" :rowType="'front'" :scarecrowActive="scarecrowActive" :isHand="isHand" />
-        <Row @click="midRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="midRow" :extraCage="midRowExtraCage"
-            @extraCageClick="extraCageClick" :rowType="'mid'" :scarecrowActive="scarecrowActive" :isHand="isHand" />
-        <Row @click="backRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="backRow" :extraCage="backRowExtraCage"
-            @extraCageClick="extraCageClick" :rowType="'back'" :scarecrowActive="scarecrowActive" :isHand="isHand" />
+            :extraCage="frontRowExtraCage" @extraCageClick="extraCageClick" :rowType="'front'" :activeCard="activeCard"
+            :isHand="isHand" />
+        <Row @click="midRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="midRow"
+            :extraCage="midRowExtraCage" @extraCageClick="extraCageClick" :rowType="'mid'" :activeCard="activeCard"
+            :isHand="isHand" />
+        <Row @click="backRowClick" @rowTotalCount="fieldTotalCount" @cardClicked="cardRowClicked" :cards="backRow"
+            :extraCage="backRowExtraCage" @extraCageClick="extraCageClick" :rowType="'back'" :activeCard="activeCard"
+            :isHand="isHand" />
         <div class="total_field_count">{{ total }}</div>
     </div>
 </template>
@@ -44,9 +47,9 @@ export default {
             type: Boolean,
             required: true,
         },
-        scarecrowActive: {
-            type: Boolean,
-            default: false,
+        activeCard: {
+            type: Object,
+            default: null,
         },
     },
     data() {
@@ -60,9 +63,9 @@ export default {
         };
     },
     methods: {
-        frontRowClick() {this.$emit("frontRowClick")},
-        midRowClick() {this.$emit("midRowClick")},
-        backRowClick() {this.$emit("backRowClick")},
+        frontRowClick() { this.$emit("frontRowClick") },
+        midRowClick() { this.$emit("midRowClick") },
+        backRowClick() { this.$emit("backRowClick") },
         fieldTotalCount(total, rowType) {
             this.fieldsTotals[rowType] = total;
             this.total = this.fieldsTotals.front + this.fieldsTotals.mid + this.fieldsTotals.back;
@@ -70,10 +73,16 @@ export default {
         extraCageClick(rowType) {
             this.$emit("extraCageClick", rowType);
         },
-        cardRowClicked(cardId, rowType) {
-            this.$emit("cardRowClicked", cardId, rowType);
+        cardRowClicked(card, rowType) {
+            this.$emit("cardRowClicked", card, rowType);
         }
     },
+    // mounted() {
+    //     setInterval(() => {
+    //         console.clear();
+    //         console.log(this.activeCard);
+    //     }, 500);
+    // }
 }
 </script>
 

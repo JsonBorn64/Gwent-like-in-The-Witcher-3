@@ -1,6 +1,6 @@
 <template>
     <div class="card_wrapper" :class="{ active: card.active }" ref="card">
-        <img @click.stop="getClickedCardId" :src="`${card.src}`" :alt="`${card.name}`" class="card" />
+        <img @click.stop="getClickedCard" :src="`${card.src}`" :alt="`${card.name}`" class="card" />
         <div class="computed_value" ref="compVal">{{ card.computedValue }}</div>
     </div>
 </template>
@@ -28,20 +28,20 @@ export default {
             type: Number,
             required: false,
         },
-        scarecrowActive: {
-            type: Boolean,
-            default: false,
+        activeCard: {
+            type: Object,
+            default: null,
         },
     },
     methods: {
-        getClickedCardId() {
-            this.$emit("cardClicked", this.card.id);
+        getClickedCard() {
+            this.$emit("cardClicked", this.card);
         },
         calcLeftMargin(wrapperWidth) {
             const cardWidth = this.$refs.card.clientWidth;
             const startIndex = Math.floor(wrapperWidth / cardWidth);
             let marginLeft = (((this.cardsCount * cardWidth) - wrapperWidth) / (this.cardsCount - 1)) + 2;
-            if (this.cardsCount > startIndex) {
+            if (this.cardsCount >= startIndex) {
                 this.$refs.card.style.marginLeft = `-${marginLeft}px`;
             } else {
                 this.$refs.card.style.marginLeft = '0px';
@@ -58,14 +58,15 @@ export default {
         },
         actionsDependsIsHand() {
             this.calcLeftMargin(this.wrapperWidth);
+            let scarecrow = this.activeCard?.role == 'scarecrow' ? true : false;
             if (this.isHand) {
                 this.$refs.card.style.pointerEvents = 'auto';
             } else if (this.isCage) {
                 this.$refs.card.style.pointerEvents = 'none';
-            } else if (!this.isHand && !this.scarecrowActive) {
+            } else if (!this.isHand && !scarecrow) {
                 this.$refs.card.style.pointerEvents = 'none';
                 this.compValColor();
-            } else if (!this.isHand && this.scarecrowActive && !this.card.hero) {
+            } else if (!this.isHand && scarecrow && !this.card.hero) {
                 this.$refs.card.style.pointerEvents = 'auto';
                 this.compValColor();
             }
@@ -103,6 +104,7 @@ export default {
     border-radius: 8px;
     transition: 300ms;
     bottom: 0px;
+    // right: 0px;
     position: relative;
     cursor: pointer;
     box-shadow: 0 0 20px -8px black;
@@ -111,14 +113,14 @@ export default {
 
     &:hover {
         transform: translateY(-20px);
-        z-index: 1;
+        // z-index: 1;
     }
 }
 
 .active {
     bottom: 400px;
     height: 169px;
-    right: -200px;
+    // right: -200px;
     transform: scale(2.4);
     border-radius: 7px;
     z-index: 1;
