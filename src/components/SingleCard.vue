@@ -1,14 +1,13 @@
 <template>
-    <div class="card_wrapper" :class="{ active: card.active }" ref="card">
+    <div class="card_wrapper" :class="{ active: card?.active }" ref="card">
         <img
-            @click.stop="getClickedCard"
-            @keydown="lintBackOff"
-            :src="`${card.src}`"
-            :alt="`${card.name}`"
             class="card"
+            :src="`${card?.src}`"
+            :alt="`${card?.name}`"
+            @click.stop="getClickedCard"
         >
-        <div class="computed_value" ref="compVal">
-            {{ card.computedValue }}
+        <div class="computed_value" v-show="card?.defaultValue && !card?.hero" ref="compVal">
+            {{ card?.computedValue }}
         </div>
     </div>
 </template>
@@ -18,7 +17,7 @@ export default {
   props: {
     card: {
       type: Object,
-      required: true
+      default: null
     },
     cardsCount: {
       type: Number,
@@ -43,22 +42,9 @@ export default {
   },
   updated() {
     this.actionsDependsIsHand();
-    if (Object.keys(this.card).length === 0) {
-      this.$refs.card.style.display = 'none';
-    } else {
-      this.$refs.card.style.display = 'block';
-    }
   },
   mounted() {
     this.actionsDependsIsHand();
-    if (!this.card.defaultValue || this.card.hero) {
-      this.$refs.compVal.style.display = 'none';
-    }
-    if (Object.keys(this.card).length === 0) {
-      this.$refs.card.style.display = 'none';
-    } else {
-      this.$refs.card.style.display = 'block';
-    }
   },
   methods: {
     getClickedCard() {
@@ -105,62 +91,63 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .card_wrapper {
-    min-width: 90px;
-    max-width: 90px;
-    height: 120px;
-    overflow: hidden;
-    border-radius: 8px;
-    transition: 300ms;
-    bottom: 0px;
-    // right: 0px;
-    position: relative;
-    cursor: pointer;
-    box-shadow: 0 0 20px -8px black;
-    transform: translateY(0px);
-    z-index: 0;
+  min-width: 90px;
+  max-width: 90px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: bottom 300ms, height 300ms, right 300ms, transform 300ms;
+  transition-delay: 0s, 0s, 300ms, 0s;
+  bottom: 0px;
+  right: 0px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 0 20px -8px black;
+  transform: translateY(0px);
+  z-index: 0;
 
-    &:hover {
-        transform: translateY(-20px);
-        // z-index: 1;
-    }
+  &:hover {
+    transform: translateY(-20px);
+    // z-index: 1;
+  }
 }
 
 .active {
-    bottom: 400px;
-    height: 169px;
-    // right: -200px;
-    transform: scale(2.4);
-    border-radius: 7px;
-    z-index: 1;
-    cursor: default;
+  bottom: 400px;
+  height: 169px;
+  right: -400px;
+  transform: scale(2.4);
+  border-radius: 7px;
+  z-index: 1;
+  cursor: default;
 
-    &:hover {
-        transform: translateY(0px) scale(2.4);
-    }
+  &:hover {
+    transform: translateY(0px) scale(2.4);
+  }
 }
 
 .card_wrapper:first-child {
-    margin-left: 0px !important;
+  margin-left: 0px !important;
 }
 
 .card {
-    width: 100%;
+  width: 100%;
 }
 
 .computed_value {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(194, 200, 203, 1) 100%);
-    position: absolute;
-    display: flex;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    color: rgb(24, 24, 24);
-    font-size: 15px;
-    top: 3.35px;
-    left: 3.5px;
-    width: 19px;
-    height: 19px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(194, 200, 203, 1) 100%);
+  position: absolute;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  color: rgb(24, 24, 24);
+  font-size: 15px;
+  top: 3.35px;
+  left: 3.5px;
+  width: 19px;
+  height: 19px;
 }
+
 </style>

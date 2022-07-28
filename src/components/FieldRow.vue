@@ -1,18 +1,16 @@
 <template>
     <div class="row_wrapper">
-        <div
-            class="field_extra-cage"
-            @click="extraCageClick"
-            @keydown="lintBackOff"
-            ref="cage"
-        >
-            <single-card
-                :card="extraCage"
-                :is-hand="isHand"
-                :is-cage="true"
-                :cards-count="cards.length"
-                :active-card="activeCard"
-            />
+        <div class="field_extra-cage" @click="extraCageClick" ref="cage">
+            <transition name="fade">
+                <single-card
+                    v-if="extraCage?.id"
+                    :card="extraCage"
+                    :is-hand="isHand"
+                    :is-cage="true"
+                    :cards-count="cards.length"
+                    :active-card="activeCard"
+                />
+            </transition>
         </div>
         <div class="field_row" ref="row">
             <cards-group
@@ -62,7 +60,7 @@ export default {
       this.extraCageRoyalHornInflunce();
       let totalResult = 0;
       this.cards.forEach(card => {
-        totalResult += card.computedValue;
+        if (card.computedValue) totalResult += card.computedValue;
       });
       this.$emit('rowTotalCount', totalResult, this.rowType);
       return totalResult;
@@ -86,7 +84,7 @@ export default {
     updateCardComputedValue() {
       // reset computedValue
       this.cards.forEach(card => {
-        card.computedValue = card.defaultValue;
+        if (card.computedValue) card.computedValue = card.defaultValue;
       });
       // Weather influence
       this.extraCageWeatherInflunce();
@@ -121,14 +119,14 @@ export default {
       });
     },
     extraCageRoyalHornInflunce() {
-      if (this.extraCage.troubadour) {
+      if (this.extraCage?.troubadour) {
         this.cards.forEach(card => {
           if (!card.doubled && !card.hero) card.computedValue *= 2;
         });
       }
     },
     extraCageWeatherInflunce() {
-      if (this.extraCage.frost || this.extraCage.haze || this.extraCage.rain) {
+      if (this.extraCage?.frost || this.extraCage?.haze || this.extraCage?.rain) {
         this.cards.forEach(card => {
           if (!card.hero) card.computedValue = 1;
         });
@@ -149,20 +147,20 @@ export default {
     showTurnsTips() {
       const defaultShadow = '0 -16px 30px 0px #00000099 inset';
       const yellowShadow = '0 0 4px 2px #A07F33, 0 -16px 30px 0px #00000099 inset';
-      if (this.activeCard?.role === this.rowType) {
+      if (this.activeCard?.role === this.rowType && !this.activeCard?.spy) {
         this.$refs.row.style.boxShadow = yellowShadow;
-      } else if (this.activeCard?.role === 'extra' && !this.extraCage.id) {
+      } else if (this.activeCard?.role === 'extra' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
       } else if (this.activeCard?.role === 'execution') {
         this.$refs.row.style.boxShadow = yellowShadow;
       } else if (this.activeCard?.role === 'clear') {
         this.$refs.row.style.boxShadow = yellowShadow;
         this.$refs.cage.style.boxShadow = yellowShadow;
-      } else if (this.activeCard?.rain && this.rowType === 'back' && !this.extraCage.id) {
+      } else if (this.activeCard?.rain && this.rowType === 'back' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
-      } else if (this.activeCard?.haze && this.rowType === 'mid' && !this.extraCage.id) {
+      } else if (this.activeCard?.haze && this.rowType === 'mid' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
-      } else if (this.activeCard?.frost && this.rowType === 'front' && !this.extraCage.id) {
+      } else if (this.activeCard?.frost && this.rowType === 'front' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
       } else {
         this.$refs.row.style.boxShadow = defaultShadow;
@@ -212,6 +210,7 @@ export default {
     text-align: center;
     background: url("src/assets/текстуры/dudka.svg") center no-repeat;
     background-size: 110px;
+    overflow: hidden;
 }
 
 .field_row {
@@ -219,5 +218,16 @@ export default {
     height: 120px;
     background-size: 110px !important;
     overflow: hidden;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

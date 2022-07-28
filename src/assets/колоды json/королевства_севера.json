@@ -21,8 +21,6 @@
     "id": -17,
     "name": "чучело",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
-    "defaultValue": 0,
-    "computedValue": 0,
     "role": "scarecrow",
     "hero": true
   },
@@ -30,8 +28,6 @@
     "id": -16,
     "name": "чучело",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
-    "defaultValue": 0,
-    "computedValue": 0,
     "role": "scarecrow",
     "hero": true
   },
@@ -39,8 +35,6 @@
     "id": -15,
     "name": "чучело",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
-    "defaultValue": 0,
-    "computedValue": 0,
     "role": "scarecrow",
     "hero": true
   },

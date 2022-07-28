@@ -12,6 +12,7 @@ module.exports = {
     requireConfigFile: false
   },
   rules: {
+    'vuejs-accessibility/click-events-have-key-events': 'off',
     'vue/html-self-closing': ['error', {
       html: {
         void: 'never',

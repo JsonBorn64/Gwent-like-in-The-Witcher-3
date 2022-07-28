@@ -1,5 +1,5 @@
 <template>
-    <div @click="unactiveAllCards" @keydown="lintBackOff" class="main_wrapper">
+    <div @click="unactiveAllCards" class="main_wrapper">
         <game-field
             @frontRowClick="rowClick('front')"
             @midRowClick="rowClick('mid')"
@@ -70,12 +70,14 @@ export default {
       this.activeCard = null;
     },
     rowClick(rowType) {
-      if (this.activeCard?.role === rowType) {
+      // Common cards
+      if (this.activeCard?.role === rowType && !this.activeCard?.spy) {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[`${rowType}Row`].push(this.activeCard);
         this[`${rowType}Row`].sort((a, b) => a.id - b.id);
       }
+      // Execution cards
       if (this.activeCard?.role === 'execution') {
         const allCards = this.frontRow.concat(this.midRow, this.backRow);
         const maxValue = Math.max(...allCards.map(card => {
@@ -90,20 +92,21 @@ export default {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
       }
+      // Clear sky cards
       if (this.activeCard?.role === 'clear') {
         const extraCages = ['frontRowExtraCage', 'midRowExtraCage', 'backRowExtraCage'];
         extraCages.forEach(cage => {
-          if (!this[cage].troubadour) this[cage] = {};
+          if (!this[cage]?.troubadour) this[cage] = null;
         });
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
       }
     },
     extraCageClick(cageType) {
-      if (!this[cageType].id && (this.activeCard?.troubadour
-                || (this.activeCard?.frost && cageType === 'frontRowExtraCage')
-                || (this.activeCard?.haze && cageType === 'midRowExtraCage')
-                || (this.activeCard?.rain && cageType === 'backRowExtraCage'))) {
+      if (!this[cageType]?.id && (this.activeCard?.troubadour
+        || (this.activeCard?.frost && cageType === 'frontRowExtraCage')
+        || (this.activeCard?.haze && cageType === 'midRowExtraCage')
+        || (this.activeCard?.rain && cageType === 'backRowExtraCage'))) {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[cageType] = this.activeCard;
@@ -117,20 +120,20 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
 
 .main_wrapper {
-    background-color: #3D200C;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Oswald', sans-serif;
-    min-height: 100vh;
-    background: url("src/assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
+  background-color: #3D200C;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Oswald', sans-serif;
+  min-height: 100vh;
+  background: url("src/assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
 }
 
 .hand {
-    max-width: 940px;
-    width: calc(100% - 20px);
-    height: 120px;
-    margin-bottom: 40px;
-    box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
+  max-width: 940px;
+  width: calc(100% - 20px);
+  height: 120px;
+  margin-bottom: 40px;
+  box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
 }
 </style>
