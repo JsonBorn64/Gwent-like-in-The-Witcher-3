@@ -149,19 +149,25 @@ export default {
       const yellowShadow = '0 0 4px 2px #A07F33, 0 -16px 30px 0px #00000099 inset';
       if (this.activeCard?.role === this.rowType && !this.activeCard?.spy) {
         this.$refs.row.style.boxShadow = yellowShadow;
+        this.$refs.cage.style.boxShadow = defaultShadow;
       } else if (this.activeCard?.role === 'extra' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
+        this.$refs.row.style.boxShadow = defaultShadow;
       } else if (this.activeCard?.role === 'execution') {
         this.$refs.row.style.boxShadow = yellowShadow;
+        this.$refs.cage.style.boxShadow = defaultShadow;
       } else if (this.activeCard?.role === 'clear') {
         this.$refs.row.style.boxShadow = yellowShadow;
         this.$refs.cage.style.boxShadow = yellowShadow;
       } else if (this.activeCard?.rain && this.rowType === 'back' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
+        this.$refs.row.style.boxShadow = defaultShadow;
       } else if (this.activeCard?.haze && this.rowType === 'mid' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
+        this.$refs.row.style.boxShadow = defaultShadow;
       } else if (this.activeCard?.frost && this.rowType === 'front' && !this.extraCage?.id) {
         this.$refs.cage.style.boxShadow = yellowShadow;
+        this.$refs.row.style.boxShadow = defaultShadow;
       } else {
         this.$refs.row.style.boxShadow = defaultShadow;
         this.$refs.cage.style.boxShadow = defaultShadow;

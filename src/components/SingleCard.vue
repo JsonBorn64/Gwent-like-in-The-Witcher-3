@@ -42,7 +42,7 @@ export default {
   },
   updated() {
     this.actionsDependsIsHand();
-    this.calcRight();
+    this.calcRightForActiveCard();
   },
   mounted() {
     this.actionsDependsIsHand();
@@ -61,10 +61,12 @@ export default {
         this.$refs.card.style.marginLeft = '0px';
       }
     },
-    calcRight() {
-      if (this.card.active) {
-        const popravka = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 90;
+    calcRightForActiveCard() {
+      const popravka = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 90;
+      if (this.card.active && window.innerWidth < 1200) {
         this.$refs.card.style.right = `-${popravka}px`;
+      } else if (this.card.active && window.innerWidth >= 1200) {
+        this.$refs.card.style.right = `-${popravka + ((window.innerWidth - 1210) / 2)}px`;
       } else {
         this.$refs.card.style.right = '0px';
       }

@@ -57,7 +57,7 @@ export default {
       .then(res => res.json())
       .then(data => {
         const cards = data.sort(() => 0.5 - Math.random());
-        this.hand = cards.slice(0, 18).sort((a, b) => a.id - b.id);
+        this.hand = cards.slice(0, 10).sort((a, b) => a.id - b.id);
       });
   },
   methods: {
@@ -172,7 +172,7 @@ export default {
 }
 
 .right_sidebar {
-  max-width: 240px;
+  width: 240px;
   height: 100vh;
   display: flex;
   flex-direction: column;
