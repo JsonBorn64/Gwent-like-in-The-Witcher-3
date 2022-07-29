@@ -1,22 +1,35 @@
 <template>
     <div @click="unactiveAllCards" class="main_wrapper">
-        <game-field
-            @frontRowClick="rowClick('front')"
-            @midRowClick="rowClick('mid')"
-            @backRowClick="rowClick('back')"
-            @cardRowClicked="cardInRowClicked"
-            @extraCageClick="extraCageClick"
-            :front-row="frontRow"
-            :front-row-extra-cage="frontRowExtraCage"
-            :mid-row="midRow"
-            :mid-row-extra-cage="midRowExtraCage"
-            :back-row="backRow"
-            :back-row-extra-cage="backRowExtraCage"
-            :active-card="activeCard"
-            :is-hand="false"
-        />
-        <div class="hand">
-            <cards-group :cards="hand" :is-hand="true" @cardClicked="activateCard" />
+        <div class="center">
+            <game-field
+                @frontRowClick="rowClick('front')"
+                @midRowClick="rowClick('mid')"
+                @backRowClick="rowClick('back')"
+                @cardRowClicked="cardInRowClicked"
+                @extraCageClick="extraCageClick"
+                :front-row="frontRow"
+                :front-row-extra-cage="frontRowExtraCage"
+                :mid-row="midRow"
+                :mid-row-extra-cage="midRowExtraCage"
+                :back-row="backRow"
+                :back-row-extra-cage="backRowExtraCage"
+                :active-card="activeCard"
+                :is-hand="false"
+            />
+            <div class="hand">
+                <cards-group :cards="hand" :is-hand="true" @cardClicked="activateCard" />
+            </div>
+        </div>
+        <div class="right_sidebar">
+            <div class="player-decks_wrapper">
+                <div class="dropped_cards" />
+                <div class="deck">
+                    <img
+                        src="src/assets/Карты гвинт webp/0. Рубашки для карт/Королевства Севера.webp"
+                        alt="Королевства Севера"
+                    >
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -117,16 +130,37 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
+@font-face {
+  font-family: "Oswald";
+  src: url("src/assets/fonts/Oswald-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("src/assets/fonts/Oswald-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
 
 .main_wrapper {
   background-color: #3D200C;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   font-family: 'Oswald', sans-serif;
   min-height: 100vh;
   background: url("src/assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 960px;
+  height: 100vh;
 }
 
 .hand {
@@ -135,5 +169,42 @@ export default {
   height: 120px;
   margin-bottom: 40px;
   box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
+}
+
+.right_sidebar {
+  max-width: 240px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18px;
+  margin-left: 10px;
+}
+
+.player-decks_wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  margin-bottom: 40px;
+}
+
+.deck {
+  width: 90px;
+  height: 170px;
+  box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
+  & img {
+    width: 100%;
+    border-radius: 8px;
+  }
+}
+
+.dropped_cards {
+  width: 100px;
+  height: 130px;
+  align-self: end;
+  margin-right: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 10px 6px rgba(0, 0, 0, 0.6) inset;
 }
 </style>

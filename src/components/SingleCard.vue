@@ -42,6 +42,7 @@ export default {
   },
   updated() {
     this.actionsDependsIsHand();
+    this.calcRight();
   },
   mounted() {
     this.actionsDependsIsHand();
@@ -60,7 +61,15 @@ export default {
         this.$refs.card.style.marginLeft = '0px';
       }
     },
-    compValColor() {
+    calcRight() {
+      if (this.card.active) {
+        const popravka = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 90;
+        this.$refs.card.style.right = `-${popravka}px`;
+      } else {
+        this.$refs.card.style.right = '0px';
+      }
+    },
+    changeValColor() {
       if (this.card.computedValue > this.card.defaultValue) {
         this.$refs.compVal.style.color = '#007700';
       } else if (this.card.computedValue < this.card.defaultValue) {
@@ -79,11 +88,11 @@ export default {
       } else if (!this.isHand && !scarecrow) {
         this.$refs.card.style.boxShadow = '0 0 20px -8px black';
         this.$refs.card.style.pointerEvents = 'none';
-        this.compValColor();
+        this.changeValColor();
       } else if (!this.isHand && scarecrow && !this.card.hero) {
         this.$refs.card.style.pointerEvents = 'auto';
-        this.$refs.card.style.boxShadow = '0 0 4px 2px #A07F33';
-        this.compValColor();
+        this.$refs.card.style.boxShadow = '0 0 3px 3px #f3c14c';
+        this.changeValColor();
       }
     }
   }
@@ -95,10 +104,10 @@ export default {
   min-width: 90px;
   max-width: 90px;
   height: 120px;
+  color: #f3c14c;
   overflow: hidden;
   border-radius: 8px;
-  transition: bottom 300ms, height 300ms, right 300ms, transform 300ms;
-  transition-delay: 0s, 0s, 300ms, 0s;
+  transition: bottom 300ms, height 300ms, transform 300ms, right 300ms;
   bottom: 0px;
   right: 0px;
   position: relative;
@@ -114,9 +123,8 @@ export default {
 }
 
 .active {
-  bottom: 400px;
+  bottom: calc(50vh - 75px);
   height: 169px;
-  right: -400px;
   transform: scale(2.4);
   border-radius: 7px;
   z-index: 1;

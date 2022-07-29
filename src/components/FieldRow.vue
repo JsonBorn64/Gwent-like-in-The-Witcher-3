@@ -145,7 +145,7 @@ export default {
       this.$emit('cardClicked', card, this.rowType);
     },
     showTurnsTips() {
-      const defaultShadow = '0 -16px 30px 0px #00000099 inset';
+      const defaultShadow = '0 0 0 transparent, 0 -16px 30px 0px #00000099 inset';
       const yellowShadow = '0 0 4px 2px #A07F33, 0 -16px 30px 0px #00000099 inset';
       if (this.activeCard?.role === this.rowType && !this.activeCard?.spy) {
         this.$refs.row.style.boxShadow = yellowShadow;
@@ -178,8 +178,9 @@ export default {
     position: relative;
 
     &>div:not(:last-child) {
-        box-shadow: 0 -16px 30px 0px #00000099 inset;
+        box-shadow: 0 0 0 transparent, 0 -16px 30px 0px #00000099 inset;
         box-sizing: border-box;
+        transition: box-shadow 300ms;
     }
 }
 

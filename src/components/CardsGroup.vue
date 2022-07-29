@@ -61,11 +61,11 @@ export default {
     gap: 2px;
 }
 
-.cards-move,
-.cards-enter-active,
-.cards-leave-active {
-    transition: all 300ms ease;
-}
+// .cards-move,
+// .cards-enter-active,
+// .cards-leave-active {
+//     transition: all 300ms ease;
+// }
 
 .cards-enter-from {
     opacity: 0;
