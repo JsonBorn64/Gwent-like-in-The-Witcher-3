@@ -14,21 +14,16 @@
                 :back-row="backRow"
                 :back-row-extra-cage="backRowExtraCage"
                 :active-card="activeCard"
-                :is-hand="false"
+                :place="'field'"
             />
             <div class="hand">
-                <cards-group :cards="hand" :is-hand="true" @cardClicked="activateCard" />
+                <cards-group :cards="hand" :place="'hand'" @cardClicked="activateCard" />
             </div>
         </div>
         <div class="right_sidebar">
             <div class="player-decks_wrapper">
-                <div class="dropped_cards" />
-                <div class="deck">
-                    <img
-                        src="src/assets/Карты гвинт webp/0. Рубашки для карт/Королевства Севера.webp"
-                        alt="Королевства Севера"
-                    >
-                </div>
+                <dropped-cards :dropped-cards="droppedCards" />
+                <cards-deck :cards-deck="cardsDeck" />
             </div>
         </div>
     </div>
@@ -37,9 +32,11 @@
 <script>
 import GameField from './components/GameField.vue';
 import CardsGroup from './components/CardsGroup.vue';
+import CardsDeck from './components/CardsDeck.vue';
+import DroppedCards from './components/DroppedCards.vue';
 
 export default {
-  components: { GameField, CardsGroup },
+  components: { GameField, CardsGroup, CardsDeck, DroppedCards },
   data() {
     return {
       frontRow: [],
@@ -49,6 +46,8 @@ export default {
       backRow: [],
       backRowExtraCage: {},
       hand: [],
+      droppedCards: [],
+      cardsDeck: [],
       activeCard: null
     };
   },
@@ -57,7 +56,13 @@ export default {
       .then(res => res.json())
       .then(data => {
         const cards = data.sort(() => 0.5 - Math.random());
-        this.hand = cards.slice(0, 10).sort((a, b) => a.id - b.id);
+        this.cardsDeck = cards.slice(0, 28);
+        const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
+        for (let i = 0; i < 10; i++) {
+          setTimeout(() => {
+            this.hand.push(cardsBuffer.shift());
+          }, i * 100);
+        }
       });
   },
   methods: {
@@ -99,9 +104,11 @@ export default {
         const rowTypes = ['front', 'mid', 'back'];
         rowTypes.forEach(type => {
           this[`${type}Row`] = this[`${type}Row`].filter(card => {
+            if (!card.hero && card.computedValue === maxValue) this.droppedCards.push(card);
             if (!card.hero) { return card.computedValue !== maxValue; } return true;
           });
         });
+        this.droppedCards.unshift(this.activeCard);
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
       }
@@ -159,12 +166,12 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 960px;
+  max-width: 938px;
   height: 100vh;
 }
 
 .hand {
-  max-width: 940px;
+  max-width: 918px;
   width: calc(100% - 20px);
   height: 120px;
   margin-bottom: 40px;
@@ -189,22 +196,4 @@ export default {
   margin-bottom: 40px;
 }
 
-.deck {
-  width: 90px;
-  height: 170px;
-  box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
-  & img {
-    width: 100%;
-    border-radius: 8px;
-  }
-}
-
-.dropped_cards {
-  width: 100px;
-  height: 130px;
-  align-self: end;
-  margin-right: 20px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 6px 10px 6px rgba(0, 0, 0, 0.6) inset;
-}
 </style>

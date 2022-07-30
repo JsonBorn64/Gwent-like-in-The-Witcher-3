@@ -5,8 +5,7 @@
                 <single-card
                     v-if="extraCage?.id"
                     :card="extraCage"
-                    :is-hand="isHand"
-                    :is-cage="true"
+                    :place="'cage'"
                     :cards-count="cards.length"
                     :active-card="activeCard"
                 />
@@ -17,7 +16,7 @@
                 @cardClicked="getClickedCard"
                 :cards="cards"
                 :active-card="activeCard"
-                :is-hand="isHand"
+                :place="'field'"
             />
         </div>
         <div class="field_total-count">
@@ -41,9 +40,9 @@ export default {
       type: Object,
       default: null
     },
-    isHand: {
-      type: Boolean,
-      required: false
+    place: {
+      type: String,
+      default: 'dropped'
     },
     rowType: {
       type: String,

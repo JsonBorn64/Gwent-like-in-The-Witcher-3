@@ -5,7 +5,7 @@
                 v-for="card in cards"
                 :key="card.id"
                 :card="card"
-                :is-hand="isHand"
+                :place="place"
                 :cards-count="cards.length"
                 :wrapper-width="wrapperWidth"
                 :active-card="activeCard"
@@ -25,9 +25,9 @@ export default {
       type: Array,
       required: true
     },
-    isHand: {
-      type: Boolean,
-      required: false
+    place: {
+      type: String,
+      default: 'dropped'
     },
     activeCard: {
       type: Object,
@@ -43,6 +43,13 @@ export default {
     this.getFieldRowWidth();
     window.addEventListener('resize', this.getFieldRowWidth);
   },
+  updated() {
+    if (this.cards.length === 9 && this.place === 'hand') {
+      this.$refs.wrapper.style.justifyContent = 'center';
+    } else {
+      this.$refs.wrapper.style.justifyContent = 'center';
+    }
+  },
   methods: {
     getClickedCard(clickedCard) {
       this.$emit('cardClicked', clickedCard);
@@ -57,7 +64,7 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     gap: 2px;
 }
 
@@ -69,7 +76,7 @@ export default {
 
 .cards-enter-from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(40px);
 }
 
 .cards-leave-to {

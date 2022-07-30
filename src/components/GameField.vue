@@ -9,7 +9,7 @@
             @extraCageClick="extraCageClick"
             :row-type="'front'"
             :active-card="activeCard"
-            :is-hand="isHand"
+            :is-hand="'field'"
         />
         <field-row
             @click="midRowClick"
@@ -20,7 +20,7 @@
             @extraCageClick="extraCageClick"
             :row-type="'mid'"
             :active-card="activeCard"
-            :is-hand="isHand"
+            :is-hand="'field'"
         />
         <field-row
             @click="backRowClick"
@@ -31,7 +31,7 @@
             @extraCageClick="extraCageClick"
             :row-type="'back'"
             :active-card="activeCard"
-            :is-hand="isHand"
+            :is-hand="'field'"
         />
         <div class="total_field_count">
             {{ total }}
@@ -69,9 +69,9 @@ export default {
       type: Object,
       default: null
     },
-    isHand: {
-      type: Boolean,
-      required: true
+    place: {
+      type: String,
+      default: 'dropped'
     },
     activeCard: {
       type: Object,

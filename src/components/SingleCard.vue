@@ -1,5 +1,5 @@
 <template>
-    <div class="card_wrapper" :class="{ active: card?.active }" ref="card">
+    <div class="card_wrapper" :class="{ active: card?.active && place != 'dropped' }" ref="card">
         <img
             class="card"
             :src="`${card?.src}`"
@@ -21,15 +21,11 @@ export default {
     },
     cardsCount: {
       type: Number,
-      required: true
+      default: 0
     },
-    isHand: {
-      type: Boolean,
-      required: true
-    },
-    isCage: {
-      type: Boolean,
-      required: false
+    place: {
+      type: String,
+      default: 'dropped'
     },
     wrapperWidth: {
       type: Number,
@@ -41,17 +37,19 @@ export default {
     }
   },
   updated() {
-    this.actionsDependsIsHand();
+    this.actionsDependsOnPlace();
     this.calcRightForActiveCard();
   },
   mounted() {
-    this.actionsDependsIsHand();
+    this.actionsDependsOnPlace();
   },
   methods: {
     getClickedCard() {
+      if (this.place === 'dropped') return;
       this.$emit('cardClicked', this.card);
     },
     calcLeftMargin(wrapperWidth) {
+      if (this.place === 'dropped') return;
       const cardWidth = this.$refs.card.clientWidth;
       const startIndex = Math.floor(wrapperWidth / cardWidth);
       const marginLeft = (((this.cardsCount * cardWidth) - wrapperWidth) / (this.cardsCount - 1)) + 2;
@@ -62,11 +60,12 @@ export default {
       }
     },
     calcRightForActiveCard() {
-      const popravka = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 90;
+      if (this.place === 'dropped') return;
+      const correction = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 96;
       if (this.card.active && window.innerWidth < 1200) {
-        this.$refs.card.style.right = `-${popravka}px`;
+        this.$refs.card.style.right = `-${correction}px`;
       } else if (this.card.active && window.innerWidth >= 1200) {
-        this.$refs.card.style.right = `-${popravka + ((window.innerWidth - 1210) / 2)}px`;
+        this.$refs.card.style.right = `-${correction + ((window.innerWidth - 1200) / 2)}px`;
       } else {
         this.$refs.card.style.right = '0px';
       }
@@ -80,18 +79,18 @@ export default {
         this.$refs.compVal.style.color = 'black';
       }
     },
-    actionsDependsIsHand() {
+    actionsDependsOnPlace() {
       this.calcLeftMargin(this.wrapperWidth);
       const scarecrow = this.activeCard?.role === 'scarecrow';
-      if (this.isHand) {
+      if (this.place === 'hand') {
         this.$refs.card.style.pointerEvents = 'auto';
-      } else if (this.isCage) {
+      } else if (this.place === 'cage' || this.place === 'dropped') {
         this.$refs.card.style.pointerEvents = 'none';
-      } else if (!this.isHand && !scarecrow) {
+      } else if (this.place === 'field' && !scarecrow) {
         this.$refs.card.style.boxShadow = '0 0 20px -8px black';
         this.$refs.card.style.pointerEvents = 'none';
         this.changeValColor();
-      } else if (!this.isHand && scarecrow && !this.card.hero) {
+      } else if (this.place === 'field' && scarecrow && !this.card.hero) {
         this.$refs.card.style.pointerEvents = 'auto';
         this.$refs.card.style.boxShadow = '0 0 3px 3px #f3c14c';
         this.changeValColor();
