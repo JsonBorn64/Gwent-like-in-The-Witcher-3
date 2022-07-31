@@ -91,7 +91,7 @@ export default {
       this.cards.forEach(card => {
         for (let i = 0; i < this.cards.length; i++) {
           if (this.cards[i].id !== card.id && this.cards[i].name === card.name && this.cards[i].handshake) {
-            if (this.extraCage.role === 'weather') {
+            if (this.extraCage?.role === 'weather') {
               this.cards[i].computedValue += 1;
             } else {
               this.cards[i].computedValue += this.cards[i].defaultValue;
@@ -184,6 +184,7 @@ export default {
 
     &>div:not(:last-child) {
         box-shadow: 0 0 0 transparent, 0 -16px 30px 0px #00000099 inset;
+        background-color: rgba(0, 0, 0, 0.1) !important;
         box-sizing: border-box;
         transition: box-shadow 300ms;
     }

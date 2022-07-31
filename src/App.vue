@@ -16,7 +16,7 @@
                 :active-card="activeCard"
                 :place="'field'"
             />
-            <div class="hand">
+            <div class="hand" ref="hand">
                 <cards-group :cards="hand" :place="'hand'" @cardClicked="activateCard" />
             </div>
         </div>
@@ -55,14 +55,18 @@ export default {
     fetch('src/assets/колоды json/королевства_севера.json')
       .then(res => res.json())
       .then(data => {
-        const cards = data.sort(() => 0.5 - Math.random());
-        this.cardsDeck = cards.slice(0, 28);
+        const allCards = data.sort(() => 0.5 - Math.random());
+        this.cardsDeck = allCards.slice(0, 28);
+        this.droppedCards = allCards.slice(11, 19);
         const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
         for (let i = 0; i < 10; i++) {
           setTimeout(() => {
             this.hand.push(cardsBuffer.shift());
           }, i * 100);
         }
+        setTimeout(() => {
+          this.$refs.hand.style.overflowX = 'visible';
+        }, 1300);
       });
   },
   methods: {
@@ -176,6 +180,7 @@ export default {
   height: 120px;
   margin-bottom: 40px;
   box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
+  overflow-x: clip;
 }
 
 .right_sidebar {
@@ -192,6 +197,7 @@ export default {
 .player-decks_wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   margin-top: auto;
   margin-bottom: 40px;
 }

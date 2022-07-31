@@ -27,6 +27,10 @@ export default {
       type: String,
       default: 'dropped'
     },
+    droppedIndex: {
+      type: Number,
+      default: 0
+    },
     wrapperWidth: {
       type: Number,
       default: 810
@@ -46,10 +50,11 @@ export default {
   methods: {
     getClickedCard() {
       if (this.place === 'dropped') return;
+      if (this.place === 'popup') this.$emit('droppedClick', this.droppedIndex);
       this.$emit('cardClicked', this.card);
     },
     calcLeftMargin(wrapperWidth) {
-      if (this.place === 'dropped') return;
+      if (this.place === 'dropped' || this.place === 'popup') return;
       const cardWidth = this.$refs.card.clientWidth;
       const startIndex = Math.floor(wrapperWidth / cardWidth);
       const marginLeft = (((this.cardsCount * cardWidth) - wrapperWidth) / (this.cardsCount - 1)) + 2;
@@ -92,7 +97,12 @@ export default {
         this.changeValColor();
       } else if (this.place === 'field' && scarecrow && !this.card.hero) {
         this.$refs.card.style.pointerEvents = 'auto';
-        this.$refs.card.style.boxShadow = '0 0 3px 3px #f3c14c';
+        this.$refs.card.style.boxShadow = '0 0 4px 2px #f3c14c';
+        this.changeValColor();
+      } else if (this.place === 'popup') {
+        this.$refs.card.style.pointerEvents = 'auto';
+        this.$refs.card.style.height = '169px';
+        this.$refs.card.style.transformOrigin = 'top';
         this.changeValColor();
       }
     }
@@ -108,7 +118,8 @@ export default {
   color: #f3c14c;
   overflow: hidden;
   border-radius: 8px;
-  transition: bottom 300ms, height 300ms, transform 300ms, right 300ms;
+  // transition: bottom 300ms, height 300ms, transform 300ms, right 300ms;
+  transition: all 300ms;
   bottom: 0px;
   right: 0px;
   position: relative;

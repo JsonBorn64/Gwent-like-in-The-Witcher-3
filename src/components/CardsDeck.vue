@@ -8,6 +8,9 @@
             src="src/assets/Карты гвинт webp/0. Рубашки для карт/Королевства Севера.webp"
             alt="рубашка королевства севера"
         >
+        <div class="cards_count" :style="{transform: `translateX(-${cardsCount/3}px)`}">
+            {{ cardsCount }}
+        </div>
     </div>
 </template>
 
@@ -17,6 +20,11 @@ export default {
     cardsDeck: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    cardsCount() {
+      return this.cardsDeck.length;
     }
   }
 };
@@ -33,6 +41,19 @@ export default {
     position: absolute;
     border-radius: 8px;
     box-sizing: border-box;
+  }
+  & .cards_count {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #dbae47;
+    font-size: 20px;
+    width: 34px;
+    display: grid;
+    place-items: center;
+    height: 30px;
+    font-weight: 600;
+    bottom: 0px;
+    left: calc(50% - 17px);
   }
 }
 </style>

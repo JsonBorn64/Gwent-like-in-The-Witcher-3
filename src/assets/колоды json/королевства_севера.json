@@ -19,126 +19,126 @@
   },
   {
     "id": -17,
-    "name": "чучело",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
-    "role": "scarecrow",
-    "hero": true
+    "name": "мороз",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "role": "weather",
+    "frost": true
   },
   {
     "id": -16,
-    "name": "чучело",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
-    "role": "scarecrow",
-    "hero": true
+    "name": "мороз",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "role": "weather",
+    "frost": true
   },
   {
     "id": -15,
+    "name": "мороз",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "role": "weather",
+    "frost": true
+  },
+  {
+    "id": -14,
+    "name": "мгла",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "role": "weather",
+    "haze": true
+  },
+  {
+    "id": -13,
+    "name": "мгла",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "role": "weather",
+    "haze": true
+  },
+  {
+    "id": -12,
+    "name": "мгла",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "role": "weather",
+    "haze": true
+  },
+  {
+    "id": -11,
+    "name": "ливень",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "role": "weather",
+    "rain": true
+  },
+  {
+    "id": -10,
+    "name": "ливень",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "role": "weather",
+    "rain": true
+  },
+  {
+    "id": -9,
+    "name": "ливень",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "role": "weather",
+    "rain": true
+  },
+  {
+    "id": -8,
+    "name": "командирский рог",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
+    "role": "extra",
+    "troubadour": true
+  },
+  {
+    "id": -7,
+    "name": "командирский рог",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
+    "role": "extra",
+    "troubadour": true
+  },
+  {
+    "id": -6,
+    "name": "командирский рог",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
+    "role": "extra",
+    "troubadour": true
+  },
+  {
+    "id": -5,
+    "name": "казнь",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
+    "role": "execution"
+  },
+  {
+    "id": -4,
+    "name": "казнь",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
+    "role": "execution"
+  },
+  {
+    "id": -3,
+    "name": "казнь",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
+    "role": "execution"
+  },
+  {
+    "id": -2,
     "name": "чучело",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
     "role": "scarecrow",
     "hero": true
   },
   {
-    "id": -14,
-    "name": "мороз",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
-    "role": "weather",
-    "frost": true
-  },
-  {
-    "id": -13,
-    "name": "мороз",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
-    "role": "weather",
-    "frost": true
-  },
-  {
-    "id": -12,
-    "name": "мороз",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
-    "role": "weather",
-    "frost": true
-  },
-  {
-    "id": -11,
-    "name": "мгла",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
-    "role": "weather",
-    "haze": true
-  },
-  {
-    "id": -10,
-    "name": "мгла",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
-    "role": "weather",
-    "haze": true
-  },
-  {
-    "id": -9,
-    "name": "мгла",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
-    "role": "weather",
-    "haze": true
-  },
-  {
-    "id": -8,
-    "name": "ливень",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
-    "role": "weather",
-    "rain": true
-  },
-  {
-    "id": -7,
-    "name": "ливень",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
-    "role": "weather",
-    "rain": true
-  },
-  {
-    "id": -6,
-    "name": "ливень",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
-    "role": "weather",
-    "rain": true
-  },
-  {
-    "id": -5,
-    "name": "командирский рог",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "extra",
-    "troubadour": true
-  },
-  {
-    "id": -4,
-    "name": "командирский рог",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "extra",
-    "troubadour": true
-  },
-  {
-    "id": -3,
-    "name": "командирский рог",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "extra",
-    "troubadour": true
-  },
-  {
-    "id": -2,
-    "name": "казнь",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
-    "role": "execution"
-  },
-  {
     "id": -1,
-    "name": "казнь",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
-    "role": "execution"
+    "name": "чучело",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
+    "role": "scarecrow",
+    "hero": true
   },
   {
     "id": 0,
-    "name": "казнь",
-    "src": "src/assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
-    "role": "execution"
+    "name": "чучело",
+    "src": "src/assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
+    "role": "scarecrow",
+    "hero": true
   },
   {
     "id": 1,
