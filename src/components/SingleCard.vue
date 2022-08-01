@@ -38,6 +38,10 @@ export default {
     activeCard: {
       type: Object,
       default: null
+    },
+    medic: {
+      type: Boolean,
+      default: false
     }
   },
   updated() {
@@ -50,7 +54,7 @@ export default {
   methods: {
     getClickedCard() {
       if (this.place === 'dropped') return;
-      if (this.place === 'popup') this.$emit('droppedClick', this.droppedIndex);
+      if (this.place === 'popup' && this.medic) this.$emit('medicRecoveredCard', this.card);
       this.$emit('cardClicked', this.card);
     },
     calcLeftMargin(wrapperWidth) {
@@ -99,10 +103,19 @@ export default {
         this.$refs.card.style.pointerEvents = 'auto';
         this.$refs.card.style.boxShadow = '0 0 4px 2px #f3c14c';
         this.changeValColor();
-      } else if (this.place === 'popup') {
+      } else if (this.place === 'popup' && !this.medic) {
+        this.$refs.card.style.pointerEvents = 'none';
+        this.$refs.card.style.height = '169px';
+        this.$refs.card.style.borderRadius = '7px';
+        this.$refs.card.style.transformOrigin = 'top';
+        this.$refs.card.style.transform = 'translateY(0px) scale(2.4)';
+        this.changeValColor();
+      } else if (this.place === 'popup' && this.medic) {
         this.$refs.card.style.pointerEvents = 'auto';
         this.$refs.card.style.height = '169px';
+        this.$refs.card.style.borderRadius = '7px';
         this.$refs.card.style.transformOrigin = 'top';
+        this.$refs.card.style.transform = 'translateY(0px) scale(2.4)';
         this.changeValColor();
       }
     }
@@ -118,8 +131,7 @@ export default {
   color: #f3c14c;
   overflow: hidden;
   border-radius: 8px;
-  // transition: bottom 300ms, height 300ms, transform 300ms, right 300ms;
-  transition: all 300ms;
+  transition: bottom 300ms, height 300ms, transform 300ms, right 300ms;
   bottom: 0px;
   right: 0px;
   position: relative;

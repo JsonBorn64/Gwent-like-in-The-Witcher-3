@@ -1,13 +1,15 @@
 <template>
     <div class="deck">
-        <img
-            v-for="(card, index) in cardsDeck"
-            :key="index"
-            :style="{ top: `-${index/2}px`,
-                      left: `-${index/3}px` }"
-            src="src/assets/Карты гвинт webp/0. Рубашки для карт/Королевства Севера.webp"
-            alt="рубашка королевства севера"
-        >
+        <TransitionGroup name="deck_cards">
+            <img
+                v-for="(card, index) in cardsDeck"
+                :key="index"
+                :style="{ top: `-${index/2}px`,
+                          left: `-${index/3}px` }"
+                src="src/assets/Карты гвинт webp/0. Рубашки для карт/Королевства Севера.webp"
+                alt="рубашка королевства севера"
+            >
+        </TransitionGroup>
         <div class="cards_count" :style="{transform: `translateX(-${cardsCount/3}px)`}">
             {{ cardsCount }}
         </div>
@@ -55,5 +57,25 @@ export default {
     bottom: 0px;
     left: calc(50% - 17px);
   }
+}
+
+.cards-move,
+.cards-enter-active,
+.cards-leave-active {
+    transition: all 300ms ease;
+}
+
+.deck_cards-enter-from {
+    opacity: 0;
+    transform: translateX(40px);
+}
+
+.deck_cards-leave-to {
+    opacity: 0;
+    transform: translateY(-40px);
+}
+
+.deck_cards-leave-active {
+    position: absolute;
 }
 </style>

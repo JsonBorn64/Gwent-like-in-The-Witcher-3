@@ -22,7 +22,14 @@
         </div>
         <div class="right_sidebar">
             <div class="player-decks_wrapper">
-                <dropped-cards :dropped-cards="droppedCards" />
+                <dropped-cards
+                    :dropped-cards="droppedCards"
+                    :show-dropped-popup="showDroppedPopup"
+                    :medic="medic"
+                    @closePopup="closePopupMethod"
+                    @showPopup="showPopupMethod"
+                    @medicRecoveredCard="medicRecoveredCard"
+                />
                 <cards-deck :cards-deck="cardsDeck" />
             </div>
         </div>
@@ -47,6 +54,8 @@ export default {
       backRowExtraCage: {},
       hand: [],
       droppedCards: [],
+      showDroppedPopup: false,
+      medic: false,
       cardsDeck: [],
       activeCard: null
     };
@@ -57,16 +66,17 @@ export default {
       .then(data => {
         const allCards = data.sort(() => 0.5 - Math.random());
         this.cardsDeck = allCards.slice(0, 28);
-        this.droppedCards = allCards.slice(11, 19);
-        const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
-        for (let i = 0; i < 10; i++) {
+        this.droppedCards = allCards.slice(10, 29);
+        // const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
+        for (let i = 0; i < 18; i++) {
           setTimeout(() => {
-            this.hand.push(cardsBuffer.shift());
+            this.hand.push(this.cardsDeck.shift());
           }, i * 100);
         }
         setTimeout(() => {
           this.$refs.hand.style.overflowX = 'visible';
-        }, 1300);
+          this.hand.sort((a, b) => a.id - b.id);
+        }, 2000);
       });
   },
   methods: {
@@ -93,11 +103,20 @@ export default {
     },
     rowClick(rowType) {
       // Common cards
-      if (this.activeCard?.role === rowType && !this.activeCard?.spy) {
+      if (this.activeCard?.role === rowType && !this.activeCard?.spy && !this.activeCard?.medic) {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[`${rowType}Row`].push(this.activeCard);
         this[`${rowType}Row`].sort((a, b) => a.id - b.id);
+      }
+      // Medic cards
+      if (this.activeCard?.role === rowType && this.activeCard?.medic) {
+        this.activeCard.active = false;
+        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
+        this[`${rowType}Row`].push(this.activeCard);
+        this[`${rowType}Row`].sort((a, b) => a.id - b.id);
+        this.medic = true;
+        this.showDroppedPopup = true;
       }
       // Execution cards
       if (this.activeCard?.role === 'execution') {
@@ -108,7 +127,11 @@ export default {
         const rowTypes = ['front', 'mid', 'back'];
         rowTypes.forEach(type => {
           this[`${type}Row`] = this[`${type}Row`].filter(card => {
-            if (!card.hero && card.computedValue === maxValue) this.droppedCards.push(card);
+            if (!card.hero && card.computedValue === maxValue) {
+              const cardToPush = JSON.parse(JSON.stringify(card));
+              cardToPush.computedValue = card.defaultValue;
+              this.droppedCards.push(cardToPush);
+            }
             if (!card.hero) { return card.computedValue !== maxValue; } return true;
           });
         });
@@ -126,6 +149,12 @@ export default {
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
       }
     },
+    medicRecoveredCard(card) {
+      this.medic = false;
+      this.showDroppedPopup = false;
+      this.hand.push(card);
+      this.droppedCards = this.droppedCards.filter(item => item.id !== card.id);
+    },
     extraCageClick(cageType) {
       if (!this[cageType]?.id && (this.activeCard?.troubadour
         || (this.activeCard?.frost && cageType === 'frontRowExtraCage')
@@ -135,6 +164,12 @@ export default {
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[cageType] = this.activeCard;
       }
+    },
+    closePopupMethod() {
+      this.showDroppedPopup = false;
+    },
+    showPopupMethod() {
+      this.showDroppedPopup = true;
     }
   }
 };
