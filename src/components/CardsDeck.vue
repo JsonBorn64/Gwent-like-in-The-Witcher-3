@@ -36,6 +36,7 @@ export default {
 .deck {
   width: 90px;
   height: 170px;
+  background-color: rgba(0, 0, 0, 0.1);
   box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
   position: relative;
   & img {

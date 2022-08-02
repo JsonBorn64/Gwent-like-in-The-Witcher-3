@@ -1,25 +1,24 @@
 <template>
     <div @click="unactiveAllCards" class="main_wrapper">
         <div class="left_sidebar">
-            <div class="enemy_leader">
-                <single-card :card="enemyLeader" />
-            </div>
+            <leader-card :leader-card="enemyLeader" />
             <div class="enemy_stats">
                 <div class="avatar">
                     <img src="" alt="">
                 </div>
             </div>
-            <div class="weather_cards" @click="weatherCardsClick">
-                <cards-group :cards="weatherCards" :place="'weather'" />
-            </div>
+            <weather-cards
+                @click="weatherCardsClick"
+                :weather-cards="weatherCards"
+                :place="'weather'"
+                :active-card="activeCard"
+            />
             <div class="player_stats">
                 <div class="avatar">
                     <img src="" alt="">
                 </div>
             </div>
-            <div class="player_leader">
-                <single-card :card="playerLeader" />
-            </div>
+            <leader-card :leader-card="playerLeader" />
         </div>
         <div class="center">
             <game-field
@@ -74,10 +73,11 @@ import GameField from './components/GameField.vue';
 import CardsGroup from './components/CardsGroup.vue';
 import CardsDeck from './components/CardsDeck.vue';
 import DroppedCards from './components/DroppedCards.vue';
-import SingleCard from './components/SingleCard.vue';
+import WeatherCards from './components/WeatherCards.vue';
+import LeaderCard from './components/LeaderCard.vue';
 
 export default {
-  components: { GameField, CardsGroup, CardsDeck, DroppedCards, SingleCard },
+  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard },
   data() {
     return {
       frontRow: [],
@@ -144,6 +144,9 @@ export default {
       getBackCard.computedValue = getBackCard.defaultValue;
       this.hand.push(getBackCard);
       this[`${rowType}Row`] = this[`${rowType}Row`].filter(item => item.id !== card.id);
+      this[`${rowType}Row`].forEach(item => {
+        item.doubled = false;
+      });
       this[`${rowType}Row`].unshift(this.activeCard);
       this.activeCard = null;
     },
@@ -161,8 +164,13 @@ export default {
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[`${rowType}Row`].push(this.activeCard);
         this[`${rowType}Row`].sort((a, b) => a.id - b.id);
-        this.medic = true;
-        this.showDroppedPopup = true;
+        const recoverCardExist = this.droppedCards.findIndex(card => (card.role === 'front'
+          || card.role === 'mid'
+          || card.role === 'back') && !card.hero);
+        if (recoverCardExist !== -1) {
+          this.medic = true;
+          this.showDroppedPopup = true;
+        }
       }
       // Execution cards
       if (this.activeCard?.role === 'execution') {
@@ -295,17 +303,7 @@ export default {
     align-items: center;
     justify-content: space-evenly;
     margin-right: 20px;
-  }
-
-  .weather_cards {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 10px;
-    width: 200px;
-    height: 140px;
-    background-color: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0px 10px 6px rgba(0, 0, 0, 0.6) inset;
+    margin-left: 10px;
   }
 
   .player_stats, .enemy_stats {
@@ -319,18 +317,4 @@ export default {
     border-bottom: 3px solid black;
   }
 
-  .player_leader, .enemy_leader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 130px;
-    background-color: rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0px 10px 6px rgba(0, 0, 0, 0.6) inset;
-    & > img {
-      width: 90px;
-      height: 169px;
-    }
-  }
-</style>
+  </style>
