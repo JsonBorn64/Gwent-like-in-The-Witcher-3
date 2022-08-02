@@ -3,24 +3,28 @@
     "id": -20,
     "name": "ясное небо",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ясное небо.webp",
-    "role": "clear"
+    "role": "weather",
+    "clear": true
   },
   {
     "id": -19,
     "name": "ясное небо",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ясное небо.webp",
-    "role": "clear"
+    "role": "weather",
+    "clear": true
   },
   {
     "id": -18,
     "name": "ясное небо",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ясное небо.webp",
-    "role": "clear"
+    "role": "weather",
+    "clear": true
   },
   {
     "id": -17,
     "name": "мороз",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "influence": "front",
     "role": "weather",
     "frost": true
   },
@@ -28,6 +32,7 @@
     "id": -16,
     "name": "мороз",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "influence": "front",
     "role": "weather",
     "frost": true
   },
@@ -35,6 +40,7 @@
     "id": -15,
     "name": "мороз",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "influence": "front",
     "role": "weather",
     "frost": true
   },
@@ -42,6 +48,7 @@
     "id": -14,
     "name": "мгла",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "influence": "mid",
     "role": "weather",
     "haze": true
   },
@@ -49,6 +56,7 @@
     "id": -13,
     "name": "мгла",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "influence": "mid",
     "role": "weather",
     "haze": true
   },
@@ -56,6 +64,7 @@
     "id": -12,
     "name": "мгла",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "influence": "mid",
     "role": "weather",
     "haze": true
   },
@@ -63,6 +72,7 @@
     "id": -11,
     "name": "ливень",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "influence": "back",
     "role": "weather",
     "rain": true
   },
@@ -70,6 +80,7 @@
     "id": -10,
     "name": "ливень",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "influence": "back",
     "role": "weather",
     "rain": true
   },
@@ -77,6 +88,7 @@
     "id": -9,
     "name": "ливень",
     "src": "src/assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "influence": "back",
     "role": "weather",
     "rain": true
   },

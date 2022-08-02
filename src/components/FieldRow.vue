@@ -40,6 +40,10 @@ export default {
       type: Object,
       default: null
     },
+    weatherCards: {
+      type: Array,
+      default: () => []
+    },
     place: {
       type: String,
       default: 'dropped'
@@ -86,12 +90,12 @@ export default {
         if (card.computedValue) card.computedValue = card.defaultValue;
       });
       // Weather influence
-      this.extraCageWeatherInflunce();
+      this.weatherInfluence();
       // Handshakes bonus
       this.cards.forEach(card => {
         for (let i = 0; i < this.cards.length; i++) {
           if (this.cards[i].id !== card.id && this.cards[i].name === card.name && this.cards[i].handshake) {
-            if (this.extraCage?.role === 'weather') {
+            if (this.weatherCards.findIndex(wCard => wCard.influence === this.activeCard?.influence) !== -1) {
               this.cards[i].computedValue += 1;
             } else {
               this.cards[i].computedValue += this.cards[i].defaultValue;
@@ -124,12 +128,16 @@ export default {
         });
       }
     },
-    extraCageWeatherInflunce() {
-      if (this.extraCage?.frost || this.extraCage?.haze || this.extraCage?.rain) {
-        this.cards.forEach(card => {
-          if (!card.hero) card.computedValue = 1;
-        });
-      }
+    weatherInfluence() {
+      this.weatherCards.forEach(weatherCard => {
+        if ((weatherCard?.frost && this.rowType === 'front')
+        || (weatherCard?.haze && this.rowType === 'mid')
+        || (weatherCard?.rain && this.rowType === 'back')) {
+          this.cards.forEach(card => {
+            if (!card.hero) card.computedValue = 1;
+          });
+        }
+      });
     },
     extraCageClick() {
       this.$emit('extraCageClick', `${this.rowType}RowExtraCage`);
@@ -158,15 +166,6 @@ export default {
       } else if (this.activeCard?.role === 'clear') {
         this.$refs.row.style.boxShadow = yellowShadow;
         this.$refs.cage.style.boxShadow = yellowShadow;
-      } else if (this.activeCard?.rain && this.rowType === 'back' && !this.extraCage?.id) {
-        this.$refs.cage.style.boxShadow = yellowShadow;
-        this.$refs.row.style.boxShadow = defaultShadow;
-      } else if (this.activeCard?.haze && this.rowType === 'mid' && !this.extraCage?.id) {
-        this.$refs.cage.style.boxShadow = yellowShadow;
-        this.$refs.row.style.boxShadow = defaultShadow;
-      } else if (this.activeCard?.frost && this.rowType === 'front' && !this.extraCage?.id) {
-        this.$refs.cage.style.boxShadow = yellowShadow;
-        this.$refs.row.style.boxShadow = defaultShadow;
       } else {
         this.$refs.row.style.boxShadow = defaultShadow;
         this.$refs.cage.style.boxShadow = defaultShadow;

@@ -60,7 +60,7 @@ export default {
     calcLeftMargin(wrapperWidth) {
       if (this.place === 'dropped' || this.place === 'popup') return;
       const cardWidth = this.$refs.card.clientWidth;
-      const startIndex = Math.floor(wrapperWidth / cardWidth);
+      const startIndex = Math.ceil(wrapperWidth / cardWidth);
       const marginLeft = (((this.cardsCount * cardWidth) - wrapperWidth) / (this.cardsCount - 1)) + 2;
       if (this.cardsCount >= startIndex) {
         this.$refs.card.style.marginLeft = `-${marginLeft}px`;
@@ -93,7 +93,7 @@ export default {
       const scarecrow = this.activeCard?.role === 'scarecrow';
       if (this.place === 'hand') {
         this.$refs.card.style.pointerEvents = 'auto';
-      } else if (this.place === 'cage' || this.place === 'dropped') {
+      } else if (this.place === 'cage' || this.place === 'dropped' || this.place === 'weather') {
         this.$refs.card.style.pointerEvents = 'none';
       } else if (this.place === 'field' && !scarecrow) {
         this.$refs.card.style.boxShadow = '0 0 20px -8px black';
@@ -110,8 +110,28 @@ export default {
         this.$refs.card.style.transformOrigin = 'top';
         this.$refs.card.style.transform = 'translateY(0px) scale(2.4)';
         this.changeValColor();
-      } else if (this.place === 'popup' && this.medic) {
+      } else if (this.place === 'popup'
+          && this.medic
+          && !(this.card.hero
+          || this.card.role === 'scarecrow'
+          || this.card.role === 'weather'
+          || this.card.role === 'execution'
+          || this.card.role === 'extra')) {
         this.$refs.card.style.pointerEvents = 'auto';
+        this.$refs.card.style.height = '169px';
+        this.$refs.card.style.borderRadius = '7px';
+        this.$refs.card.style.transformOrigin = 'top';
+        this.$refs.card.style.transform = 'translateY(0px) scale(2.4)';
+        this.$refs.card.classList.add('medic_active');
+        this.changeValColor();
+      } else if (this.place === 'popup'
+          && this.medic
+          && (this.card.hero
+          || this.card.role === 'scarecrow'
+          || this.card.role === 'weather'
+          || this.card.role === 'execution'
+          || this.card.role === 'extra')) {
+        this.$refs.card.style.pointerEvents = 'none';
         this.$refs.card.style.height = '169px';
         this.$refs.card.style.borderRadius = '7px';
         this.$refs.card.style.transformOrigin = 'top';
@@ -131,7 +151,7 @@ export default {
   color: #f3c14c;
   overflow: hidden;
   border-radius: 8px;
-  transition: bottom 300ms, height 300ms, transform 300ms, right 300ms;
+  transition: bottom 300ms, height 300ms, transform 300ms, right 300ms, box-shadow 300ms;
   bottom: 0px;
   right: 0px;
   position: relative;
@@ -156,6 +176,12 @@ export default {
 
   &:hover {
     transform: translateY(0px) scale(2.4);
+  }
+}
+
+.medic_active {
+  &:hover {
+    box-shadow: 0 0 4px 2px #f3c14c;
   }
 }
 

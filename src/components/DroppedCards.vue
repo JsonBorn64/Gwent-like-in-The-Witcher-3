@@ -110,13 +110,14 @@ export default {
 .dropped_cards_popup {
   position: fixed;
   display: flex;
-  gap: 170px;
-  padding-left: 64px;
-  height: 435px;
+  gap: 150px;
+  padding: 12px 70px;
+  box-sizing: border-box;
+  height: 445px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 90%;
+  max-width: 100%;
   z-index: 2;
   overflow-x: scroll;
 }

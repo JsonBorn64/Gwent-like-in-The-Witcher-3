@@ -1,5 +1,6 @@
 <template>
     <div class="player_field">
+        <hr class="fields_separator">
         <field-row
             @click="frontRowClick"
             @rowTotalCount="fieldTotalCount"
@@ -10,6 +11,7 @@
             :row-type="'front'"
             :active-card="activeCard"
             :is-hand="'field'"
+            :weather-cards="weatherCards"
         />
         <field-row
             @click="midRowClick"
@@ -21,6 +23,7 @@
             :row-type="'mid'"
             :active-card="activeCard"
             :is-hand="'field'"
+            :weather-cards="weatherCards"
         />
         <field-row
             @click="backRowClick"
@@ -32,6 +35,7 @@
             :row-type="'back'"
             :active-card="activeCard"
             :is-hand="'field'"
+            :weather-cards="weatherCards"
         />
         <div class="total_field_count">
             {{ total }}
@@ -68,6 +72,10 @@ export default {
     backRowExtraCage: {
       type: Object,
       default: null
+    },
+    weatherCards: {
+      type: Array,
+      default: () => []
     },
     place: {
       type: String,
@@ -123,7 +131,7 @@ export default {
 .total_field_count {
     font-size: 30px;
     font-weight: 600;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
@@ -136,5 +144,12 @@ export default {
     transform: translateY(-50%);
     left: -70px;
     line-height: 0;
+}
+
+.fields_separator {
+    width: 100%;
+    height: 1px;
+    background-color: rgb(0, 0, 0);
+    border: 1px solid black;
 }
 </style>

@@ -36,12 +36,15 @@ export default {
   },
   data() {
     return {
-      wrapperWidth: 810
+      wrapperWidth: 0
     };
   },
   mounted() {
     this.getFieldRowWidth();
     window.addEventListener('resize', this.getFieldRowWidth);
+    if (this.place === 'weather') {
+      this.$refs.wrapper.style.justifyContent = 'center';
+    }
   },
   updated() {
     if (this.cards.length === 9 && this.place === 'hand') {
@@ -64,7 +67,7 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
     display: flex;
-    // justify-content: center;
+    width: 100%;
     gap: 2px;
 }
 

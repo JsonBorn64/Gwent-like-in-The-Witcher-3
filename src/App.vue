@@ -1,5 +1,26 @@
 <template>
     <div @click="unactiveAllCards" class="main_wrapper">
+        <div class="left_sidebar">
+            <div class="enemy_leader">
+                <single-card :card="enemyLeader" />
+            </div>
+            <div class="enemy_stats">
+                <div class="avatar">
+                    <img src="" alt="">
+                </div>
+            </div>
+            <div class="weather_cards" @click="weatherCardsClick">
+                <cards-group :cards="weatherCards" :place="'weather'" />
+            </div>
+            <div class="player_stats">
+                <div class="avatar">
+                    <img src="" alt="">
+                </div>
+            </div>
+            <div class="player_leader">
+                <single-card :card="playerLeader" />
+            </div>
+        </div>
         <div class="center">
             <game-field
                 @frontRowClick="rowClick('front')"
@@ -13,6 +34,7 @@
                 :mid-row-extra-cage="midRowExtraCage"
                 :back-row="backRow"
                 :back-row-extra-cage="backRowExtraCage"
+                :weather-cards="weatherCards"
                 :active-card="activeCard"
                 :place="'field'"
             />
@@ -21,6 +43,17 @@
             </div>
         </div>
         <div class="right_sidebar">
+            <div class="player-decks_wrapper">
+                <dropped-cards
+                    :dropped-cards="droppedCards"
+                    :show-dropped-popup="showDroppedPopup"
+                    :medic="medic"
+                    @closePopup="closePopupMethod"
+                    @showPopup="showPopupMethod"
+                    @medicRecoveredCard="medicRecoveredCard"
+                />
+                <cards-deck :cards-deck="cardsDeck" />
+            </div>
             <div class="player-decks_wrapper">
                 <dropped-cards
                     :dropped-cards="droppedCards"
@@ -41,9 +74,10 @@ import GameField from './components/GameField.vue';
 import CardsGroup from './components/CardsGroup.vue';
 import CardsDeck from './components/CardsDeck.vue';
 import DroppedCards from './components/DroppedCards.vue';
+import SingleCard from './components/SingleCard.vue';
 
 export default {
-  components: { GameField, CardsGroup, CardsDeck, DroppedCards },
+  components: { GameField, CardsGroup, CardsDeck, DroppedCards, SingleCard },
   data() {
     return {
       frontRow: [],
@@ -52,12 +86,25 @@ export default {
       midRowExtraCage: {},
       backRow: [],
       backRowExtraCage: {},
+      weatherCards: [],
       hand: [],
       droppedCards: [],
       showDroppedPopup: false,
       medic: false,
       cardsDeck: [],
-      activeCard: null
+      activeCard: null,
+      playerLeader: {
+        id: '99',
+        name: 'фольтест - предводитель севера',
+        src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - предводитель севера.webp',
+        role: 'leader'
+      },
+      enemyLeader: {
+        id: '98',
+        name: 'фольтест - железный владыка',
+        src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - железный владыка.webp',
+        role: 'leader'
+      }
     };
   },
   mounted() {
@@ -66,9 +113,8 @@ export default {
       .then(data => {
         const allCards = data.sort(() => 0.5 - Math.random());
         this.cardsDeck = allCards.slice(0, 28);
-        this.droppedCards = allCards.slice(10, 29);
         // const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
-        for (let i = 0; i < 18; i++) {
+        for (let i = 0; i < 20; i++) {
           setTimeout(() => {
             this.hand.push(this.cardsDeck.shift());
           }, i * 100);
@@ -139,14 +185,22 @@ export default {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
       }
-      // Clear sky cards
-      if (this.activeCard?.role === 'clear') {
-        const extraCages = ['frontRowExtraCage', 'midRowExtraCage', 'backRowExtraCage'];
-        extraCages.forEach(cage => {
-          if (!this[cage]?.troubadour) this[cage] = null;
-        });
+    },
+    weatherCardsClick() {
+      if (this.activeCard?.role === 'weather'
+      && !this.activeCard?.clear
+      && !this.weatherCards.find(wCard => wCard.influence === this.activeCard?.influence)) {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
+        this.weatherCards.push(this.activeCard);
+      } else if (this.activeCard?.role === 'weather' && this.activeCard?.clear) {
+        this.activeCard.active = false;
+        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
+        this.droppedCards.push(this.activeCard);
+        this.weatherCards.forEach(card => {
+          this.droppedCards.push(card);
+        });
+        this.weatherCards = [];
       }
     },
     medicRecoveredCard(card) {
@@ -156,10 +210,7 @@ export default {
       this.droppedCards = this.droppedCards.filter(item => item.id !== card.id);
     },
     extraCageClick(cageType) {
-      if (!this[cageType]?.id && (this.activeCard?.troubadour
-        || (this.activeCard?.frost && cageType === 'frontRowExtraCage')
-        || (this.activeCard?.haze && cageType === 'midRowExtraCage')
-        || (this.activeCard?.rain && cageType === 'backRowExtraCage'))) {
+      if (!this[cageType]?.id && this.activeCard?.troubadour) {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[cageType] = this.activeCard;
@@ -213,7 +264,7 @@ export default {
   max-width: 918px;
   width: calc(100% - 20px);
   height: 120px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
   overflow-x: clip;
 }
@@ -224,7 +275,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-right: 18px;
   margin-left: 10px;
 }
@@ -233,8 +284,53 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: auto;
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
+  .left_sidebar {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: 20px;
+  }
+
+  .weather_cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    width: 200px;
+    height: 140px;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 10px 6px rgba(0, 0, 0, 0.6) inset;
+  }
+
+  .player_stats, .enemy_stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 100px;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+  }
+
+  .player_leader, .enemy_leader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 130px;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 10px 6px rgba(0, 0, 0, 0.6) inset;
+    & > img {
+      width: 90px;
+      height: 169px;
+    }
+  }
 </style>
