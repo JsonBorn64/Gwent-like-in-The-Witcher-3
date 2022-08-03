@@ -2,22 +2,30 @@
     <div @click="unactiveAllCards" class="main_wrapper">
         <div class="left_sidebar">
             <leader-card :leader-card="enemyLeader" />
-            <div class="enemy_stats">
-                <div class="avatar">
-                    <img src="" alt="">
-                </div>
-            </div>
+            <player-stats
+                :nickname="enemyNickname"
+                :leader="enemyLeader"
+                :avatar="enemyAvatar"
+                :lives="enemyLives"
+                :total-count="enemyTotalCount"
+                :fraction="enemyFraction"
+                :hand-count="enemyHand.length"
+            />
             <weather-cards
                 @click="weatherCardsClick"
                 :weather-cards="weatherCards"
                 :place="'weather'"
                 :active-card="activeCard"
             />
-            <div class="player_stats">
-                <div class="avatar">
-                    <img src="" alt="">
-                </div>
-            </div>
+            <player-stats
+                :nickname="playerNickname"
+                :leader="playerLeader"
+                :avatar="playerAvatar"
+                :lives="playerLives"
+                :total-count="playerTotalCount"
+                :fraction="playerFraction"
+                :hand-count="hand.length"
+            />
             <leader-card :leader-card="playerLeader" />
         </div>
         <div class="center">
@@ -27,6 +35,7 @@
                 @backRowClick="rowClick('back')"
                 @cardRowClicked="cardInRowClicked"
                 @extraCageClick="extraCageClick"
+                @playerTotalValue="getPlayerTotalValue"
                 :front-row="frontRow"
                 :front-row-extra-cage="frontRowExtraCage"
                 :mid-row="midRow"
@@ -75,36 +84,48 @@ import CardsDeck from './components/CardsDeck.vue';
 import DroppedCards from './components/DroppedCards.vue';
 import WeatherCards from './components/WeatherCards.vue';
 import LeaderCard from './components/LeaderCard.vue';
+import PlayerStats from './components/PlayerStats.vue';
 
 export default {
-  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard },
+  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats },
   data() {
     return {
       frontRow: [],
-      frontRowExtraCage: {},
+      frontRowExtraCage: null,
       midRow: [],
-      midRowExtraCage: {},
+      midRowExtraCage: null,
       backRow: [],
-      backRowExtraCage: {},
+      backRowExtraCage: null,
       weatherCards: [],
       hand: [],
+      enemyHand: [],
       droppedCards: [],
       showDroppedPopup: false,
       medic: false,
       cardsDeck: [],
       activeCard: null,
+      playerNickname: 'Геральт',
       playerLeader: {
         id: '99',
         name: 'фольтест - предводитель севера',
         src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - предводитель севера.webp',
         role: 'leader'
       },
+      playerAvatar: 'src/assets/текстуры/geralt-avatar.jpg',
+      playerLives: 2,
+      playerTotalCount: 0,
+      playerFraction: 'Королевства Севера',
+      enemyNickname: 'Противник',
       enemyLeader: {
         id: '98',
         name: 'фольтест - железный владыка',
         src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - железный владыка.webp',
         role: 'leader'
-      }
+      },
+      enemyAvatar: 'src/assets/текстуры/anonim-avatar.svg',
+      enemyLives: 2,
+      enemyTotalCount: 0,
+      enemyFraction: 'Королевства Севера'
     };
   },
   mounted() {
@@ -229,6 +250,9 @@ export default {
     },
     showPopupMethod() {
       this.showDroppedPopup = true;
+    },
+    getPlayerTotalValue(newValue) {
+      this.playerTotalCount = newValue;
     }
   }
 };
@@ -296,25 +320,14 @@ export default {
   margin-bottom: 20px;
 }
 
-  .left_sidebar {
+.left_sidebar {
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    margin-right: 20px;
+    margin-right: 50px;
     margin-left: 10px;
-  }
-
-  .player_stats, .enemy_stats {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    height: 100px;
-    border-top: 3px solid black;
-    border-bottom: 3px solid black;
-  }
+}
 
   </style>

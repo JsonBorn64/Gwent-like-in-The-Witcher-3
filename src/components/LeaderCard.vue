@@ -24,6 +24,8 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    align-self: start;
+    margin-left: 10px;
     width: 100px;
     height: 130px;
     background-color: rgba(0, 0, 0, 0.2);

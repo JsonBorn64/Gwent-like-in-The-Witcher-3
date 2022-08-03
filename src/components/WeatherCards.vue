@@ -32,7 +32,7 @@ export default {
     justify-content: center;
     align-items: center;
     padding: 0 10px;
-    width: 200px;
+    width: 240px;
     height: 140px;
     background-color: rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s;

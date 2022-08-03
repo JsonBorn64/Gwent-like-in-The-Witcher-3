@@ -95,7 +95,7 @@ export default {
       this.cards.forEach(card => {
         for (let i = 0; i < this.cards.length; i++) {
           if (this.cards[i].id !== card.id && this.cards[i].name === card.name && this.cards[i].handshake) {
-            if (this.weatherCards.findIndex(wCard => wCard.influence === this.activeCard?.influence) !== -1) {
+            if (this.weatherCards.findIndex(wCard => (wCard.influence === this.rowType)) !== -1) {
               this.cards[i].computedValue += 1;
             } else {
               this.cards[i].computedValue += this.cards[i].defaultValue;

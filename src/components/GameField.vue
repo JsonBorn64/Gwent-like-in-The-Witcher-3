@@ -37,9 +37,6 @@
             :is-hand="'field'"
             :weather-cards="weatherCards"
         />
-        <div class="total_field_count">
-            {{ total }}
-        </div>
     </div>
 </template>
 
@@ -96,6 +93,11 @@ export default {
       total: 0
     };
   },
+  watch: {
+    total(newValue) {
+      this.$emit('playerTotalValue', newValue);
+    }
+  },
   methods: {
     frontRowClick() { this.$emit('frontRowClick'); },
     midRowClick() { this.$emit('midRowClick'); },
@@ -126,24 +128,6 @@ export default {
     width: 100%;
     max-width: 960px;
     box-sizing: border-box;
-}
-
-.total_field_count {
-    font-size: 30px;
-    font-weight: 600;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    color: black;
-    text-shadow: 0 0 3px white;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: -70px;
-    line-height: 0;
 }
 
 .fields_separator {
