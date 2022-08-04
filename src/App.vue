@@ -42,6 +42,12 @@
                 :mid-row-extra-cage="midRowExtraCage"
                 :back-row="backRow"
                 :back-row-extra-cage="backRowExtraCage"
+                :enemy-front-row="enemyFrontRow"
+                :enemy-front-row-extra-cage="enemyFrontRowExtraCage"
+                :enemy-mid-row="enemyMidRow"
+                :enemy-mid-row-extra-cage="enemyMidRowExtraCage"
+                :enemy-back-row="enemyBackRow"
+                :enemy-back-row-extra-cage="enemyBackRowExtraCage"
                 :weather-cards="weatherCards"
                 :active-card="activeCard"
                 :place="'field'"
@@ -51,16 +57,16 @@
             </div>
         </div>
         <div class="right_sidebar">
-            <div class="player-decks_wrapper">
+            <div class="enemy-decks_wrapper">
                 <dropped-cards
-                    :dropped-cards="droppedCards"
+                    :dropped-cards="enemyDroppedCards"
                     :show-dropped-popup="showDroppedPopup"
                     :medic="medic"
                     @closePopup="closePopupMethod"
                     @showPopup="showPopupMethod"
                     @medicRecoveredCard="medicRecoveredCard"
                 />
-                <cards-deck :cards-deck="cardsDeck" />
+                <cards-deck :cards-deck="enemyCardsDeck" />
             </div>
             <div class="player-decks_wrapper">
                 <dropped-cards
@@ -90,42 +96,54 @@ export default {
   components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats },
   data() {
     return {
-      frontRow: [],
-      frontRowExtraCage: null,
-      midRow: [],
-      midRowExtraCage: null,
-      backRow: [],
-      backRowExtraCage: null,
-      weatherCards: [],
-      hand: [],
-      enemyHand: [],
-      droppedCards: [],
-      showDroppedPopup: false,
-      medic: false,
-      cardsDeck: [],
-      activeCard: null,
+      // player data
       playerNickname: 'Геральт',
+      playerAvatar: 'src/assets/текстуры/geralt-avatar.jpg',
+      playerLives: 2,
+      playerTotalCount: 0,
+      playerFraction: 'Королевства Севера',
       playerLeader: {
         id: '99',
         name: 'фольтест - предводитель севера',
         src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - предводитель севера.webp',
         role: 'leader'
       },
-      playerAvatar: 'src/assets/текстуры/geralt-avatar.jpg',
-      playerLives: 2,
-      playerTotalCount: 0,
-      playerFraction: 'Королевства Севера',
+      frontRow: [],
+      frontRowExtraCage: null,
+      midRow: [],
+      midRowExtraCage: null,
+      backRow: [],
+      backRowExtraCage: null,
+      hand: [],
+      droppedCards: [],
+      showDroppedPopup: false,
+      cardsDeck: [],
+      activeCard: null,
+      medic: false,
+      // enemy data
       enemyNickname: 'Противник',
+      enemyAvatar: 'src/assets/текстуры/anonim-avatar.svg',
+      enemyLives: 2,
+      enemyTotalCount: 0,
+      enemyFraction: 'Королевства Севера',
       enemyLeader: {
         id: '98',
         name: 'фольтест - железный владыка',
         src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - железный владыка.webp',
         role: 'leader'
       },
-      enemyAvatar: 'src/assets/текстуры/anonim-avatar.svg',
-      enemyLives: 2,
-      enemyTotalCount: 0,
-      enemyFraction: 'Королевства Севера'
+      enemyFrontRow: [],
+      enemyFrontRowExtraCage: null,
+      enemyMidRow: [],
+      enemyMidRowExtraCage: null,
+      enemyBackRow: [],
+      enemyBackRowExtraCage: null,
+      enemyHand: [],
+      enemyDroppedCards: [],
+      showEnemyDroppedPopup: false,
+      enemyCardsDeck: [],
+      // common data
+      weatherCards: []
     };
   },
   mounted() {
@@ -134,8 +152,10 @@ export default {
       .then(data => {
         const allCards = data.sort(() => 0.5 - Math.random());
         this.cardsDeck = allCards.slice(0, 28);
+        this.enemyCardsDeck = allCards.slice(0, 30);
+        this.enemyHand = this.enemyCardsDeck.splice(0, 10);
         // const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 10; i++) {
           setTimeout(() => {
             this.hand.push(this.cardsDeck.shift());
           }, i * 100);
@@ -143,7 +163,7 @@ export default {
         setTimeout(() => {
           this.$refs.hand.style.overflowX = 'visible';
           this.hand.sort((a, b) => a.id - b.id);
-        }, 2000);
+        }, 1000);
       });
   },
   methods: {
@@ -312,12 +332,16 @@ export default {
   margin-left: 10px;
 }
 
-.player-decks_wrapper {
+.player-decks_wrapper, .enemy-decks_wrapper {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.enemy-decks_wrapper {
+  align-items: start;
 }
 
 .left_sidebar {

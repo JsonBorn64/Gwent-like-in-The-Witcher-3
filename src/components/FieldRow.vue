@@ -69,7 +69,7 @@ export default {
       return totalResult;
     },
     cards() {
-      return this.cardsProp.slice();
+      return [...this.cardsProp];
     }
   },
   mounted() {

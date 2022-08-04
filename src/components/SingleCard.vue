@@ -70,11 +70,11 @@ export default {
     },
     calcRightForActiveCard() {
       if (this.place === 'dropped') return;
-      const correction = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 96;
-      if (this.card.active && window.innerWidth < 1200) {
+      const correction = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 416;
+      if (this.card.active && window.innerWidth < 1525) {
         this.$refs.card.style.right = `-${correction}px`;
-      } else if (this.card.active && window.innerWidth >= 1200) {
-        this.$refs.card.style.right = `-${correction + ((window.innerWidth - 1200) / 2)}px`;
+      } else if (this.card.active && window.innerWidth >= 1525) {
+        this.$refs.card.style.right = `-${correction + ((window.innerWidth - 1525) / 2)}px`;
       } else {
         this.$refs.card.style.right = '0px';
       }

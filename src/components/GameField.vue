@@ -1,5 +1,32 @@
 <template>
     <div class="player_field">
+        <field-row
+            @click="backRowClick"
+            @rowTotalCount="fieldTotalCount"
+            :cards-prop="enemyBackRow"
+            :extra-cage="enemyBackRowExtraCage"
+            :row-type="'back'"
+            :place="'field'"
+            :weather-cards="weatherCards"
+        />
+        <field-row
+            @click="midRowClick"
+            @rowTotalCount="fieldTotalCount"
+            :cards-prop="enemyMidRow"
+            :extra-cage="enemyMidRowExtraCage"
+            :row-type="'mid'"
+            :place="'field'"
+            :weather-cards="weatherCards"
+        />
+        <field-row
+            @click="frontRowClick"
+            @rowTotalCount="fieldTotalCount"
+            :cards-prop="enemyFrontRow"
+            :extra-cage="enemyFrontRowExtraCage"
+            :row-type="'front'"
+            :place="'field'"
+            :weather-cards="weatherCards"
+        />
         <hr class="fields_separator">
         <field-row
             @click="frontRowClick"
@@ -10,7 +37,7 @@
             @extraCageClick="extraCageClick"
             :row-type="'front'"
             :active-card="activeCard"
-            :is-hand="'field'"
+            :place="'field'"
             :weather-cards="weatherCards"
         />
         <field-row
@@ -22,7 +49,7 @@
             @extraCageClick="extraCageClick"
             :row-type="'mid'"
             :active-card="activeCard"
-            :is-hand="'field'"
+            :place="'field'"
             :weather-cards="weatherCards"
         />
         <field-row
@@ -34,7 +61,7 @@
             @extraCageClick="extraCageClick"
             :row-type="'back'"
             :active-card="activeCard"
-            :is-hand="'field'"
+            :place="'field'"
             :weather-cards="weatherCards"
         />
     </div>
@@ -70,13 +97,37 @@ export default {
       type: Object,
       default: null
     },
+    enemyFrontRow: {
+      type: Array,
+      required: true
+    },
+    enemyFrontRowExtraCage: {
+      type: Object,
+      default: null
+    },
+    enemyMidRow: {
+      type: Array,
+      required: true
+    },
+    enemyMidRowExtraCage: {
+      type: Object,
+      default: null
+    },
+    enemyBackRow: {
+      type: Array,
+      required: true
+    },
+    enemyBackRowExtraCage: {
+      type: Object,
+      default: null
+    },
     weatherCards: {
       type: Array,
       default: () => []
     },
     place: {
       type: String,
-      default: 'dropped'
+      default: 'field'
     },
     activeCard: {
       type: Object,
