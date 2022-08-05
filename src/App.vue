@@ -10,6 +10,7 @@
                 :total-count="enemyTotalCount"
                 :fraction="enemyFraction"
                 :hand-count="enemyHand.length"
+                :is-enemy="true"
             />
             <weather-cards
                 @click="weatherCardsClick"
@@ -33,9 +34,13 @@
                 @frontRowClick="rowClick('front')"
                 @midRowClick="rowClick('mid')"
                 @backRowClick="rowClick('back')"
+                @enemyFrontRowClick="rowClick('front', true)"
+                @enemyMidRowClick="rowClick('mid', true)"
+                @enemyBackRowClick="rowClick('back', true)"
                 @cardRowClicked="cardInRowClicked"
                 @extraCageClick="extraCageClick"
                 @playerTotalValue="getPlayerTotalValue"
+                @enemyTotalValue="getEnemyTotalValue"
                 :front-row="frontRow"
                 :front-row-extra-cage="frontRowExtraCage"
                 :mid-row="midRow"
@@ -60,10 +65,10 @@
             <div class="enemy-decks_wrapper">
                 <dropped-cards
                     :dropped-cards="enemyDroppedCards"
-                    :show-dropped-popup="showDroppedPopup"
-                    :medic="medic"
-                    @closePopup="closePopupMethod"
-                    @showPopup="showPopupMethod"
+                    :show-dropped-popup="showEnemyDroppedPopup"
+                    :is-enemy="true"
+                    @closeEnemyPopup="closePopupMethod(true)"
+                    @showEnemyPopup="showPopupMethod(true)"
                     @medicRecoveredCard="medicRecoveredCard"
                 />
                 <cards-deck :cards-deck="enemyCardsDeck" />
@@ -184,6 +189,7 @@ export default {
       this.hand = this.hand.filter(item => this.activeCard.id !== item.id);
       getBackCard.computedValue = getBackCard.defaultValue;
       this.hand.push(getBackCard);
+      this.hand.sort((a, b) => a.id - b.id);
       this[`${rowType}Row`] = this[`${rowType}Row`].filter(item => item.id !== card.id);
       this[`${rowType}Row`].forEach(item => {
         item.doubled = false;
@@ -191,16 +197,16 @@ export default {
       this[`${rowType}Row`].unshift(this.activeCard);
       this.activeCard = null;
     },
-    rowClick(rowType) {
+    rowClick(rowType, isEnemy) {
       // Common cards
-      if (this.activeCard?.role === rowType && !this.activeCard?.spy && !this.activeCard?.medic) {
+      if (this.activeCard?.role === rowType && !this.activeCard?.spy && !this.activeCard?.medic && !isEnemy) {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[`${rowType}Row`].push(this.activeCard);
         this[`${rowType}Row`].sort((a, b) => a.id - b.id);
       }
       // Medic cards
-      if (this.activeCard?.role === rowType && this.activeCard?.medic) {
+      if (this.activeCard?.role === rowType && this.activeCard?.medic && !isEnemy) {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[`${rowType}Row`].push(this.activeCard);
@@ -213,19 +219,50 @@ export default {
           this.showDroppedPopup = true;
         }
       }
+      // spy cards
+      if (this.activeCard?.role === rowType && this.activeCard?.spy && isEnemy) {
+        this.activeCard.active = false;
+        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
+        const rowTypeCapitalFirstLetter = rowType.charAt(0).toUpperCase() + rowType.slice(1);
+        this[`enemy${rowTypeCapitalFirstLetter}Row`].push(this.activeCard);
+        this[`enemy${rowTypeCapitalFirstLetter}Row`].sort((a, b) => a.id - b.id);
+        for (let i = 1; i < 3; i++) {
+          setTimeout(() => {
+            this.$refs.hand.style.overflowX = 'hidden';
+            this.hand.push(this.cardsDeck.shift());
+          }, i * 300);
+        }
+        setTimeout(() => {
+          this.$refs.hand.style.overflowX = 'visible';
+          this.hand.sort((a, b) => a.id - b.id);
+        }, 1000);
+      }
       // Execution cards
       if (this.activeCard?.role === 'execution') {
-        const allCards = this.frontRow.concat(this.midRow, this.backRow);
+        const allCards = this.frontRow.concat(
+          this.midRow,
+          this.backRow,
+          this.enemyFrontRow,
+          this.enemyMidRow,
+          this.enemyBackRow
+        );
         const maxValue = Math.max(...allCards.map(card => {
           if (!card.hero) { return card.computedValue; } return -Infinity;
         }));
-        const rowTypes = ['front', 'mid', 'back'];
+        const rowTypes = ['front', 'mid', 'back', 'enemyFront', 'enemyMid', 'enemyBack'];
         rowTypes.forEach(type => {
           this[`${type}Row`] = this[`${type}Row`].filter(card => {
-            if (!card.hero && card.computedValue === maxValue) {
+            if (!card.hero && card.computedValue === maxValue
+            && (type === 'front' || type === 'mid' || type === 'back')) {
               const cardToPush = JSON.parse(JSON.stringify(card));
               cardToPush.computedValue = card.defaultValue;
               this.droppedCards.push(cardToPush);
+            }
+            if (!card.hero && card.computedValue === maxValue
+            && (type === 'enemyFront' || type === 'enemyMid' || type === 'enemyBack')) {
+              const cardToPush = JSON.parse(JSON.stringify(card));
+              cardToPush.computedValue = card.defaultValue;
+              this.enemyDroppedCards.push(cardToPush);
             }
             if (!card.hero) { return card.computedValue !== maxValue; } return true;
           });
@@ -265,14 +302,25 @@ export default {
         this[cageType] = this.activeCard;
       }
     },
-    closePopupMethod() {
-      this.showDroppedPopup = false;
+    closePopupMethod(isEnemy) {
+      if (!this.medic && !isEnemy) {
+        this.showDroppedPopup = false;
+      } else {
+        this.showEnemyDroppedPopup = false;
+      }
     },
-    showPopupMethod() {
-      this.showDroppedPopup = true;
+    showPopupMethod(isEnemy) {
+      if (!isEnemy) {
+        this.showDroppedPopup = true;
+      } else {
+        this.showEnemyDroppedPopup = true;
+      }
     },
     getPlayerTotalValue(newValue) {
       this.playerTotalCount = newValue;
+    },
+    getEnemyTotalValue(newValue) {
+      this.enemyTotalCount = newValue;
     }
   }
 };
@@ -308,7 +356,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 938px;
+  max-width: 948px;
   height: 100vh;
 }
 
@@ -317,6 +365,7 @@ export default {
   width: calc(100% - 20px);
   height: 120px;
   margin-bottom: 20px;
+  margin-left: 10px;
   box-shadow: 0 -6px 10px 6px rgba(0, 0, 0, 0.4) inset;
   overflow-x: clip;
 }
@@ -350,7 +399,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    margin-right: 50px;
+    margin-right: 40px;
     margin-left: 10px;
 }
 

@@ -19,7 +19,7 @@
                 <div>{{ fraction }}</div>
             </div>
         </div>
-        <div class="total_field_count">
+        <div class="total_field_count" :style="{background: isEnemy ? '#96BBC4' : false}">
             {{ totalCount }}
         </div>
     </div>
@@ -55,6 +55,10 @@ export default {
     handCount: {
       type: Number,
       required: true
+    },
+    isEnemy: {
+      type: Boolean,
+      default: false
     }
   }
 };

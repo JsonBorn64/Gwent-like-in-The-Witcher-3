@@ -46,12 +46,11 @@ export default {
     medic: {
       type: Boolean,
       default: false
+    },
+    isEnemy: {
+      type: Boolean,
+      default: false
     }
-  },
-  data() {
-    return {
-      dropClickIdx: 0
-    };
   },
   methods: {
     horizontalScroll(e) {
@@ -64,10 +63,18 @@ export default {
       }
     },
     closePopup() {
-      this.$emit('closePopup');
+      if (!this.isEnemy) {
+        this.$emit('closePopup');
+      } else {
+        this.$emit('closeEnemyPopup');
+      }
     },
     showPopup() {
-      this.$emit('showPopup');
+      if (!this.isEnemy) {
+        this.$emit('showPopup');
+      } else {
+        this.$emit('showEnemyPopup');
+      }
     },
     medicRecoveredCard(card) {
       this.$emit('medicRecoveredCard', card);

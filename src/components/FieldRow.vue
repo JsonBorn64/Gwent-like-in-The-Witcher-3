@@ -16,10 +16,10 @@
                 @cardClicked="getClickedCard"
                 :cards="cards"
                 :active-card="activeCard"
-                :place="'field'"
+                :place="place"
             />
         </div>
-        <div class="field_total-count">
+        <div class="field_total-count" :style="{background: isEnemy ? '#96BBC4' : false}">
             {{ rowTotalCount }}
         </div>
     </div>
@@ -55,35 +55,49 @@ export default {
     activeCard: {
       type: Object,
       default: null
+    },
+    isEnemy: {
+      type: Boolean,
+      default: false
     }
   },
+  data() {
+    return {
+      rowTotalCount: 0
+    };
+  },
   computed: {
-    rowTotalCount() {
-      this.updateCardComputedValue();
-      this.extraCageRoyalHornInflunce();
-      let totalResult = 0;
-      this.cards.forEach(card => {
-        if (card.computedValue) totalResult += card.computedValue;
-      });
-      this.$emit('rowTotalCount', totalResult, this.rowType);
-      return totalResult;
-    },
     cards() {
-      return [...this.cardsProp];
+      return this.cardsProp;
     }
   },
   mounted() {
     this.backgroundImg(this.rowType);
   },
   updated() {
+    this.calcRowTotalCount();
     this.showTurnsTips();
-    if (this.activeCard?.role === 'scarecrow') {
+    if (this.activeCard?.role === 'scarecrow' && !this.isEnemy) {
       this.$refs.row.style.overflow = 'visible';
     } else {
       this.$refs.row.style.overflow = 'hidden';
     }
   },
   methods: {
+    calcRowTotalCount() {
+      this.updateCardComputedValue();
+      this.extraCageRoyalHornInflunce();
+      let totalResult = 0;
+      this.cards.forEach(card => {
+        if (card.computedValue) totalResult += card.computedValue;
+      });
+      if (!this.isEnemy) {
+        this.$emit('rowTotalCount', totalResult, this.rowType);
+      } else {
+        this.$emit('enemyRowTotalCount', totalResult, this.rowType, this.isEnemy);
+      }
+      this.rowTotalCount = totalResult;
+    },
     updateCardComputedValue() {
       // reset computedValue
       this.cards.forEach(card => {
@@ -154,10 +168,13 @@ export default {
     showTurnsTips() {
       const defaultShadow = '0 0 0 transparent, 0 -16px 30px 0px #00000099 inset';
       const yellowShadow = '0 0 4px 2px #A07F33, 0 -16px 30px 0px #00000099 inset';
-      if (this.activeCard?.role === this.rowType && !this.activeCard?.spy) {
+      if (this.activeCard?.role === this.rowType && !this.activeCard?.spy && !this.isEnemy) {
         this.$refs.row.style.boxShadow = yellowShadow;
         this.$refs.cage.style.boxShadow = defaultShadow;
-      } else if (this.activeCard?.role === 'extra' && !this.extraCage?.id) {
+      } else if (this.activeCard?.role === this.rowType && this.activeCard?.spy && this.isEnemy) {
+        this.$refs.row.style.boxShadow = yellowShadow;
+        this.$refs.cage.style.boxShadow = defaultShadow;
+      } else if (this.activeCard?.role === 'extra' && !this.extraCage?.id && !this.isEnemy) {
         this.$refs.cage.style.boxShadow = yellowShadow;
         this.$refs.row.style.boxShadow = defaultShadow;
       } else if (this.activeCard?.role === 'execution') {

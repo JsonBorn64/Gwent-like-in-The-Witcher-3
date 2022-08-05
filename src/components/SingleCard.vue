@@ -93,7 +93,8 @@ export default {
       const scarecrow = this.activeCard?.role === 'scarecrow';
       if (this.place === 'hand') {
         this.$refs.card.style.pointerEvents = 'auto';
-      } else if (this.place === 'cage' || this.place === 'dropped' || this.place === 'weather') {
+      } else if (this.place === 'cage'
+      || this.place === 'dropped' || this.place === 'weather' || this.place === 'enemyField') {
         this.$refs.card.style.pointerEvents = 'none';
       } else if (this.place === 'field' && !scarecrow) {
         this.$refs.card.style.boxShadow = '0 0 20px -8px black';

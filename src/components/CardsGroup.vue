@@ -42,7 +42,7 @@ export default {
   mounted() {
     this.getFieldRowWidth();
     window.addEventListener('resize', this.getFieldRowWidth);
-    if (this.place === 'weather') {
+    if (this.place !== 'hand') {
       this.$refs.wrapper.style.justifyContent = 'center';
     }
   },
