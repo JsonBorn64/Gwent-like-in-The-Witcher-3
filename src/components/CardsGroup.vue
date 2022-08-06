@@ -3,7 +3,7 @@
         <TransitionGroup name="cards">
             <single-card
                 v-for="card in cards"
-                :key="card.id"
+                :key="card?.id"
                 :card="card"
                 :place="place"
                 :cards-count="cards.length"

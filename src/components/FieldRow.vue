@@ -268,16 +268,6 @@ export default {
   transform: translateY(20px);
 }
 
-.rain_fx {
-  position: absolute;
-  height: 120px;
-  width: 460px;
-}
-
-.rain_fx:last-child {
-  right: 0;
-}
-
 .rain {
   position: absolute;
   pointer-events: none;
@@ -300,6 +290,7 @@ export default {
 
 .snow {
     position: absolute;
+    pointer-events: none;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -318,7 +309,7 @@ export default {
   }
 
   .clouds {
-    opacity: 0.2;
+    opacity: 0.3;
     pointer-events: none;
     position: absolute;
     overflow: hidden;

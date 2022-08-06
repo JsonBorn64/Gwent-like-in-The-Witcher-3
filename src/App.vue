@@ -120,7 +120,7 @@ export default {
       backRow: [],
       backRowExtraCage: null,
       hand: [],
-      droppedCards: [],
+      droppedCards: [{ id: 21, name: 'принц стеннис', src: 'src/assets/Карты гвинт webp/1. Королевства севера/5 - принц стеннис.webp', defaultValue: 5, computedValue: 5, role: 'front', spy: true, active: false }],
       showDroppedPopup: false,
       cardsDeck: [],
       activeCard: null,
@@ -160,7 +160,7 @@ export default {
         this.enemyCardsDeck = allCards.slice(0, 30);
         this.enemyHand = this.enemyCardsDeck.splice(0, 10);
         // const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 20; i++) {
           setTimeout(() => {
             this.hand.push(this.cardsDeck.shift());
           }, i * 100);
@@ -168,7 +168,7 @@ export default {
         setTimeout(() => {
           this.$refs.hand.style.overflowX = 'visible';
           this.hand.sort((a, b) => a.id - b.id);
-        }, 1000);
+        }, 2000);
       });
   },
   methods: {
@@ -226,6 +226,7 @@ export default {
         const rowTypeCapitalFirstLetter = rowType.charAt(0).toUpperCase() + rowType.slice(1);
         this[`enemy${rowTypeCapitalFirstLetter}Row`].push(this.activeCard);
         this[`enemy${rowTypeCapitalFirstLetter}Row`].sort((a, b) => a.id - b.id);
+        if (this.cardsDeck.length === 0) return;
         for (let i = 1; i < 3; i++) {
           setTimeout(() => {
             this.$refs.hand.style.overflowX = 'hidden';
@@ -296,10 +297,26 @@ export default {
     medicRecoveredCard(card) {
       this.medic = false;
       this.showDroppedPopup = false;
+      this.droppedCards = this.droppedCards.filter(item => item.id !== card.id);
+      if (card.spy && this.cardsDeck.length !== 0) {
+        for (let i = 1; i < 3; i++) {
+          setTimeout(() => {
+            this.$refs.hand.style.overflowX = 'hidden';
+            this.hand.push(this.cardsDeck.shift());
+          }, i * 300);
+        }
+        setTimeout(() => {
+          this.$refs.hand.style.overflowX = 'visible';
+          this.hand.sort((a, b) => a.id - b.id);
+        }, 1000);
+        if (card.role === 'front') this.enemyFrontRow.push(card);
+        if (card.role === 'mid') this.enemyMidRow.push(card);
+        if (card.role === 'back') this.enemyBackRow.push(card);
+        return;
+      }
       if (card.role === 'front') this.frontRow.push(card);
       if (card.role === 'mid') this.midRow.push(card);
       if (card.role === 'back') this.backRow.push(card);
-      this.droppedCards = this.droppedCards.filter(item => item.id !== card.id);
     },
     extraCageClick(cageType) {
       if (!this[cageType]?.id && this.activeCard?.troubadour) {
