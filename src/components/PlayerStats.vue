@@ -10,8 +10,16 @@
                     {{ handCount }}
                 </div>
                 <div class="lives">
-                    <img src="src/assets/текстуры/gem.png" alt="">
-                    <img src="src/assets/текстуры/gem.png" alt="">
+                    <img
+                        src="src/assets/текстуры/gem.png"
+                        alt="gem"
+                        :style="{filter: lives < 2 ? 'grayscale(1)' : '' }"
+                    >
+                    <img
+                        src="src/assets/текстуры/gem.png"
+                        alt="gem"
+                        :style="{filter: lives < 1 ? 'grayscale(1)' : '' }"
+                    >
                 </div>
             </div>
             <div class="stats-down">

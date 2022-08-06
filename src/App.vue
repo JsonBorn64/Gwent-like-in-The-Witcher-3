@@ -287,12 +287,18 @@ export default {
           this.droppedCards.push(card);
         });
         this.weatherCards = [];
+      } else {
+        this.activeCard.active = false;
+        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
+        this.droppedCards.push(this.activeCard);
       }
     },
     medicRecoveredCard(card) {
       this.medic = false;
       this.showDroppedPopup = false;
-      this.hand.push(card);
+      if (card.role === 'front') this.frontRow.push(card);
+      if (card.role === 'mid') this.midRow.push(card);
+      if (card.role === 'back') this.backRow.push(card);
       this.droppedCards = this.droppedCards.filter(item => item.id !== card.id);
     },
     extraCageClick(cageType) {

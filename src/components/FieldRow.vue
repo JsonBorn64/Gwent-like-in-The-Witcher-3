@@ -19,7 +19,14 @@
                 :place="place"
             />
         </div>
-        <div class="field_total-count" :style="{background: isEnemy ? '#96BBC4' : false}">
+        <div class="snow" v-if="rowType === 'front' && snow" />
+        <div class="clouds" v-if="rowType === 'mid' && haze">
+            <div class="clouds-1" />
+            <div class="clouds-2" />
+            <div class="clouds-3" />
+        </div>
+        <div class="rain" v-if="rowType === 'back' && rain" />
+        <div class="field_total-count" :style="{background: isEnemy ? '#96BBC4' : '#A07F33'}">
             {{ rowTotalCount }}
         </div>
     </div>
@@ -63,7 +70,10 @@ export default {
   },
   data() {
     return {
-      rowTotalCount: 0
+      rowTotalCount: 0,
+      snow: false,
+      haze: false,
+      rain: false
     };
   },
   computed: {
@@ -143,7 +153,8 @@ export default {
       }
     },
     weatherInfluence() {
-      this.weatherCards.forEach(weatherCard => {
+      const wCards = this.weatherCards;
+      wCards.forEach(weatherCard => {
         if ((weatherCard?.frost && this.rowType === 'front')
         || (weatherCard?.haze && this.rowType === 'mid')
         || (weatherCard?.rain && this.rowType === 'back')) {
@@ -152,6 +163,9 @@ export default {
           });
         }
       });
+      this.snow = wCards.findIndex(wCard => (wCard.influence === this.rowType)) !== -1;
+      this.haze = wCards.findIndex(wCard => (wCard.influence === this.rowType)) !== -1;
+      this.rain = wCards.findIndex(wCard => (wCard.influence === this.rowType)) !== -1;
     },
     extraCageClick() {
       this.$emit('extraCageClick', `${this.rowType}RowExtraCage`);
@@ -253,4 +267,105 @@ export default {
   opacity: 0;
   transform: translateY(20px);
 }
+
+.rain_fx {
+  position: absolute;
+  height: 120px;
+  width: 460px;
+}
+
+.rain_fx:last-child {
+  right: 0;
+}
+
+.rain {
+  position: absolute;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-image: url("https://cdn.discordapp.com/attachments/744182992037216260/990016273008177242/rain1.png"),
+  url("https://cdn.discordapp.com/attachments/744182992037216260/990016273217900584/rain2.png"),
+  url("https://cdn.discordapp.com/attachments/744182992037216260/990016273456988240/rain3.png");
+  animation: rain 1.3s linear infinite;
+}
+@keyframes rain {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  100% {
+    background-position: 500px 1000px, 400px 400px, 300px 300px;
+  }
+}
+
+.snow {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-image: url("https://cdn.discordapp.com/attachments/744182992037216260/990023034524033105/snow1.png"),
+    url("https://cdn.discordapp.com/attachments/744182992037216260/990023034758922250/snow2.png"),
+    url("https://cdn.discordapp.com/attachments/744182992037216260/990023034951827556/snow3.png");
+    animation: snow 20s linear  infinite ;
+  }
+  @keyframes snow {
+    0% {
+      background-position: 0px 0px, 0px 0px, 0px 0px;
+    }
+    100% {
+      background-position: 500px 1000px, 400px 400px, 300px 300px;
+    }
+  }
+
+  .clouds {
+    opacity: 0.2;
+    pointer-events: none;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+  }
+
+  .clouds-1,
+  .clouds-2,
+  .clouds-3 {
+    background-repeat: repeat-x;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 500px;
+  }
+
+  @keyframes clouds-loop-1 {
+    to {
+      background-position: -1000px 0;
+    }
+  }
+  .clouds-1 {
+    background-image: url("https://s.cdpn.io/15514/clouds_2.png");
+    animation: clouds-loop-1 20s infinite linear;
+  }
+
+  @keyframes clouds-loop-2 {
+    to {
+      background-position: -1000px 0;
+    }
+  }
+  .clouds-2 {
+    background-image: url("https://s.cdpn.io/15514/clouds_1.png");
+    animation: clouds-loop-2 15s infinite linear;
+  }
+
+  @keyframes clouds-loop-3 {
+    to {
+      background-position: -1579px 0;
+    }
+  }
+  .clouds-3 {
+    background-image: url("https://s.cdpn.io/15514/clouds_3.png");
+    animation: clouds-loop-3 17s infinite linear;
+  }
 </style>
