@@ -85,6 +85,19 @@
                 <cards-deck :cards-deck="cardsDeck" />
             </div>
         </div>
+        <enemy-a-i
+            :enemy-front-row="enemyFrontRow"
+            :enemy-front-row-extra-cage="enemyFrontRowExtraCage"
+            :enemy-mid-row="enemyMidRow"
+            :enemy-mid-row-extra-cage="enemyMidRowExtraCage"
+            :enemy-back-row="enemyBackRow"
+            :enemy-back-row-extra-cage="enemyBackRowExtraCage"
+            :weather-cards="weatherCards"
+            :enemy-hand="enemyHand"
+            :enemy-dropped-cards="enemyDroppedCards"
+            :enemy-cards-deck="enemyCardsDeck"
+            :enemy-lives="enemyLives"
+        />
     </div>
 </template>
 
@@ -96,9 +109,10 @@ import DroppedCards from './components/DroppedCards.vue';
 import WeatherCards from './components/WeatherCards.vue';
 import LeaderCard from './components/LeaderCard.vue';
 import PlayerStats from './components/PlayerStats.vue';
+import EnemyAI from './components/EnemyAI.vue';
 
 export default {
-  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats },
+  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats, EnemyAI },
   data() {
     return {
       // player data
@@ -120,7 +134,7 @@ export default {
       backRow: [],
       backRowExtraCage: null,
       hand: [],
-      droppedCards: [{ id: 21, name: 'принц стеннис', src: 'src/assets/Карты гвинт webp/1. Королевства севера/5 - принц стеннис.webp', defaultValue: 5, computedValue: 5, role: 'front', spy: true, active: false }],
+      droppedCards: [],
       showDroppedPopup: false,
       cardsDeck: [],
       activeCard: null,
@@ -160,7 +174,7 @@ export default {
         this.enemyCardsDeck = allCards.slice(0, 30);
         this.enemyHand = this.enemyCardsDeck.splice(0, 10);
         // const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 10; i++) {
           setTimeout(() => {
             this.hand.push(this.cardsDeck.shift());
           }, i * 100);
@@ -168,7 +182,7 @@ export default {
         setTimeout(() => {
           this.$refs.hand.style.overflowX = 'visible';
           this.hand.sort((a, b) => a.id - b.id);
-        }, 2000);
+        }, 1000);
       });
   },
   methods: {
@@ -288,6 +302,8 @@ export default {
           this.droppedCards.push(card);
         });
         this.weatherCards = [];
+      } else if (this.activeCard?.role !== 'weather') {
+        this.activeCard.active = false;
       } else {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);

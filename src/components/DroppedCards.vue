@@ -13,19 +13,21 @@
                           left: `${10 - idx/2}px` }"
             />
         </div>
-        <div class="dropped_cards_popup-wrapper" v-if="showDroppedPopup">
-            <div class="dropped_overlay" @click="closePopup" />
-            <div class="dropped_cards_popup" @wheel.prevent="horizontalScroll" ref="popup">
-                <single-card
-                    v-for="card in droppedCards"
-                    :key="card.id"
-                    :card="card"
-                    :place="'popup'"
-                    :medic="medic"
-                    @medicRecoveredCard="medicRecoveredCard"
-                />
+        <Transition>
+            <div class="dropped_cards_popup-wrapper" v-if="showDroppedPopup">
+                <div class="dropped_overlay" @click="closePopup" />
+                <div class="dropped_cards_popup" @wheel.prevent="horizontalScroll" ref="popup">
+                    <single-card
+                        v-for="card in droppedCards"
+                        :key="card.id"
+                        :card="card"
+                        :place="'popup'"
+                        :medic="medic"
+                        @medicRecoveredCard="medicRecoveredCard"
+                    />
+                </div>
             </div>
-        </div>
+        </Transition>
     </div>
 </template>
 
@@ -102,6 +104,7 @@ export default {
 
 .dropped_cards_popup-wrapper {
   position: absolute;
+  z-index: 1;
 }
 
 .dropped_overlay {
@@ -127,6 +130,16 @@ export default {
   max-width: 100%;
   z-index: 2;
   overflow-x: scroll;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 
 ::-webkit-scrollbar {

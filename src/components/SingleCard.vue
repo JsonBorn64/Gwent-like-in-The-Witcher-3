@@ -99,10 +99,12 @@ export default {
       } else if (this.place === 'field' && !scarecrow) {
         this.$refs.card.style.boxShadow = '0 0 20px -8px black';
         this.$refs.card.style.pointerEvents = 'none';
+        this.$refs.card.style.zIndex = '0';
         this.changeValColor();
       } else if (this.place === 'field' && scarecrow && !this.card.hero) {
         this.$refs.card.style.pointerEvents = 'auto';
         this.$refs.card.style.boxShadow = '0 0 4px 2px #f3c14c';
+        this.$refs.card.style.zIndex = '1';
         this.changeValColor();
       } else if (this.place === 'popup' && !this.medic) {
         this.$refs.card.style.pointerEvents = 'none';
