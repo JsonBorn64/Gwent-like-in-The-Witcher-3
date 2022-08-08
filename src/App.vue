@@ -11,6 +11,7 @@
                 :fraction="enemyFraction"
                 :hand-count="enemyHand.length"
                 :is-enemy="true"
+                :turn="turn"
             />
             <weather-cards
                 @click="weatherCardsClick"
@@ -26,6 +27,7 @@
                 :total-count="playerTotalCount"
                 :fraction="playerFraction"
                 :hand-count="hand.length"
+                :turn="turn"
             />
             <leader-card :leader-card="playerLeader" />
         </div>
@@ -57,7 +59,7 @@
                 :active-card="activeCard"
                 :place="'field'"
             />
-            <div class="hand" ref="hand">
+            <div class="hand" ref="hand" :style="{pointerEvents: turn !== 'player' ? 'none' : 'auto'}">
                 <cards-group :cards="hand" :place="'hand'" @cardClicked="activateCard" />
             </div>
         </div>
@@ -85,19 +87,6 @@
                 <cards-deck :cards-deck="cardsDeck" />
             </div>
         </div>
-        <enemy-a-i
-            :enemy-front-row="enemyFrontRow"
-            :enemy-front-row-extra-cage="enemyFrontRowExtraCage"
-            :enemy-mid-row="enemyMidRow"
-            :enemy-mid-row-extra-cage="enemyMidRowExtraCage"
-            :enemy-back-row="enemyBackRow"
-            :enemy-back-row-extra-cage="enemyBackRowExtraCage"
-            :weather-cards="weatherCards"
-            :enemy-hand="enemyHand"
-            :enemy-dropped-cards="enemyDroppedCards"
-            :enemy-cards-deck="enemyCardsDeck"
-            :enemy-lives="enemyLives"
-        />
     </div>
 </template>
 
@@ -109,10 +98,9 @@ import DroppedCards from './components/DroppedCards.vue';
 import WeatherCards from './components/WeatherCards.vue';
 import LeaderCard from './components/LeaderCard.vue';
 import PlayerStats from './components/PlayerStats.vue';
-import EnemyAI from './components/EnemyAI.vue';
 
 export default {
-  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats, EnemyAI },
+  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats },
   data() {
     return {
       // player data
@@ -162,7 +150,8 @@ export default {
       showEnemyDroppedPopup: false,
       enemyCardsDeck: [],
       // common data
-      weatherCards: []
+      weatherCards: [],
+      turn: 'player'
     };
   },
   mounted() {
@@ -170,8 +159,8 @@ export default {
       .then(res => res.json())
       .then(data => {
         const allCards = data.sort(() => 0.5 - Math.random());
-        this.cardsDeck = allCards.slice(0, 28);
-        this.enemyCardsDeck = allCards.slice(0, 30);
+        this.cardsDeck = allCards.slice(0, 15);
+        this.enemyCardsDeck = allCards.slice(15, 30).sort((a, b) => a.id - b.id);
         this.enemyHand = this.enemyCardsDeck.splice(0, 10);
         // const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
         for (let i = 0; i < 10; i++) {
@@ -218,6 +207,7 @@ export default {
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this[`${rowType}Row`].push(this.activeCard);
         this[`${rowType}Row`].sort((a, b) => a.id - b.id);
+        this.enemyTurn();
       }
       // Medic cards
       if (this.activeCard?.role === rowType && this.activeCard?.medic && !isEnemy) {
@@ -232,6 +222,7 @@ export default {
           this.medic = true;
           this.showDroppedPopup = true;
         }
+        this.enemyTurn();
       }
       // spy cards
       if (this.activeCard?.role === rowType && this.activeCard?.spy && isEnemy) {
@@ -251,9 +242,11 @@ export default {
           this.$refs.hand.style.overflowX = 'visible';
           this.hand.sort((a, b) => a.id - b.id);
         }, 1000);
+        this.enemyTurn();
       }
       // Execution cards
       if (this.activeCard?.role === 'execution') {
+        this.droppedCards.push(this.activeCard);
         const allCards = this.frontRow.concat(
           this.midRow,
           this.backRow,
@@ -282,9 +275,9 @@ export default {
             if (!card.hero) { return card.computedValue !== maxValue; } return true;
           });
         });
-        this.droppedCards.unshift(this.activeCard);
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
+        this.enemyTurn();
       }
     },
     weatherCardsClick() {
@@ -298,17 +291,15 @@ export default {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this.droppedCards.push(this.activeCard);
-        this.weatherCards.forEach(card => {
-          this.droppedCards.push(card);
-        });
         this.weatherCards = [];
       } else if (this.activeCard?.role !== 'weather') {
-        this.activeCard.active = false;
+        if (this.activeCard) this.activeCard.active = false;
       } else {
         this.activeCard.active = false;
         this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
         this.droppedCards.push(this.activeCard);
       }
+      this.enemyTurn();
     },
     medicRecoveredCard(card) {
       this.medic = false;
@@ -360,6 +351,131 @@ export default {
     },
     getEnemyTotalValue(newValue) {
       this.enemyTotalCount = newValue;
+    },
+    enemyTurn() {
+      this.turn = 'enemy';
+      setTimeout(() => {
+        // Search spy card
+        let cardToTurn = this.enemyHand.find(card => card.spy);
+        if (cardToTurn) {
+          this[`${cardToTurn.role}Row`].push(cardToTurn);
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          this.enemyHand.push(...this.enemyCardsDeck.splice(0, 2));
+          this.enemyHand.sort((a, b) => a.id - b.id);
+          this.turn = 'player';
+          return;
+        }
+        // Search hero card
+        cardToTurn = this.enemyHand.find(card => card.hero && !card.medic && card.role !== 'scarecrow');
+        if (cardToTurn) {
+          const cardRoleCapitalLetter = cardToTurn.role.charAt(0).toUpperCase() + cardToTurn.role.slice(1);
+          this[`enemy${cardRoleCapitalLetter}Row`].push(cardToTurn);
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          this.turn = 'player';
+          return;
+        }
+        // Search common card
+        cardToTurn = this.enemyHand.find(card => !card.spy && !card.hero && !card.medic
+        && card.role !== 'weather' && card.role !== 'execution' && card.role !== 'scarecrow' && card.role !== 'extra');
+        if (cardToTurn) {
+          const cardRoleCapitalLetter = cardToTurn.role.charAt(0).toUpperCase() + cardToTurn.role.slice(1);
+          this[`enemy${cardRoleCapitalLetter}Row`].push(cardToTurn);
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          this.turn = 'player';
+          return;
+        }
+        // Search execution card
+        cardToTurn = this.enemyHand.find(card => card.role === 'execution');
+        if (cardToTurn) {
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          this.enemyDroppedCards.push(cardToTurn);
+          const allCards = this.frontRow.concat(
+            this.midRow,
+            this.backRow,
+            this.enemyFrontRow,
+            this.enemyMidRow,
+            this.enemyBackRow
+          );
+          const maxValue = Math.max(...allCards.map(card => {
+            if (!card.hero) { return card.computedValue; } return -Infinity;
+          }));
+          const rowTypes = ['front', 'mid', 'back', 'enemyFront', 'enemyMid', 'enemyBack'];
+          rowTypes.forEach(type => {
+            this[`${type}Row`] = this[`${type}Row`].filter(card => {
+              if (!card.hero && card.computedValue === maxValue
+            && (type === 'front' || type === 'mid' || type === 'back')) {
+                const cardToPush = JSON.parse(JSON.stringify(card));
+                cardToPush.computedValue = card.defaultValue;
+                this.droppedCards.push(cardToPush);
+              }
+              if (!card.hero && card.computedValue === maxValue
+            && (type === 'enemyFront' || type === 'enemyMid' || type === 'enemyBack')) {
+                const cardToPush = JSON.parse(JSON.stringify(card));
+                cardToPush.computedValue = card.defaultValue;
+                this.enemyDroppedCards.push(cardToPush);
+              }
+              if (!card.hero) { return card.computedValue !== maxValue; } return true;
+            });
+          });
+          this.turn = 'player';
+        }
+        // Search medic card
+        cardToTurn = this.enemyHand.find(card => card.medic);
+        if (cardToTurn) {
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          const cardRoleCapitalLetter = cardToTurn.role.charAt(0).toUpperCase() + cardToTurn.role.slice(1);
+          this[`enemy${cardRoleCapitalLetter}Row`].push(cardToTurn);
+          const cardToRecover = this.enemyDroppedCards.find(card => !card.hero
+          && (card.role === 'front' || card.role === 'mid' || card.role === 'back'));
+          if (cardToRecover) {
+            this.enemyDroppedCards = this.enemyDroppedCards.filter(card => card.id !== cardToRecover.id);
+            this[`${cardToRecover.role.charAt(0).toUpperCase() + cardToRecover.role.slice(1)}Row`].push(cardToRecover);
+          }
+          this.turn = 'player';
+          return;
+        }
+        // Search extra card
+        cardToTurn = this.enemyHand.find(card => card.role === 'extra');
+        if (cardToTurn) {
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          if (!this.enemyFrontRowExtraCage) {
+            this.enemyFrontRowExtraCage = cardToTurn;
+            this.turn = 'player';
+            return;
+          }
+          if (!this.enemyMidRowExtraCage) {
+            this.enemyMidRowExtraCage = cardToTurn;
+            this.turn = 'player';
+            return;
+          }
+          if (!this.enemyBackRowExtraCage) {
+            this.enemyBackRowExtraCage = cardToTurn;
+            this.turn = 'player';
+            return;
+          }
+        }
+        // Search weather card
+        cardToTurn = this.enemyHand.find(card => card.role === 'weather');
+        if (cardToTurn && !cardToTurn.clear) {
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          this.weatherCards.push(cardToTurn);
+          this.turn = 'player';
+          return;
+        }
+        if (cardToTurn && cardToTurn.clear) {
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          this.weatherCards = [];
+          this.enemyDroppedCards.push(cardToTurn);
+          this.turn = 'player';
+          return;
+        }
+        // Search scarecrow card
+        cardToTurn = this.enemyHand.find(card => card.role === 'scarecrow');
+        if (cardToTurn) {
+          this.enemyHand = this.enemyHand.filter(card => card.id !== cardToTurn.id);
+          this.turn = 'player';
+        }
+      }, 1000);
     }
   }
 };

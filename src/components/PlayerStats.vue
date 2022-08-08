@@ -1,5 +1,5 @@
 <template>
-    <div class="player_stats">
+    <div class="player_stats" :style="{border: (turn === 'player' && !isEnemy) ? '1px solid yellow' : 'none' }">
         <div class="avatar">
             <img :src="`${avatar}`" alt="">
         </div>
@@ -67,6 +67,10 @@ export default {
     isEnemy: {
       type: Boolean,
       default: false
+    },
+    turn: {
+      type: String,
+      required: true
     }
   }
 };
