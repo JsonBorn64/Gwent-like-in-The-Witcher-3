@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     cards() {
-      return this.cardsProp;
+      return this.cardsProp.slice();
     }
   },
   mounted() {

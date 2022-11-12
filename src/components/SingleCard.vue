@@ -1,5 +1,5 @@
 <template>
-    <div class="card_wrapper" :class="{ active: card?.active && place != 'dropped' }" ref="card">
+    <div class="card_wrapper" :class="{ active: card?.active && place === 'hand' }" ref="card">
         <img
             class="card"
             :src="`${card?.src}`"
@@ -69,7 +69,7 @@ export default {
       }
     },
     calcRightForActiveCard() {
-      if (this.place === 'dropped') return;
+      if (this.place !== 'hand') return;
       const correction = this.wrapperWidth - this.$refs.card.getBoundingClientRect().x + 416;
       if (this.card?.active && window.innerWidth < 1525) {
         this.$refs.card.style.right = `-${correction}px`;

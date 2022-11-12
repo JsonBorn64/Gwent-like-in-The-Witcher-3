@@ -47,7 +47,7 @@ export default {
     }
   },
   updated() {
-    if (this.cards.length === 9 && this.place === 'hand') {
+    if (this.cards?.length === 9 && this.place === 'hand') {
       this.$refs.wrapper.style.justifyContent = 'center';
     } else {
       this.$refs.wrapper.style.justifyContent = 'center';
@@ -71,11 +71,11 @@ export default {
     gap: 2px;
 }
 
-// .cards-move,
-// .cards-enter-active,
-// .cards-leave-active {
-//     transition: all 300ms ease;
-// }
+.cards-move,
+.cards-enter-active,
+.cards-leave-active {
+    transition: all 300ms ease;
+}
 
 .cards-enter-from {
     opacity: 0;
