@@ -11,12 +11,13 @@
                 />
             </transition>
         </div>
-        <div class="field_row" ref="row">
+        <div class="field_row" ref="row" @click="$store.dispatch('rowClick', {rowType, isEnemy})">
             <cards-group
                 @cardClicked="getClickedCard"
                 :cards="cards"
                 :active-card="activeCard"
                 :place="place"
+                :row-type="rowType"
             />
         </div>
         <div class="snow" v-if="rowType === 'front' && snow" />

@@ -9,7 +9,7 @@
                 :cards-count="cards.length"
                 :wrapper-width="wrapperWidth"
                 :active-card="activeCard"
-                @cardClicked="getClickedCard"
+                :row-type="rowType"
             />
         </TransitionGroup>
     </div>
@@ -32,6 +32,10 @@ export default {
     activeCard: {
       type: Object,
       default: null
+    },
+    rowType: {
+      type: String,
+      default: 'notRow'
     }
   },
   data() {
@@ -54,9 +58,6 @@ export default {
     }
   },
   methods: {
-    getClickedCard(clickedCard) {
-      this.$emit('cardClicked', clickedCard);
-    },
     getFieldRowWidth() {
       this.wrapperWidth = this.$refs.wrapper.clientWidth;
     }

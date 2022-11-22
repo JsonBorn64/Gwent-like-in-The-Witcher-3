@@ -4,7 +4,7 @@
             class="card"
             :src="`${card?.src}`"
             :alt="`${card?.name}`"
-            @click.stop="getClickedCard"
+            @click.stop="cardClicked"
         >
         <div class="computed_value" v-show="card?.defaultValue && !card?.hero" ref="compVal">
             {{ card?.computedValue }}
@@ -26,6 +26,10 @@ export default {
     place: {
       type: String,
       default: 'dropped'
+    },
+    rowType: {
+      type: String,
+      default: 'notRow'
     },
     droppedIndex: {
       type: Number,
@@ -52,10 +56,17 @@ export default {
     this.actionsDependsOnPlace();
   },
   methods: {
-    getClickedCard() {
+    cardClicked() {
+      const { card } = this;
+      const { rowType } = this;
       if (this.place === 'dropped') return;
       if (this.place === 'popup' && this.medic) this.$emit('medicRecoveredCard', this.card);
-      this.$emit('cardClicked', this.card);
+      if (this.place === 'field' && this.$store.state.activeCard.role === 'scarecrow') {
+        this.$store.dispatch('cardInRowClicked', { card, rowType });
+        return;
+      }
+      this.$store.dispatch('unactiveAllCards');
+      this.$store.dispatch('activateCard', this.card);
     },
     calcLeftMargin(wrapperWidth) {
       if (this.place === 'dropped' || this.place === 'popup') return;

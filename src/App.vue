@@ -1,93 +1,85 @@
 <template>
-    <div @click="unactiveAllCards" class="main_wrapper">
+    <div @click="$store.dispatch('unactiveAllCards')" class="main_wrapper">
         <div class="left_sidebar">
-            <leader-card :leader-card="enemyLeader" />
+            <leader-card :leader-card="$store.state.enemyLeader" />
             <player-stats
-                :nickname="enemyNickname"
-                :leader="enemyLeader"
-                :avatar="enemyAvatar"
-                :lives="enemyLives"
-                :total-count="enemyTotalCount"
-                :fraction="enemyFraction"
-                :hand-count="enemyHand.length"
+                :nickname="$store.state.enemyNickname"
+                :leader="$store.state.enemyLeader"
+                :avatar="$store.state.enemyAvatar"
+                :lives="$store.state.enemyLives"
+                :total-count="$store.state.enemyTotalCount"
+                :fraction="$store.state.enemyFraction"
+                :hand-count="$store.state.enemyHand.length"
                 :is-enemy="true"
-                :turn="turn"
+                :turn="$store.state.turn"
             />
             <weather-cards
                 @click="weatherCardsClick"
-                :weather-cards="weatherCards"
+                :weather-cards="$store.state.weatherCards"
                 :place="'weather'"
-                :active-card="activeCard"
+                :active-card="$store.state.activeCard"
             />
             <player-stats
-                :nickname="playerNickname"
-                :leader="playerLeader"
-                :avatar="playerAvatar"
-                :lives="playerLives"
-                :total-count="playerTotalCount"
-                :fraction="playerFraction"
-                :hand-count="hand.length"
-                :turn="turn"
+                :nickname="$store.state.playerNickname"
+                :leader="$store.state.playerLeader"
+                :avatar="$store.state.playerAvatar"
+                :lives="$store.state.playerLives"
+                :total-count="$store.state.playerTotalCount"
+                :fraction="$store.state.playerFraction"
+                :hand-count="$store.state.hand.length"
+                :turn="$store.state.turn"
             />
-            <leader-card :leader-card="playerLeader" />
+            <leader-card :leader-card="$store.state.playerLeader" />
         </div>
         <div class="center">
             <game-field
-                @frontRowClick="rowClick('front')"
-                @midRowClick="rowClick('mid')"
-                @backRowClick="rowClick('back')"
-                @enemyFrontRowClick="rowClick('front', true)"
-                @enemyMidRowClick="rowClick('mid', true)"
-                @enemyBackRowClick="rowClick('back', true)"
                 @cardRowClicked="cardInRowClicked"
                 @extraCageClick="extraCageClick"
-                @playerTotalValue="getPlayerTotalValue"
-                @enemyTotalValue="getEnemyTotalValue"
-                :front-row="frontRow"
-                :front-row-extra-cage="frontRowExtraCage"
-                :mid-row="midRow"
-                :mid-row-extra-cage="midRowExtraCage"
-                :back-row="backRow"
-                :back-row-extra-cage="backRowExtraCage"
-                :enemy-front-row="enemyFrontRow"
-                :enemy-front-row-extra-cage="enemyFrontRowExtraCage"
-                :enemy-mid-row="enemyMidRow"
-                :enemy-mid-row-extra-cage="enemyMidRowExtraCage"
-                :enemy-back-row="enemyBackRow"
-                :enemy-back-row-extra-cage="enemyBackRowExtraCage"
-                :weather-cards="weatherCards"
-                :active-card="activeCard"
+                :front-row="$store.state.frontRow"
+                :front-row-extra-cage="$store.state.frontRowExtraCage"
+                :mid-row="$store.state.midRow"
+                :mid-row-extra-cage="$store.state.midRowExtraCage"
+                :back-row="$store.state.backRow"
+                :back-row-extra-cage="$store.state.backRowExtraCage"
+                :enemy-front-row="$store.state.enemyFrontRow"
+                :enemy-front-row-extra-cage="$store.state.enemyFrontRowExtraCage"
+                :enemy-mid-row="$store.state.enemyMidRow"
+                :enemy-mid-row-extra-cage="$store.state.enemyMidRowExtraCage"
+                :enemy-back-row="$store.state.enemyBackRow"
+                :enemy-back-row-extra-cage="$store.state.enemyBackRowExtraCage"
+                :weather-cards="$store.state.weatherCards"
+                :active-card="$store.state.activeCard"
                 :place="'field'"
             />
-            <div class="hand" ref="hand" :style="{pointerEvents: turn !== 'player' ? 'none' : 'auto'}">
-                <cards-group :cards="hand" :place="'hand'" @cardClicked="activateCard" />
+            <div class="hand" ref="hand">
+                <cards-group :cards="$store.state.hand" :place="'hand'" />
             </div>
         </div>
         <div class="right_sidebar">
             <div class="enemy-decks_wrapper">
                 <dropped-cards
-                    :dropped-cards="enemyDroppedCards"
-                    :show-dropped-popup="showEnemyDroppedPopup"
+                    :dropped-cards="$store.state.enemyDroppedCards"
+                    :show-dropped-popup="$store.state.showEnemyDroppedPopup"
                     :is-enemy="true"
                     @closeEnemyPopup="closePopupMethod(true)"
                     @showEnemyPopup="showPopupMethod(true)"
                     @medicRecoveredCard="medicRecoveredCard"
                 />
-                <cards-deck :cards-deck="enemyCardsDeck" />
+                <cards-deck :cards-deck="$store.state.enemyCardsDeck" />
             </div>
             <div class="player-decks_wrapper">
                 <dropped-cards
-                    :dropped-cards="droppedCards"
-                    :show-dropped-popup="showDroppedPopup"
-                    :medic="medic"
+                    :dropped-cards="$store.state.droppedCards"
+                    :show-dropped-popup="$store.state.showDroppedPopup"
+                    :medic="$store.state.medic"
                     @closePopup="closePopupMethod"
                     @showPopup="showPopupMethod"
                     @medicRecoveredCard="medicRecoveredCard"
                 />
-                <cards-deck :cards-deck="cardsDeck" />
+                <cards-deck :cards-deck="$store.state.cardsDeck" />
             </div>
         </div>
-        <enemy-a-i
+        <!-- <enemy-a-i
             @newGameState="newGameState"
             :weather-cards="weatherCards"
             :enemy-lives="enemyLives"
@@ -106,7 +98,7 @@
                 enemyBackRow: enemyBackRow,
                 enemyBackRowExtraCage: enemyBackRowExtraCage
             }"
-        />
+        /> -->
     </div>
 </template>
 
@@ -118,95 +110,29 @@ import DroppedCards from './components/DroppedCards.vue';
 import WeatherCards from './components/WeatherCards.vue';
 import LeaderCard from './components/LeaderCard.vue';
 import PlayerStats from './components/PlayerStats.vue';
-import EnemyAI from './components/EnemyAI.vue';
+// import EnemyAI from './components/EnemyAI.vue';
 
 export default {
-  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats, EnemyAI },
-  data() {
-    return {
-      // player data
-      playerNickname: 'Геральт',
-      playerAvatar: 'src/assets/текстуры/geralt-avatar.jpg',
-      playerLives: 2,
-      playerTotalCount: 0,
-      playerFraction: 'Королевства Севера',
-      playerLeader: {
-        id: '99',
-        name: 'фольтест - предводитель севера',
-        src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - предводитель севера.webp',
-        role: 'leader'
-      },
-      frontRow: [],
-      frontRowExtraCage: null,
-      midRow: [],
-      midRowExtraCage: null,
-      backRow: [],
-      backRowExtraCage: null,
-      hand: [],
-      droppedCards: [],
-      showDroppedPopup: false,
-      cardsDeck: [],
-      activeCard: null,
-      medic: false,
-      // enemy data
-      enemyNickname: 'Противник',
-      enemyAvatar: 'src/assets/текстуры/anonim-avatar.svg',
-      enemyLives: 2,
-      enemyTotalCount: 0,
-      enemyFraction: 'Королевства Севера',
-      enemyLeader: {
-        id: '98',
-        name: 'фольтест - железный владыка',
-        src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - железный владыка.webp',
-        role: 'leader'
-      },
-      enemyFrontRow: [],
-      enemyFrontRowExtraCage: null,
-      enemyMidRow: [],
-      enemyMidRowExtraCage: null,
-      enemyBackRow: [],
-      enemyBackRowExtraCage: null,
-      enemyHand: [],
-      enemyDroppedCards: [],
-      showEnemyDroppedPopup: false,
-      enemyCardsDeck: [],
-      // common data
-      weatherCards: [],
-      turn: 'player'
-    };
+  components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats },
+  watch: {
+    '$store.state.allCardsLoaded': function setDecksAndHands() {
+      const delay = 100;
+      this.$store.dispatch('setCardsDecks');
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          this.$store.dispatch('addCardToHandFromDeck');
+        }, i * delay);
+      }
+      setTimeout(() => {
+        this.$refs.hand.style.overflowX = 'visible';
+        this.$store.commit('sortHandById');
+      }, delay * 10);
+    }
   },
   mounted() {
-    fetch('src/assets/колоды json/королевства_севера.json')
-      .then(res => res.json())
-      .then(data => {
-        const allCards = data.sort(() => 0.5 - Math.random());
-        this.cardsDeck = allCards.slice(0, 20);
-        this.enemyCardsDeck = JSON.parse(JSON.stringify(allCards.slice(0, 20)));
-        this.enemyHand = this.enemyCardsDeck.splice(0, 10);
-        // const cardsBuffer = this.cardsDeck.splice(0, 10).sort((a, b) => a.id - b.id);
-        for (let i = 0; i < 10; i++) {
-          setTimeout(() => {
-            this.hand.push(this.cardsDeck.shift());
-          }, i * 100);
-        }
-        setTimeout(() => {
-          this.$refs.hand.style.overflowX = 'visible';
-          this.hand.sort((a, b) => a.id - b.id);
-        }, 1000);
-      });
+    this.$store.dispatch('getAllCards');
   },
   methods: {
-    activateCard(cardClicked) {
-      this.unactiveAllCards();
-      this.activeCard = cardClicked;
-      this.activeCard.active = true;
-    },
-    unactiveAllCards() {
-      this.hand.forEach(card => {
-        card.active = false;
-      });
-      this.activeCard = null;
-    },
     cardInRowClicked(card, rowType) {
       const getBackCard = this[`${rowType}Row`].find(item => item.id === card.id);
       this.activeCard.active = false;
@@ -221,86 +147,6 @@ export default {
       this[`${rowType}Row`].unshift(this.activeCard);
       this.activeCard = null;
       this.turn = 'enemy';
-    },
-    rowClick(rowType, isEnemy) {
-      // Common cards
-      if (this.activeCard?.role === rowType && !this.activeCard?.spy && !this.activeCard?.medic && !isEnemy) {
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        this[`${rowType}Row`].push(this.activeCard);
-        this[`${rowType}Row`].sort((a, b) => a.id - b.id);
-        this.turn = 'enemy';
-      }
-      // Medic cards
-      if (this.activeCard?.role === rowType && this.activeCard?.medic && !isEnemy) {
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        this[`${rowType}Row`].push(this.activeCard);
-        this[`${rowType}Row`].sort((a, b) => a.id - b.id);
-        const recoverCardExist = this.droppedCards.findIndex(card => (card.role === 'front'
-          || card.role === 'mid'
-          || card.role === 'back') && !card.hero);
-        if (recoverCardExist !== -1) {
-          this.medic = true;
-          this.showDroppedPopup = true;
-        }
-        this.turn = 'enemy';
-      }
-      // spy cards
-      if (this.activeCard?.role === rowType && this.activeCard?.spy && isEnemy) {
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        const rowTypeCapitalFirstLetter = rowType.charAt(0).toUpperCase() + rowType.slice(1);
-        this[`enemy${rowTypeCapitalFirstLetter}Row`].push(this.activeCard);
-        this[`enemy${rowTypeCapitalFirstLetter}Row`].sort((a, b) => a.id - b.id);
-        if (this.cardsDeck.length === 0) return;
-        for (let i = 1; i < 3; i++) {
-          setTimeout(() => {
-            this.$refs.hand.style.overflowX = 'hidden';
-            this.hand.push(this.cardsDeck.shift());
-          }, i * 300);
-        }
-        setTimeout(() => {
-          this.$refs.hand.style.overflowX = 'visible';
-          this.hand.sort((a, b) => a.id - b.id);
-        }, 1000);
-        this.turn = 'enemy';
-      }
-      // Execution cards
-      if (this.activeCard?.role === 'execution') {
-        this.droppedCards.push(this.activeCard);
-        const allCards = this.frontRow.concat(
-          this.midRow,
-          this.backRow,
-          this.enemyFrontRow,
-          this.enemyMidRow,
-          this.enemyBackRow
-        );
-        const maxValue = Math.max(...allCards.map(card => {
-          if (!card.hero) { return card.computedValue; } return -Infinity;
-        }));
-        const rowTypes = ['front', 'mid', 'back', 'enemyFront', 'enemyMid', 'enemyBack'];
-        rowTypes.forEach(type => {
-          this[`${type}Row`] = this[`${type}Row`].filter(card => {
-            if (!card.hero && card.computedValue === maxValue
-            && (type === 'front' || type === 'mid' || type === 'back')) {
-              const cardToPush = JSON.parse(JSON.stringify(card));
-              cardToPush.computedValue = card.defaultValue;
-              this.droppedCards.push(cardToPush);
-            }
-            if (!card.hero && card.computedValue === maxValue
-            && (type === 'enemyFront' || type === 'enemyMid' || type === 'enemyBack')) {
-              const cardToPush = JSON.parse(JSON.stringify(card));
-              cardToPush.computedValue = card.defaultValue;
-              this.enemyDroppedCards.push(cardToPush);
-            }
-            if (!card.hero) { return card.computedValue !== maxValue; } return true;
-          });
-        });
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        this.turn = 'enemy';
-      }
     },
     weatherCardsClick() {
       if (this.activeCard?.role === 'weather'

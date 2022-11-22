@@ -1,7 +1,6 @@
 <template>
     <div class="player_field">
         <field-row
-            @click="enemyBackRowClick"
             @enemyRowTotalCount="fieldTotalCount"
             :cards-prop="enemyBackRow"
             :extra-cage="enemyBackRowExtraCage"
@@ -12,7 +11,6 @@
             :is-enemy="true"
         />
         <field-row
-            @click="enemyMidRowClick"
             @enemyRowTotalCount="fieldTotalCount"
             :cards-prop="enemyMidRow"
             :extra-cage="enemyMidRowExtraCage"
@@ -23,7 +21,6 @@
             :is-enemy="true"
         />
         <field-row
-            @click="enemyFrontRowClick"
             @enemyRowTotalCount="fieldTotalCount"
             :cards-prop="enemyFrontRow"
             :extra-cage="enemyFrontRowExtraCage"
@@ -35,7 +32,6 @@
         />
         <hr class="fields_separator">
         <field-row
-            @click="frontRowClick"
             @rowTotalCount="fieldTotalCount"
             @cardClicked="cardRowClicked"
             :cards-prop="frontRow"
@@ -47,7 +43,6 @@
             :weather-cards="weatherCards"
         />
         <field-row
-            @click="midRowClick"
             @rowTotalCount="fieldTotalCount"
             @cardClicked="cardRowClicked"
             :cards-prop="midRow"
@@ -59,7 +54,6 @@
             :weather-cards="weatherCards"
         />
         <field-row
-            @click="backRowClick"
             @rowTotalCount="fieldTotalCount"
             @cardClicked="cardRowClicked"
             :cards-prop="backRow"
@@ -156,28 +150,15 @@ export default {
       enemyTotal: 0
     };
   },
-  watch: {
-    total(newValue) {
-      this.$emit('playerTotalValue', newValue);
-    },
-    enemyTotal(newValue) {
-      this.$emit('enemyTotalValue', newValue);
-    }
-  },
   methods: {
-    frontRowClick() { this.$emit('frontRowClick'); },
-    midRowClick() { this.$emit('midRowClick'); },
-    backRowClick() { this.$emit('backRowClick'); },
-    enemyFrontRowClick() { this.$emit('enemyFrontRowClick'); },
-    enemyMidRowClick() { this.$emit('enemyMidRowClick'); },
-    enemyBackRowClick() { this.$emit('enemyBackRowClick'); },
     fieldTotalCount(total, rowType, isEnemy) {
       if (!isEnemy) {
         this.fieldsTotals[rowType] = total;
-        this.total = this.fieldsTotals.front + this.fieldsTotals.mid + this.fieldsTotals.back;
+        this.$store.state.playerTotalCount = this.fieldsTotals.front + this.fieldsTotals.mid + this.fieldsTotals.back;
       } else {
         this.enemyFieldsTotals[rowType] = total;
-        this.enemyTotal = this.enemyFieldsTotals.front + this.enemyFieldsTotals.mid + this.enemyFieldsTotals.back;
+        this.$store.state.enemyTotalCount = this.enemyFieldsTotals.front + this.enemyFieldsTotals.mid
+        + this.enemyFieldsTotals.back;
       }
     },
     extraCageClick(rowType) {

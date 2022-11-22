@@ -21,7 +21,7 @@ export default {
   props: {
     cardsDeck: {
       type: Array,
-      required: true
+      default: () => []
     }
   },
   computed: {
