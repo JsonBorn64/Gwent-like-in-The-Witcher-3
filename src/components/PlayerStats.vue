@@ -1,5 +1,10 @@
 <template>
-    <div class="player_stats" :style="{border: (turn === 'player' && !isEnemy) ? '1px solid yellow' : 'none' }">
+    <div
+        class="player_stats"
+        :style="{
+            border: (((turn == 'player' && !isEnemy) || (turn == 'enemy' && isEnemy))) ? '1px solid yellow' : 'none'
+        }"
+    >
         <div class="avatar">
             <img :src="`${avatar}`" alt="">
         </div>

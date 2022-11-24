@@ -24,8 +24,7 @@ export default createStore({
       backRow: [],
       backRowExtraCage: null,
       hand: [],
-      // eslint-disable-next-line max-len
-      droppedCards: [{ id: 13, name: 'боец синих полосок', src: 'src/assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp', defaultValue: 4, computedValue: 4, role: 'front', handshake: true }],
+      droppedCards: [],
       showDroppedPopup: false,
       cardsDeck: [],
       // enemy data
@@ -62,6 +61,9 @@ export default createStore({
   mutations: {
     sortHandById(state) {
       state.hand = state.hand.sort((a, b) => a.id - b.id);
+    },
+    changeTurnToPlayer(state) {
+      state.turn = 'player';
     }
   },
   actions: {
@@ -79,6 +81,9 @@ export default createStore({
     },
     addCardToHandFromDeck({ state }) {
       state.hand.push(state.cardsDeck.pop());
+    },
+    addCardToHandFromDeck_enemy({ state }) {
+      state.enemyHand.push(state.enemyCardsDeck.pop());
     },
     activateCard({ state }, cardClicked) {
       state.activeCard = cardClicked;
@@ -193,7 +198,7 @@ export default createStore({
         for (let i = 1; i < 3; i++) {
           setTimeout(() => {
             state.$refs.hand.style.overflowX = 'hidden';
-            state.hand.push(state.cardsDeck.shift());
+            state.hand.push(state.cardsDeck.pop());
           }, i * 300);
         }
         setTimeout(() => {
@@ -251,6 +256,118 @@ export default createStore({
         state.hand = state.hand.filter(card => state.activeCard.id !== card.id);
         state[cageType] = state.activeCard;
         state.turn = 'enemy';
+      }
+    },
+    enemyTurn({ state }) {
+      // Search spy card
+      let cardToTurn = state.enemyHand.find(card => card.spy);
+      if (cardToTurn) {
+        state[`${cardToTurn.role}Row`].push(cardToTurn);
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        state.enemyHand.push(...state.enemyCardsDeck.splice(0, 2));
+        state.enemyHand.sort((a, b) => a.id - b.id);
+        return;
+      }
+      // Search hero card
+      cardToTurn = state.enemyHand.find(card => card.hero && !card.medic && card.role !== 'scarecrow');
+      if (cardToTurn) {
+        const cardRoleCapitalLetter = cardToTurn.role.charAt(0).toUpperCase() + cardToTurn.role.slice(1);
+        state[`enemy${cardRoleCapitalLetter}Row`].push(cardToTurn);
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        return;
+      }
+      // Search common card
+      cardToTurn = state.enemyHand.find(card => !card.spy && !card.hero && !card.medic
+        && card.role !== 'weather' && card.role !== 'execution' && card.role !== 'scarecrow' && card.role !== 'extra');
+      if (cardToTurn) {
+        const cardRoleCapitalLetter = cardToTurn.role.charAt(0).toUpperCase() + cardToTurn.role.slice(1);
+        state[`enemy${cardRoleCapitalLetter}Row`].push(cardToTurn);
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        return;
+      }
+      // Search execution card
+      cardToTurn = state.enemyHand.find(card => card.role === 'execution');
+      if (cardToTurn) {
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        state.enemyDroppedCards.push(cardToTurn);
+        const allCards = state.frontRow.concat(
+          state.midRow,
+          state.backRow,
+          state.enemyFrontRow,
+          state.enemyMidRow,
+          state.enemyBackRow
+        );
+        const maxValue = Math.max(...allCards.map(card => {
+          if (!card.hero) { return card.computedValue; } return -Infinity;
+        }));
+        const rowTypes = ['front', 'mid', 'back', 'enemyFront', 'enemyMid', 'enemyBack'];
+        rowTypes.forEach(type => {
+          state[`${type}Row`] = state[`${type}Row`].filter(card => {
+            if (!card.hero && card.computedValue === maxValue
+            && (type === 'front' || type === 'mid' || type === 'back')) {
+              const cardToPush = JSON.parse(JSON.stringify(card));
+              cardToPush.computedValue = card.defaultValue;
+              state.enemyDroppedCards.push(cardToPush);
+            }
+            if (!card.hero && card.computedValue === maxValue
+            && (type === 'enemyFront' || type === 'enemyMid' || type === 'enemyBack')) {
+              const cardToPush = JSON.parse(JSON.stringify(card));
+              cardToPush.computedValue = card.defaultValue;
+              state.enemyDroppedCards.push(cardToPush);
+            }
+            if (!card.hero) { return card.computedValue !== maxValue; } return true;
+          });
+        });
+        return;
+      }
+      // Search medic card
+      cardToTurn = state.enemyHand.find(card => card.medic);
+      if (cardToTurn) {
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        const cardRoleCapitalLetter = cardToTurn.role.charAt(0).toUpperCase() + cardToTurn.role.slice(1);
+        state[`enemy${cardRoleCapitalLetter}Row`].push(cardToTurn);
+        const cardToRecover = state.enemyDroppedCards.find(card => !card.hero
+          && (card.role === 'front' || card.role === 'mid' || card.role === 'back'));
+        if (cardToRecover) {
+          state.enemyDroppedCards = state.enemyDroppedCards.filter(card => card.id !== cardToRecover.id);
+          state[`${cardToRecover.role.charAt(0).toUpperCase() + cardToRecover.role.slice(1)}Row`].push(cardToRecover);
+        }
+        return;
+      }
+      // Search extra card
+      cardToTurn = state.enemyHand.find(card => card.role === 'extra');
+      if (cardToTurn) {
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        if (!state.enemyFrontRowExtraCage) {
+          state.enemyFrontRowExtraCage = cardToTurn;
+          return;
+        }
+        if (!state.enemyMidRowExtraCage) {
+          state.enemyMidRowExtraCage = cardToTurn;
+          return;
+        }
+        if (!state.enemyBackRowExtraCage) {
+          state.enemyBackRowExtraCage = cardToTurn;
+          return;
+        }
+      }
+      // Search weather card
+      cardToTurn = state.enemyHand.find(card => card.role === 'weather');
+      if (cardToTurn && !cardToTurn.clear) {
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        state.weatherCards.push(cardToTurn);
+        return;
+      }
+      if (cardToTurn && cardToTurn.clear) {
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        state.weatherCards = [];
+        state.enemyDroppedCards.push(cardToTurn);
+        return;
+      }
+      // Search scarecrow card
+      cardToTurn = state.enemyHand.find(card => card.role === 'scarecrow');
+      if (cardToTurn) {
+        state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
       }
     }
   }

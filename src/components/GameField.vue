@@ -33,10 +33,8 @@
         <hr class="fields_separator">
         <field-row
             @rowTotalCount="fieldTotalCount"
-            @cardClicked="cardRowClicked"
             :cards-prop="frontRow"
             :extra-cage="frontRowExtraCage"
-            @extraCageClick="extraCageClick"
             :row-type="'front'"
             :active-card="activeCard"
             :place="'field'"
@@ -44,10 +42,8 @@
         />
         <field-row
             @rowTotalCount="fieldTotalCount"
-            @cardClicked="cardRowClicked"
             :cards-prop="midRow"
             :extra-cage="midRowExtraCage"
-            @extraCageClick="extraCageClick"
             :row-type="'mid'"
             :active-card="activeCard"
             :place="'field'"
@@ -55,10 +51,8 @@
         />
         <field-row
             @rowTotalCount="fieldTotalCount"
-            @cardClicked="cardRowClicked"
             :cards-prop="backRow"
             :extra-cage="backRowExtraCage"
-            @extraCageClick="extraCageClick"
             :row-type="'back'"
             :active-card="activeCard"
             :place="'field'"
@@ -160,12 +154,6 @@ export default {
         this.$store.state.enemyTotalCount = this.enemyFieldsTotals.front + this.enemyFieldsTotals.mid
         + this.enemyFieldsTotals.back;
       }
-    },
-    extraCageClick(rowType) {
-      this.$emit('extraCageClick', rowType);
-    },
-    cardRowClicked(card, rowType) {
-      this.$emit('cardRowClicked', card, rowType);
     }
   }
 };

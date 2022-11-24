@@ -13,7 +13,6 @@
         </div>
         <div class="field_row" ref="row" @click="$store.dispatch('rowClick', {rowType, isEnemy})">
             <cards-group
-                @cardClicked="getClickedCard"
                 :cards="cards"
                 :active-card="activeCard"
                 :place="place"
@@ -50,7 +49,7 @@ export default {
     },
     weatherCards: {
       type: Array,
-      default: () => []
+      required: true
     },
     place: {
       type: String,
@@ -79,20 +78,45 @@ export default {
   },
   computed: {
     cards() {
-      return this.cardsProp.slice();
+      return JSON.parse(JSON.stringify(this.cardsProp));
+    }
+  },
+  watch: {
+    cards: {
+      deep: true,
+      handler() {
+        this.calcRowTotalCount();
+      }
+    },
+    activeCard: {
+      deep: true,
+      handler() {
+        this.showTurnsTips();
+        if (this.activeCard?.role === 'scarecrow' && !this.isEnemy) {
+          this.$refs.row.style.overflow = 'visible';
+        } else {
+          this.$refs.row.style.overflow = 'hidden';
+        }
+      }
+    },
+    weatherCards: {
+      deep: true,
+      handler() {
+        this.calcRowTotalCount();
+      }
     }
   },
   mounted() {
     this.backgroundImg(this.rowType);
   },
   updated() {
-    this.calcRowTotalCount();
-    this.showTurnsTips();
-    if (this.activeCard?.role === 'scarecrow' && !this.isEnemy) {
-      this.$refs.row.style.overflow = 'visible';
-    } else {
-      this.$refs.row.style.overflow = 'hidden';
-    }
+    // this.calcRowTotalCount();
+    // this.showTurnsTips();
+    // if (this.activeCard?.role === 'scarecrow' && !this.isEnemy) {
+    //   this.$refs.row.style.overflow = 'visible';
+    // } else {
+    //   this.$refs.row.style.overflow = 'hidden';
+    // }
   },
   methods: {
     calcRowTotalCount() {
@@ -176,9 +200,6 @@ export default {
       if (rowType === 'front') row.style.background = 'url("src/assets/текстуры/sword.svg") center no-repeat';
       if (rowType === 'mid') row.style.background = 'url("src/assets/текстуры/bow.svg") center no-repeat';
       if (rowType === 'back') row.style.background = 'url("src/assets/текстуры/balista.svg") center no-repeat';
-    },
-    getClickedCard(card) {
-      this.$emit('cardClicked', card, this.rowType);
     },
     showTurnsTips() {
       const defaultShadow = '0 0 0 transparent, 0 -16px 30px 0px #00000099 inset';

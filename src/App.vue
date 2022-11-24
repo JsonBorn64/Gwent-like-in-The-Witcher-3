@@ -71,14 +71,6 @@
                 <cards-deck :cards-deck="$store.state.cardsDeck" />
             </div>
         </div>
-        <!-- <enemy-a-i
-            :weather-cards="weatherCards"
-            :enemy-lives="enemyLives"
-            :enemy-hand="enemyHand"
-            :enemy-dropped-cards="enemyDroppedCards"
-            :enemy-cards-deck="enemyCardsDeck"
-            :turn="turn"
-        /> -->
     </div>
 </template>
 
@@ -90,7 +82,6 @@ import DroppedCards from './components/DroppedCards.vue';
 import WeatherCards from './components/WeatherCards.vue';
 import LeaderCard from './components/LeaderCard.vue';
 import PlayerStats from './components/PlayerStats.vue';
-// import EnemyAI from './components/EnemyAI.vue';
 
 export default {
   components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats },
@@ -101,12 +92,21 @@ export default {
       for (let i = 0; i < 10; i++) {
         setTimeout(() => {
           this.$store.dispatch('addCardToHandFromDeck');
+          this.$store.dispatch('addCardToHandFromDeck_enemy');
         }, i * delay);
       }
       setTimeout(() => {
         this.$refs.hand.style.overflowX = 'visible';
         this.$store.commit('sortHandById');
       }, delay * 10);
+    },
+    '$store.state.turn': function hz(newValue) {
+      if (newValue === 'enemy') {
+        setTimeout(() => {
+          this.$store.dispatch('enemyTurn');
+          this.$store.commit('changeTurnToPlayer');
+        }, 2000);
+      }
     }
   },
   mounted() {
@@ -140,6 +140,7 @@ export default {
   font-family: 'Oswald', sans-serif;
   min-height: 100vh;
   background: url("src/assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
+  user-select: none;
 }
 
 .center {
