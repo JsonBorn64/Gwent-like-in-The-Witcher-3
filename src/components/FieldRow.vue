@@ -169,7 +169,7 @@ export default {
       this.rain = wCards.findIndex(wCard => (wCard.influence === this.rowType)) !== -1;
     },
     extraCageClick() {
-      this.$emit('extraCageClick', `${this.rowType}RowExtraCage`);
+      this.$store.dispatch('extraCageClick', `${this.rowType}RowExtraCage`);
     },
     backgroundImg(rowType) {
       const { row } = this.$refs;
@@ -275,9 +275,9 @@ export default {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-image: url("https://cdn.discordapp.com/attachments/744182992037216260/990016273008177242/rain1.png"),
-  url("https://cdn.discordapp.com/attachments/744182992037216260/990016273217900584/rain2.png"),
-  url("https://cdn.discordapp.com/attachments/744182992037216260/990016273456988240/rain3.png");
+  background-image: url("../assets/текстуры/rain1.png"),
+  url("../assets/текстуры/rain2.png"),
+  url("../assets/текстуры/rain3.png");
   animation: rain 1.3s linear infinite;
 }
 @keyframes rain {
@@ -295,9 +295,9 @@ export default {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    background-image: url("https://cdn.discordapp.com/attachments/744182992037216260/990023034524033105/snow1.png"),
-    url("https://cdn.discordapp.com/attachments/744182992037216260/990023034758922250/snow2.png"),
-    url("https://cdn.discordapp.com/attachments/744182992037216260/990023034951827556/snow3.png");
+    background-image: url("../assets/текстуры/snow1.png"),
+    url("../assets/текстуры/snow2.png"),
+    url("../assets/текстуры/snow3.png");
     animation: snow 20s linear  infinite ;
   }
   @keyframes snow {
@@ -337,7 +337,7 @@ export default {
     }
   }
   .clouds-1 {
-    background-image: url("https://s.cdpn.io/15514/clouds_2.png");
+    background-image: url("../assets/текстуры/clouds_2.webp");
     animation: clouds-loop-1 20s infinite linear;
   }
 
@@ -347,7 +347,7 @@ export default {
     }
   }
   .clouds-2 {
-    background-image: url("https://s.cdpn.io/15514/clouds_1.png");
+    background-image: url("../assets/текстуры/clouds_1.webp");
     animation: clouds-loop-2 15s infinite linear;
   }
 
@@ -357,7 +357,7 @@ export default {
     }
   }
   .clouds-3 {
-    background-image: url("https://s.cdpn.io/15514/clouds_3.png");
+    background-image: url("../assets/текстуры/clouds_3.webp");
     animation: clouds-loop-3 17s infinite linear;
   }
 </style>

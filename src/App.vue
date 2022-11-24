@@ -14,7 +14,7 @@
                 :turn="$store.state.turn"
             />
             <weather-cards
-                @click="weatherCardsClick"
+                @click="$store.dispatch('weatherCardsClick')"
                 :weather-cards="$store.state.weatherCards"
                 :place="'weather'"
                 :active-card="$store.state.activeCard"
@@ -33,8 +33,6 @@
         </div>
         <div class="center">
             <game-field
-                @cardRowClicked="cardInRowClicked"
-                @extraCageClick="extraCageClick"
                 :front-row="$store.state.frontRow"
                 :front-row-extra-cage="$store.state.frontRowExtraCage"
                 :mid-row="$store.state.midRow"
@@ -61,9 +59,6 @@
                     :dropped-cards="$store.state.enemyDroppedCards"
                     :show-dropped-popup="$store.state.showEnemyDroppedPopup"
                     :is-enemy="true"
-                    @closeEnemyPopup="closePopupMethod(true)"
-                    @showEnemyPopup="showPopupMethod(true)"
-                    @medicRecoveredCard="medicRecoveredCard"
                 />
                 <cards-deck :cards-deck="$store.state.enemyCardsDeck" />
             </div>
@@ -72,32 +67,17 @@
                     :dropped-cards="$store.state.droppedCards"
                     :show-dropped-popup="$store.state.showDroppedPopup"
                     :medic="$store.state.medic"
-                    @closePopup="closePopupMethod"
-                    @showPopup="showPopupMethod"
-                    @medicRecoveredCard="medicRecoveredCard"
                 />
                 <cards-deck :cards-deck="$store.state.cardsDeck" />
             </div>
         </div>
         <!-- <enemy-a-i
-            @newGameState="newGameState"
             :weather-cards="weatherCards"
             :enemy-lives="enemyLives"
             :enemy-hand="enemyHand"
             :enemy-dropped-cards="enemyDroppedCards"
             :enemy-cards-deck="enemyCardsDeck"
             :turn="turn"
-            :game-state="{
-                frontRow: frontRow,
-                midRow: midRow,
-                backRow: backRow,
-                enemyFrontRow: enemyFrontRow,
-                enemyFrontRowExtraCage: enemyFrontRowExtraCage,
-                enemyMidRow: enemyMidRow,
-                enemyMidRowExtraCage: enemyMidRowExtraCage,
-                enemyBackRow: enemyBackRow,
-                enemyBackRowExtraCage: enemyBackRowExtraCage
-            }"
         /> -->
     </div>
 </template>
@@ -133,112 +113,6 @@ export default {
     this.$store.dispatch('getAllCards');
   },
   methods: {
-    cardInRowClicked(card, rowType) {
-      const getBackCard = this[`${rowType}Row`].find(item => item.id === card.id);
-      this.activeCard.active = false;
-      this.hand = this.hand.filter(item => this.activeCard.id !== item.id);
-      getBackCard.computedValue = getBackCard.defaultValue;
-      this.hand.push(getBackCard);
-      this.hand.sort((a, b) => a.id - b.id);
-      this[`${rowType}Row`] = this[`${rowType}Row`].filter(item => item.id !== card.id);
-      this[`${rowType}Row`].forEach(item => {
-        item.doubled = false;
-      });
-      this[`${rowType}Row`].unshift(this.activeCard);
-      this.activeCard = null;
-      this.turn = 'enemy';
-    },
-    weatherCardsClick() {
-      if (this.activeCard?.role === 'weather'
-      && !this.activeCard?.clear
-      && !this.weatherCards.find(wCard => wCard.influence === this.activeCard?.influence)) {
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        this.weatherCards.push(this.activeCard);
-      } else if (this.activeCard?.role === 'weather' && this.activeCard?.clear) {
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        this.droppedCards.push(this.activeCard);
-        this.weatherCards = [];
-      } else if (this.activeCard?.role !== 'weather') {
-        if (this.activeCard) this.activeCard.active = false;
-      } else {
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        this.droppedCards.push(this.activeCard);
-      }
-      this.turn = 'enemy';
-    },
-    medicRecoveredCard(card) {
-      this.medic = false;
-      this.showDroppedPopup = false;
-      this.droppedCards = this.droppedCards.filter(item => item.id !== card.id);
-      if (card.spy && this.cardsDeck.length !== 0) {
-        for (let i = 1; i < 3; i++) {
-          setTimeout(() => {
-            this.$refs.hand.style.overflowX = 'hidden';
-            this.hand.push(this.cardsDeck.shift());
-          }, i * 300);
-        }
-        setTimeout(() => {
-          this.$refs.hand.style.overflowX = 'visible';
-          this.hand.sort((a, b) => a.id - b.id);
-        }, 1000);
-        if (card.role === 'front') this.enemyFrontRow.push(card);
-        if (card.role === 'mid') this.enemyMidRow.push(card);
-        if (card.role === 'back') this.enemyBackRow.push(card);
-        return;
-      }
-      if (card.role === 'front') this.frontRow.push(card);
-      if (card.role === 'mid') this.midRow.push(card);
-      if (card.role === 'back') this.backRow.push(card);
-      this.turn = 'enemy';
-    },
-    extraCageClick(cageType) {
-      if (!this[cageType]?.id && this.activeCard?.troubadour) {
-        this.activeCard.active = false;
-        this.hand = this.hand.filter(card => this.activeCard.id !== card.id);
-        this[cageType] = this.activeCard;
-        this.turn = 'enemy';
-      }
-    },
-    closePopupMethod(isEnemy) {
-      if (!this.medic && !isEnemy) {
-        this.showDroppedPopup = false;
-      } else {
-        this.showEnemyDroppedPopup = false;
-      }
-    },
-    showPopupMethod(isEnemy) {
-      if (!isEnemy) {
-        this.showDroppedPopup = true;
-      } else {
-        this.showEnemyDroppedPopup = true;
-      }
-    },
-    getPlayerTotalValue(newValue) {
-      this.playerTotalCount = newValue;
-    },
-    getEnemyTotalValue(newValue) {
-      this.enemyTotalCount = newValue;
-    },
-    newGameState(gameState) {
-      this.turn = 'player';
-      this.enemyHand = gameState.hand;
-      this.enemyDroppedCards = gameState.droppedCards;
-      this.enemyCardsDeck = gameState.cardsDeck;
-      this.enemyLives = gameState.lives;
-      this.weatherCards = gameState.weatherCards;
-      this.frontRow = gameState.frontRow;
-      this.midRow = gameState.midRow;
-      this.backRow = gameState.backRow;
-      this.enemyFrontRow = gameState.enemyFrontRow;
-      this.enemyFrontRowExtraCage = gameState.enemyFrontRowExtraCage;
-      this.enemyMidRow = gameState.enemyMidRow;
-      this.enemyMidRowExtraCage = gameState.enemyMidRowExtraCage;
-      this.enemyBackRow = gameState.enemyBackRow;
-      this.enemyBackRowExtraCage = gameState.enemyBackRowExtraCage;
-    }
   }
 };
 </script>

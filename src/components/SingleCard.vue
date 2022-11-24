@@ -60,7 +60,7 @@ export default {
       const { card } = this;
       const { rowType } = this;
       if (this.place === 'dropped') return;
-      if (this.place === 'popup' && this.medic) this.$emit('medicRecoveredCard', this.card);
+      if (this.place === 'popup' && this.medic) this.$store.dispatch('medicRecoveredCard', this.card);
       if (this.place === 'field' && this.$store.state.activeCard.role === 'scarecrow') {
         this.$store.dispatch('cardInRowClicked', { card, rowType });
         return;

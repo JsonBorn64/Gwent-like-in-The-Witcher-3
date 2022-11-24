@@ -23,7 +23,6 @@
                         :card="card"
                         :place="'popup'"
                         :medic="medic"
-                        @medicRecoveredCard="medicRecoveredCard"
                     />
                 </div>
             </div>
@@ -66,20 +65,17 @@ export default {
     },
     closePopup() {
       if (!this.isEnemy) {
-        this.$emit('closePopup');
+        this.$store.dispatch('closePopupMethod');
       } else {
-        this.$emit('closeEnemyPopup');
+        this.$store.dispatch('closePopupMethod', true);
       }
     },
     showPopup() {
       if (!this.isEnemy) {
-        this.$emit('showPopup');
+        this.$store.dispatch('showPopupMethod');
       } else {
-        this.$emit('showEnemyPopup');
+        this.$store.dispatch('showPopupMethod', true);
       }
-    },
-    medicRecoveredCard(card) {
-      this.$emit('medicRecoveredCard', card);
     }
   }
 };
