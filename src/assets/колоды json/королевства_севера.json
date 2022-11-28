@@ -513,7 +513,7 @@
     "defaultValue": 7,
     "computedValue": 7,
     "role": "front",
-    "hand-to-hand execution": true
+    "frontExecution": true
   },
   {
     "id": 43,

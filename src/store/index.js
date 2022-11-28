@@ -64,6 +64,11 @@ export default createStore({
     },
     changeTurnToPlayer(state) {
       state.turn = 'player';
+    },
+    sortEnemyRows(state) {
+      state.enemyFrontRow = state.enemyFrontRow.sort((a, b) => a.id - b.id);
+      state.enemyMidRow = state.enemyMidRow.sort((a, b) => a.id - b.id);
+      state.enemyBackRow = state.enemyBackRow.sort((a, b) => a.id - b.id);
     }
   },
   actions: {
@@ -97,11 +102,39 @@ export default createStore({
     },
     rowClick({ state }, { rowType, isEnemy }) {
       // Common cards
-      if (state.activeCard?.role === rowType && !state.activeCard?.spy && !state.activeCard?.medic && !isEnemy) {
+      if (state.activeCard?.role === rowType
+          && !state.activeCard?.spy && !state.activeCard?.medic && !state.activeCard?.frontExecution && !isEnemy) {
         state.activeCard.active = false;
         state.hand = state.hand.filter(card => state.activeCard.id !== card.id);
         state[`${rowType}Row`].push(state.activeCard);
         state[`${rowType}Row`].sort((a, b) => a.id - b.id);
+        state.turn = 'enemy';
+      }
+      // Front execution cards
+      if (state.activeCard?.role === rowType && state.activeCard?.frontExecution && !isEnemy) {
+        state.activeCard.active = false;
+        state.hand = state.hand.filter(card => state.activeCard.id !== card.id);
+        state.frontRow.push(state.activeCard);
+        state.frontRow.sort((a, b) => a.id - b.id);
+        let totalResult = 0;
+        state.enemyFrontRow.forEach(card => {
+          if (card.computedValue) totalResult += card.computedValue;
+        });
+        if (totalResult < 10) {
+          state.turn = 'enemy';
+          return;
+        }
+        const maxValue = Math.max(...state.enemyFrontRow.map(card => {
+          if (!card.hero) { return card.computedValue; } return -Infinity;
+        }));
+        state.enemyFrontRow = state.enemyFrontRow.filter(card => {
+          if (!card.hero && card.computedValue === maxValue) {
+            const cardToPush = JSON.parse(JSON.stringify(card));
+            cardToPush.computedValue = card.defaultValue;
+            state.enemyDroppedCards.push(cardToPush);
+          }
+          if (!card.hero) { return card.computedValue !== maxValue; } return true;
+        });
         state.turn = 'enemy';
       }
       // Medic cards
@@ -197,12 +230,12 @@ export default createStore({
       if (card.spy && state.cardsDeck.length !== 0) {
         for (let i = 1; i < 3; i++) {
           setTimeout(() => {
-            state.$refs.hand.style.overflowX = 'hidden';
+            // state.$refs.hand.style.overflowX = 'hidden';
             state.hand.push(state.cardsDeck.pop());
           }, i * 300);
         }
         setTimeout(() => {
-          state.$refs.hand.style.overflowX = 'visible';
+          // state.$refs.hand.style.overflowX = 'visible';
           state.hand.sort((a, b) => a.id - b.id);
         }, 1000);
         if (card.role === 'front') state.enemyFrontRow.push(card);
@@ -277,12 +310,35 @@ export default createStore({
         return;
       }
       // Search common card
-      cardToTurn = state.enemyHand.find(card => !card.spy && !card.hero && !card.medic
+      cardToTurn = state.enemyHand.find(card => !card.spy && !card.hero && !card.medic && !card.frontExecution
         && card.role !== 'weather' && card.role !== 'execution' && card.role !== 'scarecrow' && card.role !== 'extra');
       if (cardToTurn) {
         const cardRoleCapitalLetter = cardToTurn.role.charAt(0).toUpperCase() + cardToTurn.role.slice(1);
         state[`enemy${cardRoleCapitalLetter}Row`].push(cardToTurn);
         state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        return;
+      }
+      // Search front execution card
+      cardToTurn = state.enemyHand.find(card => card.frontExecution);
+      if (cardToTurn) {
+        state.enemyHand = state.enemyHand.filter(card => cardToTurn.id !== card.id);
+        state.enemyFrontRow.push(cardToTurn);
+        let totalResult = 0;
+        state.frontRow.forEach(card => {
+          if (card.computedValue) totalResult += card.computedValue;
+        });
+        if (totalResult < 10) return;
+        const maxValue = Math.max(...state.frontRow.map(card => {
+          if (!card.hero) { return card.computedValue; } return -Infinity;
+        }));
+        state.frontRow = state.frontRow.filter(card => {
+          if (!card.hero && card.computedValue === maxValue) {
+            const cardToPush = JSON.parse(JSON.stringify(card));
+            cardToPush.computedValue = card.defaultValue;
+            state.droppedCards.push(cardToPush);
+          }
+          if (!card.hero) { return card.computedValue !== maxValue; } return true;
+        });
         return;
       }
       // Search execution card
@@ -307,7 +363,7 @@ export default createStore({
             && (type === 'front' || type === 'mid' || type === 'back')) {
               const cardToPush = JSON.parse(JSON.stringify(card));
               cardToPush.computedValue = card.defaultValue;
-              state.enemyDroppedCards.push(cardToPush);
+              state.droppedCards.push(cardToPush);
             }
             if (!card.hero && card.computedValue === maxValue
             && (type === 'enemyFront' || type === 'enemyMid' || type === 'enemyBack')) {
@@ -330,7 +386,8 @@ export default createStore({
           && (card.role === 'front' || card.role === 'mid' || card.role === 'back'));
         if (cardToRecover) {
           state.enemyDroppedCards = state.enemyDroppedCards.filter(card => card.id !== cardToRecover.id);
-          state[`${cardToRecover.role.charAt(0).toUpperCase() + cardToRecover.role.slice(1)}Row`].push(cardToRecover);
+          state[`enemy${cardToRecover.role.charAt(0).toUpperCase() + cardToRecover.role.slice(1)}Row`]
+            .push(cardToRecover);
         }
         return;
       }
@@ -368,6 +425,25 @@ export default createStore({
       cardToTurn = state.enemyHand.find(card => card.role === 'scarecrow');
       if (cardToTurn) {
         state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        const allCards = state.enemyFrontRow.concat(
+          state.enemyMidRow,
+          state.enemyBackRow
+        );
+        const spyCard = allCards.find(card => !card.hero && card.spy);
+        const medicCard = allCards.find(card => !card.hero && card.medic);
+        const troubadourCard = allCards.find(card => !card.hero && card.troubadour);
+        const handshakeCard = allCards.find(card => !card.hero && card.handshake);
+        const commonCard = allCards.find(card => !card.hero
+          && (card.role === 'front' || card.role === 'mid' || card.role === 'back'));
+        const cardToReturn = spyCard || medicCard || troubadourCard || handshakeCard || commonCard;
+        if (cardToReturn) {
+          state.enemyFrontRow = state.enemyFrontRow.filter(card => card.id !== cardToReturn.id);
+          state.enemyMidRow = state.enemyMidRow.filter(card => card.id !== cardToReturn.id);
+          state.enemyBackRow = state.enemyBackRow.filter(card => card.id !== cardToReturn.id);
+          state.enemyHand.push(cardToReturn);
+          state[`enemy${cardToReturn.role.charAt(0).toUpperCase() + cardToReturn.role.slice(1)}Row`]
+            .push(cardToTurn);
+        }
       }
     }
   }

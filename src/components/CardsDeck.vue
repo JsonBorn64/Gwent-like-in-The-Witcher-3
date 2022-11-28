@@ -44,6 +44,7 @@ export default {
     position: absolute;
     border-radius: 8px;
     box-sizing: border-box;
+    box-shadow: 0 0 1px black;
   }
   & .cards_count {
     position: absolute;

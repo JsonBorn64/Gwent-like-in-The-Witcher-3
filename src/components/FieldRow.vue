@@ -78,11 +78,26 @@ export default {
   },
   computed: {
     cards() {
-      return JSON.parse(JSON.stringify(this.cardsProp));
+      return this.cardsProp.slice();
     }
   },
   watch: {
-    cards: {
+    // cards: {
+    //   deep: true,
+    //   handler() {
+    //     this.calcRowTotalCount();
+    //   }
+    // },
+    'cards.length': function test() {
+      this.calcRowTotalCount();
+    },
+    extraCage: {
+      deep: true,
+      handler() {
+        this.calcRowTotalCount();
+      }
+    },
+    weatherCards: {
       deep: true,
       handler() {
         this.calcRowTotalCount();
@@ -97,12 +112,6 @@ export default {
         } else {
           this.$refs.row.style.overflow = 'hidden';
         }
-      }
-    },
-    weatherCards: {
-      deep: true,
-      handler() {
-        this.calcRowTotalCount();
       }
     }
   },

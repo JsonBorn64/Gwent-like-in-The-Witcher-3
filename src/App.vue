@@ -100,11 +100,14 @@ export default {
         this.$store.commit('sortHandById');
       }, delay * 10);
     },
-    '$store.state.turn': function hz(newValue) {
+    '$store.state.turn': function ai(newValue) {
       if (newValue === 'enemy') {
         setTimeout(() => {
           this.$store.dispatch('enemyTurn');
           this.$store.commit('changeTurnToPlayer');
+          setTimeout(() => {
+            this.$store.commit('sortEnemyRows');
+          }, 0);
         }, 2000);
       }
     }

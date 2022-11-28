@@ -48,17 +48,18 @@ export default {
       default: false
     }
   },
-  watch: {
-    card: {
-      deep: true,
-      handler() {
-        this.changeValColor();
-      }
-    }
-  },
+  // watch: {
+  //   cardsCount: {
+  //     deep: true,
+  //     handler() {
+  //       this.changeValColor();
+  //     }
+  //   }
+  // },
   updated() {
     this.actionsDependsOnPlace();
     this.calcRightForActiveCard();
+    this.changeValColor();
   },
   mounted() {
     this.actionsDependsOnPlace();
@@ -119,19 +120,16 @@ export default {
         this.$refs.card.style.boxShadow = '0 0 20px -8px black';
         this.$refs.card.style.pointerEvents = 'none';
         this.$refs.card.style.zIndex = '0';
-        // this.changeValColor();
       } else if (this.place === 'field' && scarecrow && !this.card.hero) {
         this.$refs.card.style.pointerEvents = 'auto';
         this.$refs.card.style.boxShadow = '0 0 4px 2px #f3c14c';
         this.$refs.card.style.zIndex = '1';
-        // this.changeValColor();
       } else if (this.place === 'popup' && !this.medic) {
         this.$refs.card.style.pointerEvents = 'none';
         this.$refs.card.style.height = '169px';
         this.$refs.card.style.borderRadius = '7px';
         this.$refs.card.style.transformOrigin = 'top';
         this.$refs.card.style.transform = 'translateY(0px) scale(2.4)';
-        // this.changeValColor();
       } else if (this.place === 'popup'
           && this.medic
           && !(this.card.hero
@@ -145,7 +143,6 @@ export default {
         this.$refs.card.style.transformOrigin = 'top';
         this.$refs.card.style.transform = 'translateY(0px) scale(2.4)';
         this.$refs.card.classList.add('medic_active');
-        // this.changeValColor();
       } else if (this.place === 'popup'
           && this.medic
           && (this.card.hero
@@ -158,7 +155,6 @@ export default {
         this.$refs.card.style.borderRadius = '7px';
         this.$refs.card.style.transformOrigin = 'top';
         this.$refs.card.style.transform = 'translateY(0px) scale(2.4)';
-        // this.changeValColor();
       }
     }
   }
