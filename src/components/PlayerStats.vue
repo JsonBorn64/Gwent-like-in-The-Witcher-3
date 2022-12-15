@@ -1,8 +1,8 @@
 <template>
     <div
         class="player_stats"
-        :style="{
-            border: (((turn == 'player' && !isEnemy) || (turn == 'enemy' && isEnemy))) ? '1px solid yellow' : 'none'
+        :class="{
+            'player_stats-active': (((turn == 'player' && !isEnemy) || (turn == 'enemy' && isEnemy))) ? true : false
         }"
     >
         <div class="avatar">
@@ -11,17 +11,17 @@
         <div class="stats">
             <div class="stats-up">
                 <div class="hand-counter">
-                    <img src="src/assets/текстуры/hand cards icon.png" alt="">
+                    <img src="/src/assets/текстуры/hand_cards_icon.png" alt="">
                     {{ handCount }}
                 </div>
                 <div class="lives">
                     <img
-                        src="src/assets/текстуры/gem.png"
+                        src="/src/assets/текстуры/gem.png"
                         alt="gem"
                         :style="{filter: lives < 2 ? 'grayscale(1)' : '' }"
                     >
                     <img
-                        src="src/assets/текстуры/gem.png"
+                        src="/src/assets/текстуры/gem.png"
                         alt="gem"
                         :style="{filter: lives < 1 ? 'grayscale(1)' : '' }"
                     >
@@ -88,29 +88,17 @@ export default {
     align-items: center;
     justify-content: space-around;
     width: 100%;
+    padding: 3px 10px;
     height: 110px;
     background-color: rgba(0, 0, 0, 0.4);
     position: relative;
-    &::before {
-      content: '';
-      display: block;
-      width: 10px;
-      height: 110px;
-      background-color: rgba(0, 0, 0, 0.4);
-      position: absolute;
-      top: 0;
-      left: -10px;
-    }
-    &::after {
-      content: '';
-      display: block;
-      width: 10px;
-      height: 110px;
-      background-color: rgba(0, 0, 0, 0.4);
-      position: absolute;
-      top: 0;
-      right: -10px;
-    }
+  }
+
+  .player_stats-active {
+    padding: 0px 10px;
+    border-width: 3px;
+    border-style: solid;
+    border-image: linear-gradient( to right, rgba(0, 0, 0, 0), #a07f33, rgba(0, 0, 0, 0) ) 100% 1;
   }
 
   .avatar {
@@ -190,7 +178,7 @@ export default {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: -30px;
+    right: -20px;
     z-index: 1;
 }
 </style>

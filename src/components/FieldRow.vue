@@ -328,7 +328,7 @@ export default {
     background-image: url("../assets/текстуры/snow1.png"),
     url("../assets/текстуры/snow2.png"),
     url("../assets/текстуры/snow3.png");
-    animation: snow 20s linear  infinite ;
+    animation: snow 20s linear infinite ;
   }
   @keyframes snow {
     0% {
@@ -390,4 +390,5 @@ export default {
     background-image: url("../assets/текстуры/clouds_3.webp");
     animation: clouds-loop-3 17s infinite linear;
   }
+
 </style>

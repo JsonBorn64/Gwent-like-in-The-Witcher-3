@@ -6,7 +6,7 @@
                 :key="index"
                 :style="{ top: `-${index/2}px`,
                           left: `-${index/3}px` }"
-                src="src/assets/Карты гвинт webp/0. Рубашки для карт/Королевства Севера.webp"
+                src="/src/assets/Карты_гвинт_webp/0._Рубашки_для_карт/Королевства_Севера.webp"
                 alt="рубашка королевства севера"
             >
         </TransitionGroup>

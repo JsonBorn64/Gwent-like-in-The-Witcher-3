@@ -62,6 +62,14 @@
                 />
                 <cards-deck :cards-deck="$store.state.enemyCardsDeck" />
             </div>
+            <transition name="slide-fade">
+                <img
+                    v-show="showEnemyCard"
+                    class="enemy_card"
+                    :src="`${$store.state.enemyActiveCard?.src}`"
+                    :alt="`${$store.state.enemyActiveCard?.name}`"
+                >
+            </transition>
             <div class="player-decks_wrapper">
                 <dropped-cards
                     :dropped-cards="$store.state.droppedCards"
@@ -85,6 +93,11 @@ import PlayerStats from './components/PlayerStats.vue';
 
 export default {
   components: { GameField, CardsGroup, CardsDeck, DroppedCards, WeatherCards, LeaderCard, PlayerStats },
+  data() {
+    return {
+      showEnemyCard: false
+    };
+  },
   watch: {
     '$store.state.allCardsLoaded': function setDecksAndHands() {
       const delay = 100;
@@ -103,11 +116,23 @@ export default {
     '$store.state.turn': function ai(newValue) {
       if (newValue === 'enemy') {
         setTimeout(() => {
+          this.$store.dispatch('showCardForNextTurn');
+        }, 1000);
+        setTimeout(() => {
           this.$store.dispatch('enemyTurn');
           this.$store.commit('changeTurnToPlayer');
-          setTimeout(() => {
-            this.$store.commit('sortEnemyRows');
-          }, 0);
+          this.$store.commit('sortEnemyRows');
+        }, 3000);
+      }
+    },
+    '$store.state.hand': function ai() {
+      this.$store.dispatch('similarIdsCheck');
+    },
+    '$store.state.enemyActiveCard': function showChange(newValue) {
+      if (newValue) {
+        this.showEnemyCard = true;
+        setTimeout(() => {
+          this.showEnemyCard = false;
         }, 2000);
       }
     }
@@ -176,6 +201,11 @@ export default {
   margin-left: 10px;
 }
 
+.enemy_card {
+  max-width: 220px;
+  margin-bottom: 10px;
+}
+
 .player-decks_wrapper, .enemy-decks_wrapper {
   display: flex;
   justify-content: space-between;
@@ -198,4 +228,17 @@ export default {
     margin-left: 10px;
 }
 
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-enter-from {
+  transform: translateY(-360px) translateX(-260px) scale(0.3);
+  opacity: 0;
+}
+.slide-fade-leave-to {
+  transform: translateX(-160px) translateY(-160px) scale(0.3);
+  opacity: 0;
+}
   </style>

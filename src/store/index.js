@@ -39,6 +39,7 @@ export default createStore({
         src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - железный владыка.webp',
         role: 'leader'
       },
+      enemyActiveCard: null,
       enemyFrontRow: [],
       enemyFrontRowExtraCage: null,
       enemyMidRow: [],
@@ -291,6 +292,28 @@ export default createStore({
         state.turn = 'enemy';
       }
     },
+    similarIdsCheck({ state }) {
+      state.hand.forEach((card, idx) => {
+        if (card.id === state.hand[++idx]?.id) card.id += 0.5;
+      });
+    },
+    showCardForNextTurn({ state }) {
+      const spy = state.enemyHand.find(card => card.spy);
+      const hero = state.enemyHand.find(card => card.hero && !card.medic && card.role !== 'scarecrow');
+      const common = state.enemyHand.find(card => !card.spy && !card.hero && !card.medic && !card.frontExecution
+        && card.role !== 'weather' && card.role !== 'execution' && card.role !== 'scarecrow' && card.role !== 'extra');
+      const frontExecution = state.enemyHand.find(card => card.frontExecution);
+      const execution = state.enemyHand.find(card => card.role === 'execution');
+      const medic = state.enemyHand.find(card => card.medic);
+      const extra = state.enemyHand.find(card => card.role === 'extra');
+      const weather = state.enemyHand.find(card => card.role === 'weather');
+      const scarecrow = state.enemyHand.find(card => card.role === 'scarecrow');
+      const cardToTurn = spy || hero || common || frontExecution || execution || medic || extra || weather || scarecrow;
+      state.enemyActiveCard = cardToTurn;
+      setTimeout(() => {
+        state.enemyActiveCard = null;
+      }, 3000);
+    },
     enemyTurn({ state }) {
       // Search spy card
       let cardToTurn = state.enemyHand.find(card => card.spy);
@@ -412,6 +435,10 @@ export default createStore({
       cardToTurn = state.enemyHand.find(card => card.role === 'weather');
       if (cardToTurn && !cardToTurn.clear) {
         state.enemyHand = state.enemyHand.filter(card => card.id !== cardToTurn.id);
+        if (state.weatherCards.find(wCard => wCard.influence === cardToTurn?.influence)) {
+          state.enemyDroppedCards.push(cardToTurn);
+          return;
+        }
         state.weatherCards.push(cardToTurn);
         return;
       }
