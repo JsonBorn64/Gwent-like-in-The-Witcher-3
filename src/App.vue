@@ -80,7 +80,7 @@
             </div>
         </div>
         <audio loop preload="auto" ref="audio">
-            <source src="assets/ost/12 The Nightingale.mp3" type="audio/mpeg">
+            <source src="/assets/ost/TheNightingale.mp3" type="audio/mpeg">
             <track kind="captions">
         </audio>
         <div class="alpha_alert">
