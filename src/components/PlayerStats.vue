@@ -11,17 +11,17 @@
         <div class="stats">
             <div class="stats-up">
                 <div class="hand-counter">
-                    <img src="/src/assets/текстуры/hand_cards_icon.png" alt="">
+                    <img :src="'/assets/текстуры/hand_cards_icon.png'" alt="">
                     {{ handCount }}
                 </div>
                 <div class="lives">
                     <img
-                        src="/src/assets/текстуры/gem.png"
+                        :src="'/assets/текстуры/gem.png'"
                         alt="gem"
                         :style="{filter: lives < 2 ? 'grayscale(1)' : '' }"
                     >
                     <img
-                        src="/src/assets/текстуры/gem.png"
+                        :src="'/assets/текстуры/gem.png'"
                         alt="gem"
                         :style="{filter: lives < 1 ? 'grayscale(1)' : '' }"
                     >

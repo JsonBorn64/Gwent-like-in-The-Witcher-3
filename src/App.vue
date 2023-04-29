@@ -148,14 +148,14 @@ export default {
 <style lang="scss">
 @font-face {
   font-family: "Oswald";
-  src: url("src/assets/fonts/Oswald-Regular.ttf") format("truetype");
+  src: url("assets/fonts/Oswald-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Oswald";
-  src: url("src/assets/fonts/Oswald-SemiBold.ttf") format("truetype");
+  src: url("assets/fonts/Oswald-SemiBold.ttf") format("truetype");
   font-style: normal;
   font-weight: 600;
 }
@@ -167,7 +167,7 @@ export default {
   align-items: center;
   font-family: 'Oswald', sans-serif;
   min-height: 100vh;
-  background: url("src/assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
+  background: url("assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
   user-select: none;
 }
 

@@ -1,0 +1,546 @@
+[
+  {
+    "id": -20,
+    "name": "ясное небо",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ясное небо.webp",
+    "role": "weather",
+    "clear": true
+  },
+  {
+    "id": -19,
+    "name": "ясное небо",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ясное небо.webp",
+    "role": "weather",
+    "clear": true
+  },
+  {
+    "id": -18,
+    "name": "ясное небо",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ясное небо.webp",
+    "role": "weather",
+    "clear": true
+  },
+  {
+    "id": -17,
+    "name": "мороз",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "influence": "front",
+    "role": "weather",
+    "frost": true
+  },
+  {
+    "id": -16,
+    "name": "мороз",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "influence": "front",
+    "role": "weather",
+    "frost": true
+  },
+  {
+    "id": -15,
+    "name": "мороз",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "influence": "front",
+    "role": "weather",
+    "frost": true
+  },
+  {
+    "id": -14,
+    "name": "мгла",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "influence": "mid",
+    "role": "weather",
+    "haze": true
+  },
+  {
+    "id": -13,
+    "name": "мгла",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "influence": "mid",
+    "role": "weather",
+    "haze": true
+  },
+  {
+    "id": -12,
+    "name": "мгла",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "influence": "mid",
+    "role": "weather",
+    "haze": true
+  },
+  {
+    "id": -11,
+    "name": "ливень",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "influence": "back",
+    "role": "weather",
+    "rain": true
+  },
+  {
+    "id": -10,
+    "name": "ливень",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "influence": "back",
+    "role": "weather",
+    "rain": true
+  },
+  {
+    "id": -9,
+    "name": "ливень",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "influence": "back",
+    "role": "weather",
+    "rain": true
+  },
+  {
+    "id": -8,
+    "name": "командирский рог",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
+    "role": "extra",
+    "troubadour": true
+  },
+  {
+    "id": -7,
+    "name": "командирский рог",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
+    "role": "extra",
+    "troubadour": true
+  },
+  {
+    "id": -6,
+    "name": "командирский рог",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
+    "role": "extra",
+    "troubadour": true
+  },
+  {
+    "id": -5,
+    "name": "казнь",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
+    "role": "execution"
+  },
+  {
+    "id": -4,
+    "name": "казнь",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
+    "role": "execution"
+  },
+  {
+    "id": -3,
+    "name": "казнь",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
+    "role": "execution"
+  },
+  {
+    "id": -2,
+    "name": "чучело",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
+    "role": "scarecrow",
+    "hero": true
+  },
+  {
+    "id": -1,
+    "name": "чучело",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
+    "role": "scarecrow",
+    "hero": true
+  },
+  {
+    "id": 0,
+    "name": "чучело",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
+    "role": "scarecrow",
+    "hero": true
+  },
+  {
+    "id": 1,
+    "name": "гребанная пехтура",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "front",
+    "handshake": true
+  },
+  {
+    "id": 2,
+    "name": "гребанная пехтура",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "front",
+    "handshake": true
+  },
+  {
+    "id": 3,
+    "name": "гребанная пехтура",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "front",
+    "handshake": true
+  },
+  {
+    "id": 4,
+    "name": "гребанная пехтура",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - гребанная пехтура.webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "front",
+    "handshake": true
+  },
+  {
+    "id": 5,
+    "name": "каэвенский осадной мастер",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (1).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "back",
+    "plusOnePoint": true
+  },
+  {
+    "id": 6,
+    "name": "каэвенский осадной мастер",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (2).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "back",
+    "plusOnePoint": true
+  },
+  {
+    "id": 7,
+    "name": "каэвенский осадной мастер",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (3).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "back",
+    "plusOnePoint": true
+  },
+  {
+    "id": 8,
+    "name": "реданский пехотинец",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - реданский пехотинец (1).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "front"
+  },
+  {
+    "id": 9,
+    "name": "реданский пехотинец",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - реданский пехотинец (2).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "front"
+  },
+  {
+    "id": 10,
+    "name": "талер",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - талер.webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "back",
+    "spy": true
+  },
+  {
+    "id": 11,
+    "name": "ярпен зигрин",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/2 - ярпен зигрин.webp",
+    "defaultValue": 2,
+    "computedValue": 2,
+    "role": "front"
+  },
+  {
+    "id": 12,
+    "name": "боец синих полосок",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp",
+    "defaultValue": 4,
+    "computedValue": 4,
+    "role": "front",
+    "handshake": true
+  },
+  {
+    "id": 13,
+    "name": "боец синих полосок",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp",
+    "defaultValue": 4,
+    "computedValue": 4,
+    "role": "front",
+    "handshake": true
+  },
+  {
+    "id": 14,
+    "name": "боец синих полосок",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/4 - боец синих полосок.webp",
+    "defaultValue": 4,
+    "computedValue": 4,
+    "role": "front",
+    "handshake": true
+  },
+  {
+    "id": 15,
+    "name": "дийкстра",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/4 - дийкстра.webp",
+    "defaultValue": 4,
+    "computedValue": 4,
+    "role": "front",
+    "spy": true
+  },
+  {
+    "id": 16,
+    "name": "сабрина глевиссиг",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/4 - сабрина глевиссиг.webp",
+    "defaultValue": 4,
+    "computedValue": 4,
+    "role": "mid"
+  },
+  {
+    "id": 17,
+    "name": "бьянка",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - бьянка.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "front"
+  },
+  {
+    "id": 18,
+    "name": "зигфрид",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - зигфрид.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "front"
+  },
+  {
+    "id": 19,
+    "name": "кейра мец",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - кейра мец.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "mid"
+  },
+  {
+    "id": 20,
+    "name": "лекарь бурой хоругви",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - лекарь бурой хоругви.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "back",
+    "medic": true
+  },
+  {
+    "id": 21,
+    "name": "принц стеннис",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - принц стеннис.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "front",
+    "spy": true
+  },
+  {
+    "id": 22,
+    "name": "рубайлы из кринфрида",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - рубайлы из кринфрида.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "mid",
+    "handshake": true
+  },
+  {
+    "id": 23,
+    "name": "рубайлы из кринфрида",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - рубайлы из кринфрида.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "mid",
+    "handshake": true
+  },
+  {
+    "id": 24,
+    "name": "рубайлы из кринфрида",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - рубайлы из кринфрида.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "mid",
+    "handshake": true
+  },
+  {
+    "id": 25,
+    "name": "шеала де тансервилль",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - шеала де тансервилль.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "mid"
+  },
+  {
+    "id": 26,
+    "name": "баллиста",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - баллиста.webp",
+    "defaultValue": 6,
+    "computedValue": 6,
+    "role": "back"
+  },
+  {
+    "id": 27,
+    "name": "детмольд",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - детмольд.webp",
+    "defaultValue": 6,
+    "computedValue": 6,
+    "role": "mid"
+  },
+  {
+    "id": 28,
+    "name": "осадная башня",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - осадная башня.webp",
+    "defaultValue": 6,
+    "computedValue": 6,
+    "role": "back"
+  },
+  {
+    "id": 29,
+    "name": "требушет",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - требушет (1).webp",
+    "defaultValue": 6,
+    "computedValue": 6,
+    "role": "back"
+  },
+  {
+    "id": 30,
+    "name": "требушет",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - требушет (2).webp",
+    "defaultValue": 6,
+    "computedValue": 6,
+    "role": "back"
+  },
+  {
+    "id": 31,
+    "name": "шелдон скаггс",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - шелдон скаггс.webp",
+    "defaultValue": 6,
+    "computedValue": 6,
+    "role": "mid"
+  },
+  {
+    "id": 32,
+    "name": "катапульта",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/8 - катапульта.webp",
+    "defaultValue": 8,
+    "computedValue": 8,
+    "role": "back",
+    "handshake": true
+  },
+  {
+    "id": 33,
+    "name": "катапульта",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/8 - катапульта.webp",
+    "defaultValue": 8,
+    "computedValue": 8,
+    "role": "back",
+    "handshake": true
+  },
+  {
+    "id": 34,
+    "name": "вернон роше",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/10 - вернон роше.webp",
+    "defaultValue": 10,
+    "computedValue": 10,
+    "role": "front",
+    "hero": true
+  },
+  {
+    "id": 35,
+    "name": "филиппа эйльхарт",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/10 - филиппа эйльхарт.webp",
+    "defaultValue": 10,
+    "computedValue": 10,
+    "role": "mid",
+    "hero": true
+  },
+  {
+    "id": 36,
+    "name": "эстерад тиссен",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/10 - эстерад тиссен.webp",
+    "defaultValue": 10,
+    "computedValue": 10,
+    "role": "front",
+    "hero": true
+  },
+  {
+    "id": 37,
+    "name": "ян наталис",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/10 - ян наталис.webp",
+    "defaultValue": 10,
+    "computedValue": 10,
+    "role": "front",
+    "hero": true
+  },
+  {
+    "id": 38,
+    "name": "таинственный эльф",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/0 - таинственный эльф.webp",
+    "defaultValue": 0,
+    "computedValue": 0,
+    "role": "front",
+    "hero": true,
+    "spy": true
+  },
+  {
+    "id": 39,
+    "name": "лютик",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/2 - лютик.webp",
+    "defaultValue": 2,
+    "computedValue": 2,
+    "role": "front",
+    "troubadour": true
+  },
+  {
+    "id": 40,
+    "name": "регис",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/5 - регис.webp",
+    "defaultValue": 5,
+    "computedValue": 5,
+    "role": "front"
+  },
+  {
+    "id": 41,
+    "name": "весемир",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/6 - весемир.webp",
+    "defaultValue": 6,
+    "computedValue": 6,
+    "role": "front"
+  },
+  {
+    "id": 42,
+    "name": "виллентретен мерт",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/7 - виллентретен мерт.webp",
+    "defaultValue": 7,
+    "computedValue": 7,
+    "role": "front",
+    "frontExecution": true
+  },
+  {
+    "id": 43,
+    "name": "йеннифэр",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/7- йеннифэр.webp",
+    "defaultValue": 7,
+    "computedValue": 7,
+    "role": "mid",
+    "hero": true,
+    "medic": true
+  },
+  {
+    "id": 44,
+    "name": "геральт",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/15 - геральт.webp",
+    "defaultValue": 15,
+    "computedValue": 15,
+    "role": "front",
+    "hero": true
+  },
+  {
+    "id": 45,
+    "name": "цирилла",
+    "src": "assets/Карты гвинт webp/5. Нейтральные карты/15 - цирилла.webp",
+    "defaultValue": 15,
+    "computedValue": 15,
+    "role": "front",
+    "hero": true
+  }
+]

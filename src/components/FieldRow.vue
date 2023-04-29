@@ -206,9 +206,9 @@ export default {
     },
     backgroundImg(rowType) {
       const { row } = this.$refs;
-      if (rowType === 'front') row.style.background = 'url("src/assets/текстуры/sword.svg") center no-repeat';
-      if (rowType === 'mid') row.style.background = 'url("src/assets/текстуры/bow.svg") center no-repeat';
-      if (rowType === 'back') row.style.background = 'url("src/assets/текстуры/balista.svg") center no-repeat';
+      if (rowType === 'front') row.style.background = 'url("assets/текстуры/sword.svg") center no-repeat';
+      if (rowType === 'mid') row.style.background = 'url("assets/текстуры/bow.svg") center no-repeat';
+      if (rowType === 'back') row.style.background = 'url("assets/текстуры/balista.svg") center no-repeat';
     },
     showTurnsTips() {
       const defaultShadow = '0 0 0 transparent, 0 -16px 30px 0px #00000099 inset';
@@ -276,7 +276,7 @@ export default {
     min-width: 120px;
     margin-right: 5px;
     text-align: center;
-    background: url("src/assets/текстуры/dudka.svg") center no-repeat;
+    background: url("assets/текстуры/dudka.svg") center no-repeat;
     background-size: 110px;
     overflow: hidden;
 }

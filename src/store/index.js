@@ -5,14 +5,14 @@ export default createStore({
     return {
       // player data
       playerNickname: 'Геральт',
-      playerAvatar: 'src/assets/текстуры/geralt-avatar.jpg',
+      playerAvatar: '/assets/текстуры/geralt-avatar.jpg',
       playerLives: 2,
       playerTotalCount: 0,
       playerFraction: 'Королевства Севера',
       playerLeader: {
         id: '99',
         name: 'фольтест - предводитель севера',
-        src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - предводитель севера.webp',
+        src: 'assets/Карты гвинт webp/1. Королевства севера/фольтест - предводитель севера.webp',
         role: 'leader'
       },
       activeCard: null,
@@ -29,14 +29,14 @@ export default createStore({
       cardsDeck: [],
       // enemy data
       enemyNickname: 'Противник',
-      enemyAvatar: 'src/assets/текстуры/anonim-avatar.svg',
+      enemyAvatar: '/assets/текстуры/anonim-avatar.svg',
       enemyLives: 2,
       enemyTotalCount: 0,
       enemyFraction: 'Королевства Севера',
       enemyLeader: {
         id: '98',
         name: 'фольтест - железный владыка',
-        src: 'src/assets/Карты гвинт webp/1. Королевства севера/фольтест - железный владыка.webp',
+        src: 'assets/Карты гвинт webp/1. Королевства севера/фольтест - железный владыка.webp',
         role: 'leader'
       },
       enemyActiveCard: null,
@@ -74,7 +74,7 @@ export default createStore({
   },
   actions: {
     getAllCards({ state }) {
-      fetch('src/assets/колоды json/королевства_севера.json')
+      fetch('assets/колоды json/королевства_севера_cut.json')
         .then(res => res.json())
         .then(data => {
           state.allCards = data;
@@ -82,8 +82,8 @@ export default createStore({
         });
     },
     setCardsDecks({ state }) {
-      state.cardsDeck = JSON.parse(JSON.stringify(state.allCards.sort(() => 0.5 - Math.random()))).slice(0, 25);
-      state.enemyCardsDeck = JSON.parse(JSON.stringify(state.allCards.sort(() => 0.5 - Math.random()))).slice(0, 25);
+      state.cardsDeck = JSON.parse(JSON.stringify(state.allCards.sort(() => 0.5 - Math.random()))).slice(0, 30);
+      state.enemyCardsDeck = JSON.parse(JSON.stringify(state.allCards.sort(() => 0.5 - Math.random()))).slice(0, 30);
     },
     addCardToHandFromDeck({ state }) {
       state.hand.push(state.cardsDeck.pop());
