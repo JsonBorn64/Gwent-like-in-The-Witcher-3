@@ -1,5 +1,5 @@
 <template>
-    <div @click="$store.dispatch('unactiveAllCards')" class="main_wrapper">
+    <div @click="$store.dispatch('unactiveAllCards')" class="main_wrapper" ref="mainWrapper">
         <div class="left_sidebar">
             <leader-card :leader-card="$store.state.enemyLeader" />
             <player-stats
@@ -139,6 +139,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getAllCards');
+    const { mainWrapper } = this.$refs;
+    mainWrapper.style.background = 'url("assets/текстуры/tekstura-dereva-75.webp") center/cover no-repeat';
   },
   methods: {
   }
@@ -148,14 +150,14 @@ export default {
 <style lang="scss">
 @font-face {
   font-family: "Oswald";
-  src: url("assets/fonts/Oswald-Regular.ttf") format("truetype");
+  src: url("fonts/Oswald-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Oswald";
-  src: url("assets/fonts/Oswald-SemiBold.ttf") format("truetype");
+  src: url("fonts/Oswald-SemiBold.ttf") format("truetype");
   font-style: normal;
   font-weight: 600;
 }
@@ -167,7 +169,7 @@ export default {
   align-items: center;
   font-family: 'Oswald', sans-serif;
   min-height: 100vh;
-  background: url("assets/текстуры/1579847875_43-p-tekstura-dereva-75.webp") center/cover no-repeat;
+  background: url("assets/текстуры/tekstura-dereva-75.webp") center/cover no-repeat;
   user-select: none;
 }
 

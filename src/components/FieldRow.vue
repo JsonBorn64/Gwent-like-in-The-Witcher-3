@@ -210,6 +210,7 @@ export default {
       if (rowType === 'mid') row.style.background = 'url("assets/текстуры/bow.svg") center no-repeat';
       if (rowType === 'back') row.style.background = 'url("assets/текстуры/balista.svg") center no-repeat';
       if (cage) cage.style.background = 'url("assets/текстуры/dudka.svg") center no-repeat';
+      if (cage) cage.style.backgroundSize = '110px';
     },
     showTurnsTips() {
       const defaultShadow = '0 0 0 transparent, 0 -16px 30px 0px #00000099 inset';
