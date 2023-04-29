@@ -187,6 +187,8 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     color: white;
+    margin-top: 2px;
+    font-family: sans-serif;
   }
 }
 
