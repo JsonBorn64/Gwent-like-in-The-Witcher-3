@@ -205,12 +205,10 @@ export default {
       this.$store.dispatch('extraCageClick', `${this.rowType}RowExtraCage`);
     },
     backgroundImg(rowType) {
-      const { row, cage } = this.$refs;
+      const { row } = this.$refs;
       if (rowType === 'front') row.style.background = 'url("assets/текстуры/sword.svg") center no-repeat';
       if (rowType === 'mid') row.style.background = 'url("assets/текстуры/bow.svg") center no-repeat';
       if (rowType === 'back') row.style.background = 'url("assets/текстуры/balista.svg") center no-repeat';
-      if (cage) cage.style.background = 'url("assets/текстуры/dudka.svg") center no-repeat';
-      if (cage) cage.style.backgroundSize = '110px';
     },
     showTurnsTips() {
       const defaultShadow = '0 0 0 transparent, 0 -16px 30px 0px #00000099 inset';
@@ -278,7 +276,7 @@ export default {
     min-width: 120px;
     margin-right: 5px;
     text-align: center;
-    background: url("assets/текстуры/dudka.svg") center no-repeat;
+    background: url("текстуры/dudka.svg") center no-repeat;
     background-size: 110px;
     overflow: hidden;
 }
@@ -307,9 +305,9 @@ export default {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-image: url("../assets/текстуры/rain1.png"),
-  url("../assets/текстуры/rain2.png"),
-  url("../assets/текстуры/rain3.png");
+  background-image: url("текстуры/rain1.png"),
+  url("текстуры/rain2.png"),
+  url("текстуры/rain3.png");
   animation: rain 1.3s linear infinite;
 }
 @keyframes rain {
@@ -327,9 +325,9 @@ export default {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    background-image: url("../assets/текстуры/snow1.png"),
-    url("../assets/текстуры/snow2.png"),
-    url("../assets/текстуры/snow3.png");
+    background-image: url("текстуры/snow1.png"),
+    url("текстуры/snow2.png"),
+    url("текстуры/snow3.png");
     animation: snow 20s linear infinite ;
   }
   @keyframes snow {
@@ -369,7 +367,7 @@ export default {
     }
   }
   .clouds-1 {
-    background-image: url("../assets/текстуры/clouds_2.webp");
+    background-image: url("текстуры/clouds_2.webp");
     animation: clouds-loop-1 20s infinite linear;
   }
 
@@ -379,7 +377,7 @@ export default {
     }
   }
   .clouds-2 {
-    background-image: url("../assets/текстуры/clouds_1.webp");
+    background-image: url("текстуры/clouds_1.webp");
     animation: clouds-loop-2 15s infinite linear;
   }
 
@@ -389,7 +387,7 @@ export default {
     }
   }
   .clouds-3 {
-    background-image: url("../assets/текстуры/clouds_3.webp");
+    background-image: url("текстуры/clouds_3.webp");
     animation: clouds-loop-3 17s infinite linear;
   }
 

@@ -79,6 +79,13 @@
                 <cards-deck :cards-deck="$store.state.cardsDeck" />
             </div>
         </div>
+        <audio loop preload="auto" ref="audio">
+            <source src="assets/ost/12 The Nightingale.mp3" type="audio/mpeg">
+            <track kind="captions">
+        </audio>
+        <div class="alpha_alert">
+            <p>Очень ранняя демо-альфа версия 0.0.1</p>
+        </div>
     </div>
 </template>
 
@@ -139,8 +146,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getAllCards');
-    const { mainWrapper } = this.$refs;
-    mainWrapper.style.background = 'url("assets/текстуры/tekstura-dereva-75.webp") center/cover no-repeat';
+    const { audio, mainWrapper } = this.$refs;
+    mainWrapper.addEventListener('click', () => {
+      audio.play();
+    });
   },
   methods: {
   }
@@ -169,8 +178,16 @@ export default {
   align-items: center;
   font-family: 'Oswald', sans-serif;
   min-height: 100vh;
-  background: url("assets/текстуры/tekstura-dereva-75.webp") center/cover no-repeat;
+  background: url("текстуры/tekstura-dereva-75.webp") center/cover no-repeat;
   user-select: none;
+  position: relative;
+  .alpha_alert {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+  }
 }
 
 .center {

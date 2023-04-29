@@ -1,5 +1,36 @@
 [
   {
+    "id": -20,
+    "name": "ясное небо",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ясное небо.webp",
+    "role": "weather",
+    "clear": true
+  },
+  {
+    "id": -17,
+    "name": "мороз",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мороз.webp",
+    "influence": "front",
+    "role": "weather",
+    "frost": true
+  },
+  {
+    "id": -14,
+    "name": "мгла",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/мгла.webp",
+    "influence": "mid",
+    "role": "weather",
+    "haze": true
+  },
+  {
+    "id": -11,
+    "name": "ливень",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/ливень.webp",
+    "influence": "back",
+    "role": "weather",
+    "rain": true
+  },
+  {
     "id": -8,
     "name": "командирский рог",
     "src": "assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
@@ -7,18 +38,10 @@
     "troubadour": true
   },
   {
-    "id": -7,
-    "name": "командирский рог",
-    "src": "assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "extra",
-    "troubadour": true
-  },
-  {
-    "id": -6,
-    "name": "командирский рог",
-    "src": "assets/Карты гвинт webp/6. Специальные карты/командирский рог.webp",
-    "role": "extra",
-    "troubadour": true
+    "id": -5,
+    "name": "казнь",
+    "src": "assets/Карты гвинт webp/6. Специальные карты/казнь.webp",
+    "role": "execution"
   },
   {
     "id": -2,
@@ -40,6 +63,33 @@
     "src": "assets/Карты гвинт webp/6. Специальные карты/чучело.webp",
     "role": "scarecrow",
     "hero": true
+  },
+  {
+    "id": 5,
+    "name": "каэвенский осадной мастер",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (1).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "back",
+    "plusOnePoint": true
+  },
+  {
+    "id": 6,
+    "name": "каэвенский осадной мастер",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (2).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "back",
+    "plusOnePoint": true
+  },
+  {
+    "id": 7,
+    "name": "каэвенский осадной мастер",
+    "src": "assets/Карты гвинт webp/1. Королевства севера/1 - каэвенский осадной мастер (3).webp",
+    "defaultValue": 1,
+    "computedValue": 1,
+    "role": "back",
+    "plusOnePoint": true
   },
   {
     "id": 10,
@@ -85,14 +135,6 @@
     "computedValue": 4,
     "role": "front",
     "spy": true
-  },
-  {
-    "id": 17,
-    "name": "бьянка",
-    "src": "assets/Карты гвинт webp/1. Королевства севера/5 - бьянка.webp",
-    "defaultValue": 5,
-    "computedValue": 5,
-    "role": "front"
   },
   {
     "id": 19,
@@ -148,49 +190,9 @@
     "handshake": true
   },
   {
-    "id": 26,
-    "name": "баллиста",
-    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - баллиста.webp",
-    "defaultValue": 6,
-    "computedValue": 6,
-    "role": "back"
-  },
-  {
     "id": 27,
     "name": "детмольд",
     "src": "assets/Карты гвинт webp/1. Королевства севера/6 - детмольд.webp",
-    "defaultValue": 6,
-    "computedValue": 6,
-    "role": "mid"
-  },
-  {
-    "id": 28,
-    "name": "осадная башня",
-    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - осадная башня.webp",
-    "defaultValue": 6,
-    "computedValue": 6,
-    "role": "back"
-  },
-  {
-    "id": 29,
-    "name": "требушет",
-    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - требушет (1).webp",
-    "defaultValue": 6,
-    "computedValue": 6,
-    "role": "back"
-  },
-  {
-    "id": 30,
-    "name": "требушет",
-    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - требушет (2).webp",
-    "defaultValue": 6,
-    "computedValue": 6,
-    "role": "back"
-  },
-  {
-    "id": 31,
-    "name": "шелдон скаггс",
-    "src": "assets/Карты гвинт webp/1. Королевства севера/6 - шелдон скаггс.webp",
     "defaultValue": 6,
     "computedValue": 6,
     "role": "mid"
@@ -229,15 +231,6 @@
     "defaultValue": 10,
     "computedValue": 10,
     "role": "mid",
-    "hero": true
-  },
-  {
-    "id": 36,
-    "name": "эстерад тиссен",
-    "src": "assets/Карты гвинт webp/1. Королевства севера/10 - эстерад тиссен.webp",
-    "defaultValue": 10,
-    "computedValue": 10,
-    "role": "front",
     "hero": true
   },
   {
