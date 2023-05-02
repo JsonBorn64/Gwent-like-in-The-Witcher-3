@@ -122,7 +122,7 @@ export default {
     },
     '$store.state.turn': function ai(newValue) {
       const { mainWrapper } = this.$refs;
-      if (newValue === 'enemy') {
+      if (newValue === 'enemy' || this.$store.state.hand.length === 0) {
         mainWrapper.style.pointerEvents = 'none';
         setTimeout(() => {
           this.$store.dispatch('showCardForNextTurn');
