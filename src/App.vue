@@ -121,7 +121,9 @@ export default {
       }, delay * 10);
     },
     '$store.state.turn': function ai(newValue) {
+      const { mainWrapper } = this.$refs;
       if (newValue === 'enemy') {
+        mainWrapper.style.pointerEvents = 'none';
         setTimeout(() => {
           this.$store.dispatch('showCardForNextTurn');
         }, 1000);
@@ -129,6 +131,7 @@ export default {
           this.$store.dispatch('enemyTurn');
           this.$store.commit('changeTurnToPlayer');
           this.$store.commit('sortEnemyRows');
+          mainWrapper.style.pointerEvents = 'auto';
         }, 3000);
       }
     },
